@@ -5,10 +5,6 @@ import { fetcher } from "../../config";
 import useSWR from "swr";
 import { useEffect, useState } from "react";
 
-// export const apiKey = "1a3129220019c29dcf55164c1f5b41dc";
-// const tmdbEndpoint = "https://api.themoviedb.org/3/movie";
-// const tmdbEndpointSearch = "https://api.themoviedb.org/3/search/movie";
-
 const MovieList = () => {
   const [movies, setMovies] = useState([]);
   const { data, error, isLoading } = useSWR(
