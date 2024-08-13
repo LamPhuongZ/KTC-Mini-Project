@@ -17,7 +17,7 @@ const Banner = () => {
     if (data && data.results) setMovies(data.results);
   }, [data]);
   return (
-    <section className="banner container h-[550px] mb-16 overflow-hidden">
+    <section className="banner container h-[700px] mb-10 overflow-hidden">
       <Swiper
         grabCursor={"true"}
         spaceBetween={40}

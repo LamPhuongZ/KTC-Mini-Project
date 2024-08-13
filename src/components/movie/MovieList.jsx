@@ -16,7 +16,7 @@ const MovieList = () => {
   }, [data]);
   console.log("🚀 ~ MovieList ~ data:", data)
   return (
-    <div className="movie-list">
+    <div className="movie-list mb-10">
       <Swiper grabCursor={"true"} spaceBetween={20} slidesPerView={"auto"}>
         {movies.length > 0 && movies.map((item) => (
           <SwiperSlide key={item.id}>
