@@ -14,6 +14,8 @@ export function Register({ toggleActive }) {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  const isCheckMatchPassword = passwordValue.trim() === confirmPasswordValue.trim();
+
   const handleGetEmailValue = (e) => {
     setEmailValue(e.target.value);
   };
@@ -66,7 +68,10 @@ export function Register({ toggleActive }) {
             placeholder="Enter your password"
             required
           />
-          <button className="absolute top-3 right-2" onClick={handleShowPassword}>
+          <button
+            className="absolute top-3 right-2"
+            onClick={handleShowPassword}
+          >
             <img src={showPassword ? eye : eyeClose} alt="icon-eye" />
           </button>
         </div>
@@ -80,11 +85,20 @@ export function Register({ toggleActive }) {
             placeholder="Confirm your password"
             required
           />
-          <button className="absolute top-3 right-2" onClick={handleShowConfirmPassword}>
+          <button
+            className="absolute top-3 right-2"
+            onClick={handleShowConfirmPassword}
+          >
             <img src={showConfirmPassword ? eye : eyeClose} alt="icon-eye" />
           </button>
         </div>
-        <button className="bg-pink-500 text-white rounded p-2">
+        {!isCheckMatchPassword && (
+          <p className="text-red-500 mb-4">Passwords do not match</p>
+        )}
+        <button
+          className="bg-pink-500 text-white rounded p-2"
+          disabled={!isCheckMatchPassword}
+        >
           Create Account
         </button>
         <p className="mt-4">
