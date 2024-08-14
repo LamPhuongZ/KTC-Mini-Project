@@ -1,35 +1,28 @@
-// eslint-disable-next-line react/prop-types
-const MovieCard = ({ item }) => {
-  // eslint-disable-next-line react/prop-types
+/* eslint-disable react/prop-types */
+
+const MovieCard = ({ item, onSelect: handleSelect }) => {
   const { title, poster_path, vote_average } = item;
+
+  const handleClick = () => {
+    handleSelect(item);
+  };
+
   return (
-    <div className="movie-card rounded-lg p-3 bg-slate-800 flex flex-col h-full select-none relative group">
+    <div className="movie-card rounded-lg p-2 bg-slate-800 flex flex-col h-full select-none relative group">
       <div className="relative overflow-hidden rounded-lg mb-5">
         <img
           src={`https://image.tmdb.org/t/p/original/${poster_path}`}
           alt={title}
-          className="w-full h-[350px] object-cover"
+          className="w-full h-[400px] object-cover"
         />
         <button
           className="btn absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-full bg-[rgba(20,15,15,0.68)] text-white py-2 px-4 rounded-md opacity-0 transition-all duration-300 ease-in-out group-hover:translate-y-0 group-hover:opacity-100 hover:bg-[rgba(20,15,15,0.68)] border border-none w-[250px] mb-2 mx-auto text-xl"
-          onClick={() => document.getElementById("my_modal_3").showModal()}
+          onClick={handleClick}
         >
           Detail
         </button>
-        <dialog id="my_modal_3" className="modal">
-          <div className="modal-box text-black">
-            <form method="dialog">
-              {/* if there is a button in form, it will close the modal */}
-              <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
-                X
-              </button>
-            </form>
-            <h3 className="font-bold text-lg">Hello!</h3>
-            <p className="py-4">Press ESC key or click on ✕ button to close</p>
-          </div>
-        </dialog>
       </div>
-      <h3 className="text-xl font-semibold mb-3 text-center">{title}</h3>
+      <h3 className="text-xl font-semibold text-center">{title}</h3>
       <span className="absolute right-5 rounded-lg top-4 bg-gradient-to-t from-[rgba(71,71,71,0.5)] to-[rgba(0,0,0,0.5)] p-1">
         <div className="flex items-center gap-x-1">
           <svg
@@ -44,7 +37,6 @@ const MovieCard = ({ item }) => {
               clipRule="evenodd"
             />
           </svg>
-          {/* eslint-disable-next-line react/prop-types */}
           <span>{vote_average.toFixed(1)}</span>
         </div>
       </span>

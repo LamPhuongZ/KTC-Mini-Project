@@ -1,28 +1,22 @@
 import "./App.css";
 import MovieList from "./components/movie/MovieList";
-import Banner from "./components/banner/Banner";
-import ListDay from "./components/day/ListDay";
-import MovieTitle from "./components/movie/MovieTitle";
+import ListDay from "./components/Day/ListDay";
+import Search from "./components/Search/Search";
 import Showtime from "./components/Showtime/Showtime";
-import DetailDisplay from "./components/detailDisplay/DetailDisplay";
+import DetailDisplay from "./components/Display/DetailDisplay";
 import Seat from "./components/Seat/Seat";
 import Price from "./components/Price/Price";
+import Header from "./components/Header/header";
+import Banner from "./components/banner/Banner";
+
 
 function App() {
   return (
     <>
-      <header className="header flex items-center justify-between mb-7">
-        <div className="uppercase font-extrabold text-4xl text-transparent bg-clip-text bg-primary-gradient ">
-          watch ..?
-        </div>
-        <div className="flex gap-x-5">
-          <button className="rounded-md bg-pink-500 px-4 py-2">Login</button>
-          <button className="rounded-md px-4 py-2">Register</button>
-        </div>
-      </header>
+      <Header></Header>
       <Banner></Banner>
       <main>
-        <MovieTitle></MovieTitle>
+        <Search></Search>
         <MovieList></MovieList>
         <ListDay></ListDay>
 

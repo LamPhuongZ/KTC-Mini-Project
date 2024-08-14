@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { SwiperSlide, Swiper } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
 import "swiper/scss";
-import 'swiper/css/pagination';
+import "swiper/css/pagination";
 import useSWR from "swr";
 import { fetcher } from "../../config";
 
@@ -17,10 +17,9 @@ const Banner = () => {
     if (data && data.results) setMovies(data.results);
   }, [data]);
   return (
-    <section className="banner container h-[700px] mb-10 overflow-hidden">
+    <section className="banner h-[500px] mb-10 overflow-hidden rounded-lg">
       <Swiper
         grabCursor={"true"}
-        spaceBetween={40}
         slidesPerView={"auto"}
         autoplay={{
           delay: 2000,
@@ -29,7 +28,7 @@ const Banner = () => {
         pagination={{
           clickable: true,
         }}
-        modules={[Autoplay, Pagination  ]}
+        modules={[Autoplay, Pagination]}
       >
         {movies.length > 0 &&
           movies.map((item) => (
@@ -47,7 +46,7 @@ function BannerItem({ item }) {
   const { title, backdrop_path, overview } = item;
   return (
     <div className="w-full h-full relative">
-      <div className="overplay absolute inset-0 bg-gradient-to-t from-[rgba(105,104,104,0.5)] to-[rgba(0,0,0,0.5)]"></div>
+      {/* <div className="overplay absolute inset-0 bg-gradient-to-t from-[rgba(105,104,104,0.5)] to-[rgba(0,0,0,0.5)]"></div> */}
       <img
         src={`https://image.tmdb.org/t/p/original/${backdrop_path}`}
         alt=""

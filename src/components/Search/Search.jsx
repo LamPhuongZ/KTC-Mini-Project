@@ -1,7 +1,7 @@
 import movies from "../../assets/movies.svg";
 import search from "../../assets/search.svg";
 
-const MovieTitle = () => {
+const Search = () => {
   return (
     <div>
       <section className="moive-title flex items-center justify-between mb-10">
@@ -28,4 +28,4 @@ const MovieTitle = () => {
   );
 };
 
-export default MovieTitle;
+export default Search;
