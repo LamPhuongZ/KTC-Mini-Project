@@ -1,27 +1,50 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/prop-types */
-
 import { useEffect } from "react";
 
 const Detail = ({ item, onSelect: handleSelect }) => {
+  if (!item) return null;
+  const { title, backdrop_path, poster_path, release_date, overview } = item;
+
   useEffect(() => {
     if (item) document.getElementById("my_modal_3").showModal();
   }, [item]);
 
   return (
     <dialog id="my_modal_3" className="modal">
-      <div className="modal-box text-black rounded-none">
+      <div className="modal-box text-white rounded-lg w-[1400px] max-w-none h-[1000px] bg-slate-900 p-0">
         <form method="dialog">
-          {/* if there is a button in form, it will close the modal */}
           <button
             onClick={() => handleSelect()}
-            className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+            className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 text-2xl rounded-xl text-white z-10"
           >
             X
           </button>
         </form>
-        <h3 className="font-bold text-lg">{item?.title || ""}</h3>
-        <p className="py-4">Press ESC key or click on ✕ button to close</p>
+        <div className="w-full h-[500px] relative">
+          <div className="absolute bg-black bg-opacity-50 inset-0"></div>
+          <div
+            className="w-full h-full bg-cover bg-center"
+            style={{
+              backgroundImage: `url(https://image.tmdb.org/t/p/original/${backdrop_path})`,
+            }}
+          ></div>
+        </div>
+        <div className="flex gap-x-10 mb-3">
+          <div className="w-full h-[400px] max-w-[300px] -mt-[200px] pl-8 relative z-10">
+            <img
+              src={`https://image.tmdb.org/t/p/original/${poster_path}`}
+              alt=""
+              className="w-full h-full object-cover rounded-md"
+            />
+          </div>
+          <div className="flex flex-col mt-5">
+            <h1 className="text-4xl font-bold mb-5">{title}</h1>
+            <div className="text-2xl">
+              {" "}
+              {new Date(release_date).toLocaleDateString("en-GB")}{" "}
+            </div>
+          </div>
+        </div>
+        <p className="text-xl px-4 text-center">Content: {overview}</p>
       </div>
     </dialog>
   );

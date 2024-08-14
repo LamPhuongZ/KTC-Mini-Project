@@ -7,8 +7,7 @@ import DetailDisplay from "./components/Display/DetailDisplay";
 import Seat from "./components/Seat/Seat";
 import Price from "./components/Price/Price";
 import Header from "./components/Header/header";
-import Banner from "./components/banner/Banner";
-
+import Banner from "./components/Banner/Banner";
 
 function App() {
   return (

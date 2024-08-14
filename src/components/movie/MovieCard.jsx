@@ -3,10 +3,6 @@
 const MovieCard = ({ item, onSelect: handleSelect }) => {
   const { title, poster_path, vote_average } = item;
 
-  const handleClick = () => {
-    handleSelect(item);
-  };
-
   return (
     <div className="movie-card rounded-lg p-2 bg-slate-800 flex flex-col h-full select-none relative group">
       <div className="relative overflow-hidden rounded-lg mb-5">
@@ -17,7 +13,7 @@ const MovieCard = ({ item, onSelect: handleSelect }) => {
         />
         <button
           className="btn absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-full bg-[rgba(20,15,15,0.68)] text-white py-2 px-4 rounded-md opacity-0 transition-all duration-300 ease-in-out group-hover:translate-y-0 group-hover:opacity-100 hover:bg-[rgba(20,15,15,0.68)] border border-none w-[250px] mb-2 mx-auto text-xl"
-          onClick={handleClick}
+          onClick={()=> handleSelect(item)}
         >
           Detail
         </button>
