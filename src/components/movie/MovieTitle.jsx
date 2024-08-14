@@ -4,7 +4,7 @@ import search from "../../assets/search.svg";
 const MovieTitle = () => {
   return (
     <div>
-      <section className="moive-title flex items-center justify-between pb-10">
+      <section className="moive-title flex items-center justify-between mb-10">
         <div className="flex items-center gap-x-2">
           <img src={movies} alt="" className="w-8 h-8" />
           <h2 className="capitalize text-2xl font-bold">Film</h2>

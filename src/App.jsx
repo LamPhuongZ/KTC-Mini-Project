@@ -27,7 +27,7 @@ function App() {
         <ListDay></ListDay>
 
         <div className="flex gap-x-4 w-full mx-auto">
-          <div className="w-[400px] min-h-[420px]">
+          <div className="w-[400px] min-h-[320px]">
             <DetailDisplay></DetailDisplay>
             <Showtime></Showtime>
           </div>

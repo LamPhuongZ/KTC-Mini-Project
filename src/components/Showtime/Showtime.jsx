@@ -1,7 +1,7 @@
 const Showtime = () => {
   return (
     <section>
-      <div className="bg-slate-800 p-5 mt-5 rounded-lg min-h-[250px]">
+      <div className="bg-slate-800 p-5 mt-5 rounded-lg min-h-[150px]">
         <h2 className="text-lg font-medium">Select showtime</h2>
         <div className="flex gap-x-10 mt-5">
           <span className="inline-block p-2 rounded-full bg-slate-600 text-sm cursor-pointer hover:bg-primary">
