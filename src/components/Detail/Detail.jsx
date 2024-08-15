@@ -1,13 +1,23 @@
 import { useEffect } from "react";
+import useSWR from "swr";
+import { fetcher } from "../../config";
 
-const Detail = ({ item, onSelect: handleSelect }) => {
-  if (!item) return null;
-  const { title, backdrop_path, poster_path, release_date, overview, genres } =
-    item;
+const Detail = ({ movie_id, onSelect: handleSelect }) => {
+  const { data } = useSWR(
+    movie_id
+      ? `https://api.themoviedb.org/3/movie/${movie_id}?api_key=1a3129220019c29dcf55164c1f5b41dc`
+      : null,
+    fetcher
+  );
 
   useEffect(() => {
-    if (item) document.getElementById("my_modal_3").showModal();
-  }, [item]);
+    if (data) {
+      document.getElementById("my_modal_3").showModal();
+    }
+  }, [data]);
+
+  if (!data) return null;
+  const { title, backdrop_path, poster_path, release_date, overview } = data;
 
   return (
     <dialog id="my_modal_3" className="modal">
@@ -29,7 +39,7 @@ const Detail = ({ item, onSelect: handleSelect }) => {
             }}
           ></div>
         </div>
-        <div className="flex gap-x-10 mb-3">
+        <div className="flex gap-x-10 mb-5">
           <div className="w-full h-[400px] max-w-[300px] -mt-[200px] pl-8 relative z-10">
             <img
               src={`https://image.tmdb.org/t/p/original/${poster_path}`}
@@ -39,22 +49,15 @@ const Detail = ({ item, onSelect: handleSelect }) => {
           </div>
           <div className="flex flex-col mt-5">
             <h1 className="text-4xl font-bold mb-5">{title}</h1>
-            {genres.length > 0 && (
-              <div className="text-center text-sm gap-x-5">
-                {genres.map((item) => (
-                  <span key={item.id}>{item.name}</span>
-                ))}
-              </div>
-            )}
-            <div className="text-2xl">
+            <div className="text-xl mb-5">
               {new Date(release_date).toLocaleDateString("en-GB")}
             </div>
           </div>
         </div>
-        <p className="text-xl px-4 text-center">DESC: {overview}</p>
+        <p className="text-lg px-10 ">DESC: {overview}</p>
       </div>
     </dialog>
   );
-};
+}; 
 
 export default Detail;
