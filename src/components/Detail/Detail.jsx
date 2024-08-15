@@ -2,7 +2,8 @@ import { useEffect } from "react";
 
 const Detail = ({ item, onSelect: handleSelect }) => {
   if (!item) return null;
-  const { title, backdrop_path, poster_path, release_date, overview } = item;
+  const { title, backdrop_path, poster_path, release_date, overview, genres } =
+    item;
 
   useEffect(() => {
     if (item) document.getElementById("my_modal_3").showModal();
@@ -10,7 +11,7 @@ const Detail = ({ item, onSelect: handleSelect }) => {
 
   return (
     <dialog id="my_modal_3" className="modal">
-      <div className="modal-box text-white rounded-lg w-[1400px] max-w-none h-[1000px] bg-slate-900 p-0">
+      <div className="modal-box text-white rounded-lg w-[1400px] max-w-none h-[700px] max-h-[650px] bg-slate-900 p-0 pb-3">
         <form method="dialog">
           <button
             onClick={() => handleSelect()}
@@ -38,13 +39,19 @@ const Detail = ({ item, onSelect: handleSelect }) => {
           </div>
           <div className="flex flex-col mt-5">
             <h1 className="text-4xl font-bold mb-5">{title}</h1>
+            {genres.length > 0 && (
+              <div className="text-center text-sm gap-x-5">
+                {genres.map((item) => (
+                  <span key={item.id}>{item.name}</span>
+                ))}
+              </div>
+            )}
             <div className="text-2xl">
-              {" "}
-              {new Date(release_date).toLocaleDateString("en-GB")}{" "}
+              {new Date(release_date).toLocaleDateString("en-GB")}
             </div>
           </div>
         </div>
-        <p className="text-xl px-4 text-center">Content: {overview}</p>
+        <p className="text-xl px-4 text-center">DESC: {overview}</p>
       </div>
     </dialog>
   );

@@ -20,6 +20,22 @@ const MovieList = () => {
   }, [data]);
   console.log("🚀 ~ MovieList ~ data:", data);
 
+  const useMovieDetails = (movie_id) => {
+    const { data, error } = useSWR(
+      movie_id
+        ? `https://api.themoviedb.org/3/movie/${movie_id}?api_key=1a3129220019c29dcf55164c1f5b41dc`
+        : null,
+      fetcher
+    );
+    return {
+      movieDetails: data,
+    };
+  };
+
+  const { movieDetails} = useMovieDetails(
+    movieSelected?.id
+  );
+
   const handleSelect = (movie) => {
     setMovieSelected(movie);
   };
@@ -30,12 +46,11 @@ const MovieList = () => {
         {movies.length > 0 &&
           movies.map((item) => (
             <SwiperSlide key={item.id}>
-              <MovieCard item={item} onSelect={handleSelect} />
+              <MovieCard item={item} onSelect={handleSelect}></MovieCard>
             </SwiperSlide>
           ))}
       </Swiper>
-      
-      <Detail item={movieSelected} onSelect={handleSelect} />
+      <Detail item={movieDetails} onSelect={() => setMovieSelected(null)} />
     </div>
   );
 };
