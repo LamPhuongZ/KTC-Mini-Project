@@ -1,46 +1,64 @@
-import eye from "../../../assets/icons/eye.svg";
-import eyeClose from "../../../assets/icons/eyeClose.svg";
 import { useState } from "react";
 import PropTypes from "prop-types";
+import * as Yup from "yup";
+import { useFormik } from "formik";
+import eye from "../../../assets/icons/eye.svg";
+import eyeClose from "../../../assets/icons/eyeClose.svg";
+import { regexPassword } from "../../../utils";
 
 Login.propTypes = {
   toggleActive: PropTypes.func.isRequired,
 };
 
 export function Login({ toggleActive }) {
-  const [emailValue, setEmailValue] = useState("");
-  const [passwordValue, setPasswordValue] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleGetEmailValue = (e) => {
-    setEmailValue(e.target.value);
-  };
-
-  const handleGetPasswordValue = (e) => {
-    setPasswordValue(e.target.value);
-  };
-
-  const handleCShowPassword = (e) => {
-    e.preventDefault();
-    setShowPassword(!showPassword);
-  };
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
+    validationSchema: Yup.object({
+      email: Yup.string()
+        .email("Invalid email address")
+        .required("Email is required"),
+      password: Yup.string()
+        .min(8, "Password must be at least 8 characters")
+        .matches(
+          regexPassword,
+          "Password must contain one uppercase, one lowercase, one number, and one special character"
+        )
+        .required("Password is required"),
+      confirmPassword: Yup.string()
+        .oneOf([Yup.ref("password"), null], "Passwords must match")
+        .required("Confirm password is required"),
+    }),
+    onSubmit: (values) => {
+      console.log("Form values:", values);
+    },
+  });
 
   return (
     <section className="w-1/2 flex flex-col justify-center items-center self-stretch gap-8 bg-white relative">
-      <h1 className="text-3xl font-semibold">Login to your account</h1>
-      <form id="formLogin" className="w-72 flex flex-col">
+      <h1 className="text-3xl font-bold">Login to your account</h1>
+      <form id="formLogin" className="w-80 flex flex-col gap-2">
         <label htmlFor="email" className="text-left">
           Email
         </label>
         <input
           type="text"
           id="email"
-          value={emailValue}
-          onChange={handleGetEmailValue}
-          className="border rounded p-2 mb-4"
+          {...formik.getFieldProps("email")}
+          className="border rounded p-2 mb-3"
           placeholder="Enter your email"
           required
         />
+        {formik.touched.email && formik.errors.email ? (
+          <p className="text-red-500 mb-4">Email in correct format</p>
+        ) : (
+          ""
+        )}
         <label htmlFor="password" className="text-left">
           Password
         </label>
@@ -48,23 +66,36 @@ export function Login({ toggleActive }) {
           <input
             type={showPassword ? "text" : "password"}
             id="password"
-            value={passwordValue}
-            onChange={handleGetPasswordValue}
-            className="w-full border rounded p-2 mb-4"
+            {...formik.getFieldProps("password")}
+            className="w-full border rounded p-2"
             placeholder="Enter your password"
             required
           />
           <button
-            className="absolute top-3 right-2"
-            onClick={handleCShowPassword}
+            className="absolute top-2.5 right-2"
+            onClick={(e) => {
+              e.preventDefault();
+              setShowPassword(!showPassword);
+            }}
           >
             <img src={showPassword ? eye : eyeClose} alt="icon-eye" />
           </button>
+          {formik.touched.password && formik.errors.password ? (
+            <p className="text-red-500 mb-4">Password do not match</p>
+          ) : (
+            ""
+          )}
         </div>
-        <button className="bg-pink-500 text-white rounded p-2">
+        <a className="text-right text-blue-500 underline" href="#">
+          Forgot password ?
+        </a>
+        <button
+          className="bg-pink-500 text-white rounded p-2"
+          disabled={!formik.isValid || !formik.dirty}
+        >
           Login Now
         </button>
-        <p className="mt-4">
+        <p className="mt-4 text-center">
           Don’t have an account?{" "}
           <button
             type="button"

@@ -18,12 +18,12 @@ export function Modal() {
       </div>
 
       <div
-        className={`absolute top-0 left-0 h-full w-1/2 bg-blue-900 text-white flex items-center justify-center transition-all duration-700 ease-in-out ${
+        className={`absolute top-0 left-0 h-full w-1/2 bg-four text-white flex items-center justify-center transition-all duration-700 ease-in-out ${
           isLoginActive ? 'left-0' : 'left-1/2'
         }`}
       >
         <div className="text-center">
-          <h2 className="text-4xl font-bold mb-4">WATCH ...</h2>
+          <h2 className="uppercase font-extrabold text-4xl text-transparent bg-clip-text bg-primary-gradient">WATCH ...</h2>
         </div>
       </div>
     </section>
