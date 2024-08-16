@@ -15,27 +15,14 @@ const MovieList = () => {
     "https://api.themoviedb.org/3/movie/popular?api_key=1a3129220019c29dcf55164c1f5b41dc",
     fetcher
   );
+
   useEffect(() => {
     if (data && data.results) setMovies(data.results);
   }, [data]);
   console.log("🚀 ~ MovieList ~ data:", data);
 
-  const useMovieDetails = (movie_id) => {
-    const { data } = useSWR(
-      movie_id
-        ? `https://api.themoviedb.org/3/movie/${movie_id}?api_key=1a3129220019c29dcf55164c1f5b41dc`
-        : null,
-      fetcher
-    );
-    return {
-      movieDetails: data,
-    };
-  };
-
-  const { movieDetails } = useMovieDetails(movieSelected?.id);
-
   const handleSelect = (movie) => {
-    setMovieSelected(movie);
+    setMovieSelected(movie.id);
   };
 
   return (
@@ -48,7 +35,10 @@ const MovieList = () => {
             </SwiperSlide>
           ))}
       </Swiper>
-      <Detail item={movieDetails} onSelect={() => setMovieSelected(null)} />
+      <Detail
+        movie_id={movieSelected}
+        onSelect={() => setMovieSelected(null)}
+      />
     </div>
   );
 };
