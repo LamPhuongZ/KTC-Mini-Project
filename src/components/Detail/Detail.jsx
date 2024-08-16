@@ -39,6 +39,9 @@ const Detail = ({ item, onSelect: handleSelect }) => {
           </div>
           <div className="flex flex-col mt-5">
             <h1 className="text-4xl font-bold mb-5">{title}</h1>
+            <div className="text-2xl">
+              {new Date(release_date).toLocaleDateString("en-GB")}
+            </div>
             {genres.length > 0 && (
               <div className="text-center text-sm gap-x-5">
                 {genres.map((item) => (
@@ -46,9 +49,6 @@ const Detail = ({ item, onSelect: handleSelect }) => {
                 ))}
               </div>
             )}
-            <div className="text-2xl">
-              {new Date(release_date).toLocaleDateString("en-GB")}
-            </div>
           </div>
         </div>
         <p className="text-xl px-4 text-center">DESC: {overview}</p>

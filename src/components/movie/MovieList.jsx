@@ -21,7 +21,7 @@ const MovieList = () => {
   console.log("🚀 ~ MovieList ~ data:", data);
 
   const useMovieDetails = (movie_id) => {
-    const { data, error } = useSWR(
+    const { data } = useSWR(
       movie_id
         ? `https://api.themoviedb.org/3/movie/${movie_id}?api_key=1a3129220019c29dcf55164c1f5b41dc`
         : null,
@@ -32,9 +32,7 @@ const MovieList = () => {
     };
   };
 
-  const { movieDetails} = useMovieDetails(
-    movieSelected?.id
-  );
+  const { movieDetails } = useMovieDetails(movieSelected?.id);
 
   const handleSelect = (movie) => {
     setMovieSelected(movie);
