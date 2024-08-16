@@ -12,7 +12,7 @@ const MovieList = () => {
   const [movieSelected, setMovieSelected] = useState();
 
   const { data } = useSWR(
-    "https://api.themoviedb.org/3/movie/popular?api_key=1a3129220019c29dcf55164c1f5b41dc",
+    "https://absolute-pangolin-key.ngrok-free.app/api/movies/findAll",
     fetcher
   );
 
@@ -21,9 +21,22 @@ const MovieList = () => {
   }, [data]);
   console.log("🚀 ~ MovieList ~ data:", data);
 
-  const handleSelect = (movie) => {
-    setMovieSelected(movie.id);
-  };
+  // useEffect(() => {
+  //   const fetchMovie = () => {
+  //     fetch("https://absolute-pangolin-key.ngrok-free.app/api/movies/findAll")
+  //       .then((x) => console.log(x))
+  //       .then((data) => {
+  //         console.log(data); // Handle the parsed data
+  //         // You can now set the state with the fetched data
+  //         // setState(data);
+  //       });
+  //   };
+  //   fetchMovie();
+  // }, []);
+
+  // const handleSelect = (movie) => {
+  //   setMovieSelected(movie.id);
+  // };
 
   return (
     <div className="movie-list mb-10">
@@ -41,6 +54,11 @@ const MovieList = () => {
       />
     </div>
   );
+  // return (
+  //   <>
+  //     <h1>hello</h1>
+  //   </>
+  // );
 };
 
 export default MovieList;
