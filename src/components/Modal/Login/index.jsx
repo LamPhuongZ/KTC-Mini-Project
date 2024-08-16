@@ -17,7 +17,6 @@ export function Login({ toggleActive }) {
     initialValues: {
       email: "",
       password: "",
-      confirmPassword: "",
     },
     validationSchema: Yup.object({
       email: Yup.string()
@@ -30,9 +29,6 @@ export function Login({ toggleActive }) {
           "Password must contain one uppercase, one lowercase, one number, and one special character"
         )
         .required("Password is required"),
-      confirmPassword: Yup.string()
-        .oneOf([Yup.ref("password"), null], "Passwords must match")
-        .required("Confirm password is required"),
     }),
     onSubmit: (values) => {
       console.log("Form values:", values);
@@ -42,7 +38,7 @@ export function Login({ toggleActive }) {
   return (
     <section className="w-1/2 flex flex-col justify-center items-center self-stretch gap-8 bg-white relative">
       <h1 className="text-3xl font-bold">Login to your account</h1>
-      <form id="formLogin" className="w-80 flex flex-col gap-2">
+      <form onSubmit={formik.handleSubmit} id="formLogin" className="w-80 flex flex-col gap-2">
         <label htmlFor="email" className="text-left">
           Email
         </label>
@@ -98,7 +94,7 @@ export function Login({ toggleActive }) {
         <p className="mt-4 text-center">
           Don’t have an account?{" "}
           <button
-            type="button"
+            type="submit"
             onClick={toggleActive}
             className="text-blue-500 underline"
           >

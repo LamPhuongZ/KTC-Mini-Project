@@ -1,13 +1,18 @@
 import "./App.css";
-import { Modal } from "./components/Modal";
+// import { Modal } from "./components/Modal";
+import { Movie } from "./pages/Movie";
 // import { Profile } from "./pages/Profile";
 
 function App() {
   return (
-    <div id="wrapper">
-      <Modal />
-    </div>
-  );
+    <Movie/> 
+  )
 }
 
 export default App;
+
+{
+  /* <div id="wrapper">
+<Modal />
+</div> */
+}

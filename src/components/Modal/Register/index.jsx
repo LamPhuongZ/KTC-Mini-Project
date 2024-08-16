@@ -5,6 +5,9 @@ import eyeClose from "../../../assets/icons/eyeClose.svg";
 import PropTypes from "prop-types";
 import { useFormik } from "formik";
 import { regexPassword } from "../../../utils";
+import { registerUser } from "../../../services/registerAPI";
+import { toast } from "react-toastify";
+import { movieALL } from "../../../services/movieAPI";
 
 Register.propTypes = {
   toggleActive: PropTypes.func.isRequired,
@@ -14,13 +17,28 @@ export function Register({ toggleActive }) {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  const getMovie = async () => {
+    const movie = await movieALL();
+      console.log(movie);
+  }
+
+  console.log(getMovie());
+  
+
   const formik = useFormik({
     initialValues: {
+      name: "",
       email: "",
       password: "",
       confirmPassword: "",
+      phoneNumber: "",
+      role: "user",
     },
     validationSchema: Yup.object({
+      name: Yup.string().required("Full name is required"),
+      phoneNumber: Yup.string()
+        .max(10, "Phone number must have 10 digits")
+        .required("Phone number is required"),
       email: Yup.string()
         .email("Invalid email address")
         .required("Email is required"),
@@ -35,15 +53,65 @@ export function Register({ toggleActive }) {
         .oneOf([Yup.ref("password"), null], "Passwords must match")
         .required("Confirm password is required"),
     }),
-    onSubmit: (values) => {
-      console.log("Form values:", values);
+    onSubmit: async (values) => {
+      await registerUser({
+        name: values.name,
+        phoneNumber: values.phoneNumber,
+        email: values.email,
+        password: values.password,
+        role: "user",
+      });
+
+      // console.log(data.data);
+
+      
+
+      toast.success("Registration successful");
     },
   });
 
   return (
     <section className="w-1/2 flex flex-col justify-center items-center self-stretch gap-8 bg-white relative">
       <h1 className="text-3xl font-bold">Create an account</h1>
-      <form id="formRegister" className="w-80 flex flex-col gap-2">
+      <form
+        id="formRegister"
+        className="w-80 flex flex-col gap-2"
+        onSubmit={formik.handleSubmit}
+      >
+        <label htmlFor="name" className="text-left">
+          Full Name
+        </label>
+        <input
+          type="text"
+          id="name"
+          {...formik.getFieldProps("name")}
+          className="border rounded p-2 mb-3"
+          placeholder="Enter your name"
+          required
+        />
+        {formik.touched.name && formik.errors.name ? (
+          <p className="text-red-500 mb-4">Full name cannot be empty</p>
+        ) : (
+          ""
+        )}
+
+        <label htmlFor="phone" className="text-left">
+          Phone
+        </label>
+        <input
+          type="text"
+          id="phone"
+          {...formik.getFieldProps("phoneNumber")}
+          className="border rounded p-2 mb-3"
+          placeholder="Enter your phone"
+          required
+        />
+        {formik.touched.phoneNumber && formik.errors.phoneNumber ? (
+          <p className="text-red-500 mb-4">Phone number must have 10 digits</p>
+        ) : (
+          ""
+        )}
+
         <label htmlFor="email" className="text-left">
           Email
         </label>
@@ -117,6 +185,7 @@ export function Register({ toggleActive }) {
           ""
         )}
         <button
+          type="submit"
           className="bg-pink-500 text-white rounded p-2"
           disabled={!formik.isValid || !formik.dirty}
         >
