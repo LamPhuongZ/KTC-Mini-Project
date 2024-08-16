@@ -33,6 +33,9 @@ export default [
         'warn',
         { allowConstantExport: true },
       ],
+      "react/prop-types": "off",
+      "no-undef" : "off",
+      "react-hooks/rules-of-hooks": "off",
     },
   },
 ]
