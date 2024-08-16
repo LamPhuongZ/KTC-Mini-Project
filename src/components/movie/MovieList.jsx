@@ -12,9 +12,28 @@ const MovieList = () => {
   const [movieSelected, setMovieSelected] = useState();
 
   const { data } = useSWR(
-    "https://api.themoviedb.org/3/movie/popular?api_key=1a3129220019c29dcf55164c1f5b41dc",
-    fetcher
+    "fetchMovie",
+    fetcher("https://absolute-pangolin-key.ngrok-free.app/api/movies/findAll", {
+      headers: {
+        "ngrok-skip-browser-warning": "69420",
+      },
+    })
   );
+
+  // useEffect(() => {
+  //   (async () => {
+  //     const res = await fetch(
+  //       "https://absolute-pangolin-key.ngrok-free.app/api/movies/findAll",
+  //       {
+  //         headers: {
+  //           "ngrok-skip-browser-warning": "69420",
+  //         },
+  //       }
+  //     );
+
+  //     console.log(res);
+  //   })();
+  // }, []);
 
   useEffect(() => {
     if (data && data.results) setMovies(data.results);
