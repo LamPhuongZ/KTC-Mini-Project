@@ -7,7 +7,6 @@ import { useFormik } from "formik";
 import { regexPassword } from "../../../utils";
 import { registerUser } from "../../../services/registerAPI";
 import { toast } from "react-toastify";
-import { movieALL } from "../../../services/movieAPI";
 
 Register.propTypes = {
   toggleActive: PropTypes.func.isRequired,
@@ -15,15 +14,7 @@ Register.propTypes = {
 
 export function Register({ toggleActive }) {
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
-  const getMovie = async () => {
-    const movie = await movieALL();
-      console.log(movie);
-  }
-
-  console.log(getMovie());
-  
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);  
 
   const formik = useFormik({
     initialValues: {
@@ -31,8 +22,7 @@ export function Register({ toggleActive }) {
       email: "",
       password: "",
       confirmPassword: "",
-      phoneNumber: "",
-      role: "user",
+      phoneNumber: ""
     },
     validationSchema: Yup.object({
       name: Yup.string().required("Full name is required"),
@@ -58,14 +48,10 @@ export function Register({ toggleActive }) {
         name: values.name,
         phoneNumber: values.phoneNumber,
         email: values.email,
-        password: values.password,
-        role: "user",
+        password: values.password
       });
 
       // console.log(data.data);
-
-      
-
       toast.success("Registration successful");
     },
   });

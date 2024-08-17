@@ -5,14 +5,11 @@ import { Movie } from "./pages/Movie";
 
 function App() {
   return (
-    <Movie/> 
-  )
+    <div id="wrapper">
+      {/* <Modal /> */}
+      <Movie />
+    </div>
+  );
 }
 
 export default App;
-
-{
-  /* <div id="wrapper">
-<Modal />
-</div> */
-}
