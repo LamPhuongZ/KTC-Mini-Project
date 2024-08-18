@@ -1,5 +1,5 @@
 import { useState } from "react";
-// import { Modal } from "..";
+import { Modal } from "../Modal";
 
 const Header = () => {
   const [isShowModal, setIsShowModal] = useState(false);
@@ -21,11 +21,10 @@ const Header = () => {
           >
             Login
           </button>
-          {/* <button className="rounded-md px-4 py-2">Register</button> */}
         </div>
       </header>
 
-      {/* <Modal isOpen={isShowModal} isClose={handleToggleModal} /> */}
+      <Modal isOpen={isShowModal} isClose={handleToggleModal} />
     </>
   );
 };

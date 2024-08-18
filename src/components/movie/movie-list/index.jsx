@@ -1,24 +1,32 @@
 import { SwiperSlide, Swiper } from "swiper/react";
 import "swiper/scss";
 import MovieCard from "./movie-card";
-import { fetcher } from "../../../config";
-import useSWR from "swr";
+// import { fetcher } from "../../../config";
+// import useSWR from "swr";
 import { useEffect, useState } from "react";
 import Detail from "../../detail";
+import { movieALL } from "../../../services/movieAPI";
 
 const MovieList = () => {
   const [movies, setMovies] = useState([]);
-
   const [movieSelected, setMovieSelected] = useState();
 
-  const { data } = useSWR(
-    "fetchMovie",
-    fetcher("https://absolute-pangolin-key.ngrok-free.app/api/movies/findAll", {
-      headers: {
-        "ngrok-skip-browser-warning": "69420",
-      },
-    })
-  );
+  useEffect(() => {
+    async function getMovieAll() {
+      const response = await movieALL();
+      setMovies(response.data);
+    }
+    getMovieAll();
+  }, [movies]);
+
+  // const { data } = useSWR(
+  //   "fetchMovie",
+  //   fetcher("https://absolute-pangolin-key.ngrok-free.app/api/movies/findAll", {
+  //     headers: {
+  //       "ngrok-skip-browser-warning": "69420",
+  //     },
+  //   })
+  // );
 
   // useEffect(() => {
   //   (async () => {
@@ -35,10 +43,10 @@ const MovieList = () => {
   //   })();
   // }, []);
 
-  useEffect(() => {
-    if (data && data.results) setMovies(data.results);
-  }, [data]);
-  console.log("🚀 ~ MovieList ~ data:", data);
+  // useEffect(() => {
+  //   if (data && data.results) setMovies(data.results);
+  // }, [data]);
+  console.log("🚀 ~ MovieList ~ data:", movies);
 
   const handleSelect = (movie) => {
     setMovieSelected(movie.id);
