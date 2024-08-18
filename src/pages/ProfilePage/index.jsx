@@ -7,7 +7,7 @@ import eyeClose from "../../assets/icons/eyeClose.svg";
 import { fetcher } from "../../config";
 import useSWR from "swr";
 
-export function Profile() {
+export function ProfilePage() {
   const [showPassword, setShowPassword] = useState(false);
   const [datas, setDatas] = useState([]);
 

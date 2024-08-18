@@ -1,10 +1,10 @@
 import { SwiperSlide, Swiper } from "swiper/react";
 import "swiper/scss";
-import MovieCard from "./MovieCard";
-import { fetcher } from "../../config";
+import MovieCard from "./movie-card";
+import { fetcher } from "../../../config";
 import useSWR from "swr";
 import { useEffect, useState } from "react";
-import Detail from "../Detail/Detail";
+import Detail from "../../detail";
 
 const MovieList = () => {
   const [movies, setMovies] = useState([]);

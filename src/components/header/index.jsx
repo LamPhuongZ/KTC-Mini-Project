@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Modal } from "../Modal";
+// import { Modal } from "..";
 
 const Header = () => {
   const [isShowModal, setIsShowModal] = useState(false);
@@ -25,7 +25,7 @@ const Header = () => {
         </div>
       </header>
 
-      <Modal isOpen={isShowModal} isClose={handleToggleModal} />
+      {/* <Modal isOpen={isShowModal} isClose={handleToggleModal} /> */}
     </>
   );
 };

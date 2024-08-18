@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { userAll } from "../../services/userAPI";
 
-export function Movie() {
+export function MoviePage() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
