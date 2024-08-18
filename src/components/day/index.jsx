@@ -9,6 +9,9 @@ const ListDay = () => {
     setIsActive(day);
   };
 
+  console.log(isActive);
+  
+
   const daysOfWeek = [
     "Monday",
     "Tuesday",
@@ -21,7 +24,7 @@ const ListDay = () => {
   return (
     <div>
       <div className=" bg-slate-800 p-5 rounded-lg">
-        <section className="Day grid grid-cols-7 gap-4">
+        <section className="day grid grid-cols-7 gap-4">
           {daysOfWeek.map((day, index) => (
             <button
               onClick={() => handleActive(day)}
