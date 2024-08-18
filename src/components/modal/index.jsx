@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Login } from "./Login";
-import { Register } from "./Register";
+import { Login } from "./login";
+import { Register } from "./register";
 import PropTypes from "prop-types";
 
 Modal.propTypes = {

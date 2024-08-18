@@ -51,7 +51,6 @@ export function Register({ toggleActive }) {
         password: values.password,
       });
 
-      // console.log(data.data);
       toast.success("Registration successful");
     },
   });
