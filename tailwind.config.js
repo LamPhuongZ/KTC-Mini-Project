@@ -10,7 +10,6 @@ export default {
         primary: "#f62682",
         secondary: "#6f5cf1",
         third: "#ffb86c",
-        four: "#0f172a",
       },
       backgroundImage: {
         "primary-gradient": `linear-gradient(
@@ -20,13 +19,9 @@ export default {
           #fc2872 119.91%
         )`,
       },
-      screens: {
-        phone: "320px",
-        tablet: "640px",
-        laptop: "1024px",
-        desktop: "1280px",
-      },
     },
   },
-  plugins: [],
+  plugins: [
+    require('daisyui')
+  ],
 };
