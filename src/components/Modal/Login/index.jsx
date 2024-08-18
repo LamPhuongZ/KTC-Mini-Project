@@ -36,7 +36,7 @@ export function Login({ toggleActive }) {
   });
 
   return (
-    <section className="w-1/2 flex flex-col justify-center items-center self-stretch gap-8 bg-white relative">
+    <section className="w-1/2 flex flex-col justify-center items-center self-stretch gap-8 bg-white relative text-custom-primary">
       <h1 className="text-3xl font-bold">Login to your account</h1>
       <form onSubmit={formik.handleSubmit} id="formLogin" className="w-80 flex flex-col gap-2">
         <label htmlFor="email" className="text-left">
@@ -46,7 +46,7 @@ export function Login({ toggleActive }) {
           type="text"
           id="email"
           {...formik.getFieldProps("email")}
-          className="border rounded p-2 mb-3"
+          className="border rounded p-2 mb-3 bg-white"
           placeholder="Enter your email"
           required
         />
@@ -63,7 +63,7 @@ export function Login({ toggleActive }) {
             type={showPassword ? "text" : "password"}
             id="password"
             {...formik.getFieldProps("password")}
-            className="w-full border rounded p-2"
+            className="w-full border rounded p-2 bg-white"
             placeholder="Enter your password"
             required
           />

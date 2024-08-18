@@ -10,6 +10,8 @@ export default {
         primary: "#f62682",
         secondary: "#6f5cf1",
         third: "#ffb86c",
+        four: "#0f172a",
+        "custom-primary": "#737373",
       },
       backgroundImage: {
         "primary-gradient": `linear-gradient(

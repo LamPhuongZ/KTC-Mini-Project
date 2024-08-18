@@ -14,7 +14,7 @@ Register.propTypes = {
 
 export function Register({ toggleActive }) {
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);  
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -22,7 +22,7 @@ export function Register({ toggleActive }) {
       email: "",
       password: "",
       confirmPassword: "",
-      phoneNumber: ""
+      phoneNumber: "",
     },
     validationSchema: Yup.object({
       name: Yup.string().required("Full name is required"),
@@ -48,7 +48,7 @@ export function Register({ toggleActive }) {
         name: values.name,
         phoneNumber: values.phoneNumber,
         email: values.email,
-        password: values.password
+        password: values.password,
       });
 
       // console.log(data.data);
@@ -57,11 +57,11 @@ export function Register({ toggleActive }) {
   });
 
   return (
-    <section className="w-1/2 flex flex-col justify-center items-center self-stretch gap-8 bg-white relative">
+    <section className="w-1/2 flex flex-col justify-center items-center self-stretch gap-8 bg-white relative text-custom-primary overflow-hidden">
       <h1 className="text-3xl font-bold">Create an account</h1>
       <form
         id="formRegister"
-        className="w-80 flex flex-col gap-2"
+        className="w-80 h-4/5 flex flex-col gap-2 overflow-auto"
         onSubmit={formik.handleSubmit}
       >
         <label htmlFor="name" className="text-left">
@@ -71,7 +71,7 @@ export function Register({ toggleActive }) {
           type="text"
           id="name"
           {...formik.getFieldProps("name")}
-          className="border rounded p-2 mb-3"
+          className="border rounded p-2 mb-3 bg-white"
           placeholder="Enter your name"
           required
         />
@@ -88,7 +88,7 @@ export function Register({ toggleActive }) {
           type="text"
           id="phone"
           {...formik.getFieldProps("phoneNumber")}
-          className="border rounded p-2 mb-3"
+          className="border rounded p-2 mb-3 bg-white"
           placeholder="Enter your phone"
           required
         />
@@ -105,7 +105,7 @@ export function Register({ toggleActive }) {
           type="text"
           id="email"
           {...formik.getFieldProps("email")}
-          className="border rounded p-2 mb-3"
+          className="border rounded p-2 mb-3 bg-white"
           placeholder="Enter your email"
           required
         />
@@ -123,7 +123,7 @@ export function Register({ toggleActive }) {
             type={showPassword ? "text" : "password"}
             id="password"
             {...formik.getFieldProps("password")}
-            className="w-full border rounded p-2"
+            className="w-full border rounded p-2 bg-white"
             placeholder="Enter your password"
             required
           />
@@ -151,7 +151,7 @@ export function Register({ toggleActive }) {
             type={showConfirmPassword ? "text" : "password"}
             id="confirmPassword"
             {...formik.getFieldProps("confirmPassword")}
-            className="w-full border rounded p-2"
+            className="w-full border rounded p-2 bg-white"
             placeholder="Confirm your password"
             required
           />
