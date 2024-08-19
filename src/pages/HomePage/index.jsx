@@ -20,7 +20,7 @@ export function HomePage() {
         <ListDay />
 
         <div className="flex gap-x-4 w-full mx-auto">
-          <div className="w-[400px] min-h-[320px]">
+          <div className="w-[500px] min-h-[320px]">
             <DetailDisplay />
             <Showtime />
           </div>

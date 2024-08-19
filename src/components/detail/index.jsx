@@ -27,6 +27,7 @@ const Detail = ({ movie_id, onSelect: handleSelect }) => {
   };
 
   const { credits } = useMovieCredits(movie_id);
+  console.log("🚀 ~ Detail ~ credits:", credits)
 
   useEffect(() => {
     if (data) document.getElementById("my_modal_3").showModal();
@@ -110,40 +111,40 @@ const Detail = ({ movie_id, onSelect: handleSelect }) => {
           </div>
         </div>
         <p className="text-xl px-10 text-center">DESC: {overview}</p>
-        {/* <div className="p-10">
+        <div className="p-10">
           <h2 className="text-xl mb-10">Casts:</h2>
           <div className=" px-4">
-            <Swiper
+            {/* <Swiper
               grabCursor={"true"}
               spaceBetween={30}
               slidesPerView={"auto"}
             >
-              {cast.length > 0 &&
-                cast.map((item) => (
+              {credits?.cast?.length > 0 &&
+                credits.cast.map((item) => (
                   <SwiperSlide key={item.id}>
                     <CreditItem item={item}></CreditItem>
                   </SwiperSlide>
                 ))}
-            </Swiper>
+            </Swiper> */}
           </div>
-        </div> */}
+        </div>
       </div>
     </dialog>
   );
 };
 
-// function CreditItem({ item }) {
-//   const { name, profile_path } = item;
-//   return (
-//     <div className="cast-item select-none">
-//       <img
-//         src={`http://image.tmdb.org/t/p/original/${profile_path}`}
-//         alt=""
-//         className="w-full h-[350px] object-cover rounded-lg"
-//       />
-//       <h3 className="text-xl font-medium">{name}</h3>
-//     </div>
-//   );
-// }
+function CreditItem({ item }) {
+  const { name, profile_path } = item;
+  return (
+    <div className="cast-item select-none">
+      <img
+        src={`http://image.tmdb.org/t/p/original/${profile_path}`}
+        alt=""
+        className="w-full h-[350px] object-cover rounded-lg"
+      />
+      <h3 className="text-xl font-medium">{name}</h3>
+    </div>
+  );
+}
 
 export default Detail;
