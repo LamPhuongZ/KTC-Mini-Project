@@ -11,24 +11,18 @@ const MovieList = () => {
   const [movies, setMovies] = useState([]);
   const [movieSelected, setMovieSelected] = useState();
 
-  // ex: fetch APIthemoviedb
   const { data } = useSWR(
     "https://api.themoviedb.org/3/movie/now_playing?api_key=1a3129220019c29dcf55164c1f5b41dc",
     fetcher
   );
 
-  useEffect(() => {
-    if (data && data.results) setMovies(data.results);
-  }, [data]);
-  console.log("🚀 ~ MovieList ~ data:", data);
-
   // useEffect(() => {
   //   async function getMovieAll() {
   //     const response = await movieALL();
-  //     setMovies(response.data);
+  //     setMovies(response);
   //   }
   //   getMovieAll();
-  // }, [movies]);
+  // }, []);
 
   // const { data } = useSWR(
   //   "fetchMovie",
@@ -54,11 +48,14 @@ const MovieList = () => {
   //   })();
   // }, []);
 
-  // useEffect(() => {
-  //   if (data && data.results) setMovies(data.results);
-  // }, [data]);
+  useEffect(() => {
+    if (data && data.results) setMovies(data.results);
+  }, [data]);
   console.log("🚀 ~ MovieList ~ data:", movies);
 
+  // const handleSelect = (movie) => {
+  //   setMovieSelected(movie);
+  // };
   const handleSelect = (movie) => {
     setMovieSelected(movie.id);
   };
@@ -73,10 +70,7 @@ const MovieList = () => {
             </SwiperSlide>
           ))}
       </Swiper>
-      <Detail
-        movie_id={movieSelected}
-        onSelect={() => setMovieSelected(null)}
-      />
+      <Detail movie_id={movieSelected} onSelect={() => setMovieSelected()} />
     </div>
   );
 };
