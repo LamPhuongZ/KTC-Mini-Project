@@ -4,7 +4,7 @@ import DetailDisplay from "../../components/display";
 import Header from "../../components/header";
 import MovieList from "../../components/movie/movie-list";
 import Price from "../../components/price";
-import Search from "../../components/search";
+// import Search from "../../components/search";
 import Seat from "../../components/seat";
 import Showtime from "../../components/showtime";
 
@@ -15,7 +15,7 @@ export function HomePage() {
       <Banner />
 
       <main>
-        <Search />
+        {/* <Search /> */}
         <MovieList />
         <ListDay />
 
