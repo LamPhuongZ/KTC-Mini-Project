@@ -1,5 +1,3 @@
-/* eslint-disable react/prop-types */
-
 const MovieCard = ({ item, onSelect: handleSelect }) => {
   const { title, poster_path, vote_average } = item;
 

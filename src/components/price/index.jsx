@@ -24,7 +24,7 @@ const Price = () => {
           <span className="text-2xl font-medium">99.99$</span>
         </div>
         <button
-          className="btn grow mt-5 bg-third border border-none hover:bg-third text-xl font-medium
+          className="btn grow mt-5 text-white bg-third border border-none hover:bg-third text-xl font-medium
         "
         >
           Payment
