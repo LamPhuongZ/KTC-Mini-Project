@@ -1,7 +1,23 @@
-import { useMovie } from "../MovieContext";
+import useSWR from "swr";
+import { useMovie } from "../context/MovieContext";
+import { fetcher } from "../../config";
+import { useEffect, useState } from "react";
 
 const Price = () => {
   const [selectedBuyTicket] = useMovie();
+  const [movieTitle, setMovieTitle] = useState("Select a movie");
+  const { data: movieData } = useSWR(
+    selectedBuyTicket
+      ? `https://api.themoviedb.org/3/movie/${selectedBuyTicket}?api_key=1a3129220019c29dcf55164c1f5b41dc`
+      : null,
+    fetcher
+  );
+  useEffect(() => {
+    if (movieData) {
+      setMovieTitle(movieData.title);
+    }
+  }, [movieData]);
+
   return (
     <div className="w-[500px]">
       <div className="bg-slate-800 p-5 rounded-lg flex flex-col">
@@ -9,7 +25,7 @@ const Price = () => {
         <div className="flex items-center justify-between mt-3">
           <div className="text-xl font-medium">Movie: </div>
           <div className="flex gap-x-5">
-          <span className="p-2 text-xl font-bold">{selectedBuyTicket || "Select a movie"}</span>
+            <span className="p-2 text-xl font-bold">{movieTitle}</span>
           </div>
         </div>
         <div className="flex items-center justify-between mt-3">

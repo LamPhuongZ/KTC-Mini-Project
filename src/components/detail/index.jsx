@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { fetcher } from "../../config";
 import useSWR from "swr";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { useMovie } from "../MovieContext";
+import { useMovie } from "../context/MovieContext";
 
 const Detail = ({ movie_id, onSelect: handleSelect }) => {
   const { data } = useSWR(
@@ -15,8 +15,8 @@ const Detail = ({ movie_id, onSelect: handleSelect }) => {
   const [, setSelectedBuyTicket] = useMovie();
 
   const handleBuyTicket = () => {
-    if (data && data.title) {
-      setSelectedBuyTicket(data.title);
+    if (data && data.id) {
+      setSelectedBuyTicket(data.id);
       handleSelect();
     }
   };

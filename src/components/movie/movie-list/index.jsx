@@ -8,7 +8,7 @@ import Detail from "../../detail";
 import moviesIcon from "../../../assets/movies.svg";
 import searchIcon from "../../../assets/search.svg";
 import { useDebounce } from "@uidotdev/usehooks";
-import { useMovie } from "../../MovieContext";
+import { useMovie } from "../../context/MovieContext";
 // import { movieALL } from "../../../services/movieAPI";
 
 const MovieList = () => {
@@ -79,7 +79,7 @@ const MovieList = () => {
   // };
 
   const handleSelect = (movie) => {
-    setSelectedBuyTicket(movie.id); 
+    setSelectedBuyTicket(movie.id);
   };
 
   return (
@@ -109,25 +109,20 @@ const MovieList = () => {
         {loading && (
           <div className="w-10 h-10 rounded-full border-4 border-primary border-t-transparent border-t-4 mx-auto animate-spin"></div>
         )}
-        <Swiper
-          grabCursor={"true"}
-          spaceBetween={20}
-          slidesPerView={"auto"}
-        >
+        <Swiper grabCursor={"true"} spaceBetween={20} slidesPerView={"auto"}>
           {!loading &&
             movies.length > 0 &&
             movies.map((item) => (
               <SwiperSlide key={item.id}>
-                <MovieCard
-                  item={item}
-                  onSelect={handleSelect}
-                ></MovieCard>
+                <MovieCard item={item} onSelect={handleSelect}></MovieCard>
               </SwiperSlide>
             ))}
         </Swiper>
-        {selectedBuyTicket && (
-          <Detail movie_id={selectedBuyTicket} onSelect={() => handleSelect(null)} />
-        )}
+
+        <Detail
+          movie_id={selectedBuyTicket}
+          onSelect={() => setSelectedBuyTicket(null)}
+        />
       </div>
     </section>
   );
