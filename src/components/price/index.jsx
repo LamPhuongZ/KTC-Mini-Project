@@ -1,8 +1,17 @@
+import { useMovie } from "../MovieContext";
+
 const Price = () => {
+  const [selectedBuyTicket, setSelectedBuyTicket] = useMovie();
   return (
     <div className="w-[500px]">
-      <div className="bg-slate-800 p-5 mt-5 rounded-lg min-h-[320px] flex flex-col">
+      <div className="bg-slate-800 p-5 rounded-lg flex flex-col">
         <h2 className="text-2xl font-medium">Price</h2>
+        <div className="flex items-center justify-between mt-3">
+          <div className="text-xl font-medium">Movie: </div>
+          <div className="flex gap-x-5">
+          <span className="p-2 text-xl font-bold">{selectedBuyTicket || "Select a movie"}</span>
+          </div>
+        </div>
         <div className="flex items-center justify-between mt-3">
           <div className="text-xl font-medium">2 Ticket</div>
           <div className="flex gap-x-5">

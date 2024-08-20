@@ -8,12 +8,12 @@ import Detail from "../../detail";
 import moviesIcon from "../../../assets/movies.svg";
 import searchIcon from "../../../assets/search.svg";
 import { useDebounce } from "@uidotdev/usehooks";
-import DetailDisplay from "../../display";
+import { useMovie } from "../../MovieContext";
 // import { movieALL } from "../../../services/movieAPI";
 
 const MovieList = () => {
   const [movies, setMovies] = useState([]);
-  const [movieSelected, setMovieSelected] = useState(null);
+  const [selectedBuyTicket, setSelectedBuyTicket] = useMovie();
   const [search, setSearch] = useState("");
   const searchDebounce = useDebounce(search, 2000);
   const [url, setUrl] = useState(
@@ -79,7 +79,7 @@ const MovieList = () => {
   // };
 
   const handleSelect = (movie) => {
-    setMovieSelected(movie.id);
+    setSelectedBuyTicket(movie.id); 
   };
 
   return (
@@ -121,19 +121,14 @@ const MovieList = () => {
                 <MovieCard
                   item={item}
                   onSelect={handleSelect}
-                  isActive={movieSelected && movieSelected.id === item.id}
                 ></MovieCard>
               </SwiperSlide>
             ))}
         </Swiper>
-        <Detail movie_id={movieSelected} onSelect={() => setMovieSelected(null)} />
+        {selectedBuyTicket && (
+          <Detail movie_id={selectedBuyTicket} onSelect={() => setSelectedBuyTicket(null)} />
+        )}
       </div>
-      {/* {movieSelected && (
-        <DetailDisplay
-          title={movieSelected.title}
-          genres={movieSelected.genres || ["Genre not available"]} // Nếu không có genre, hiển thị thông báo
-        />
-      )} */}
     </section>
   );
 };

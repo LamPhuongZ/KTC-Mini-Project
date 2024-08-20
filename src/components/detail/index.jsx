@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { fetcher } from "../../config";
 import useSWR from "swr";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { useMovie } from "../MovieContext";
 
 const Detail = ({ movie_id, onSelect: handleSelect }) => {
   const { data } = useSWR(
@@ -10,6 +11,15 @@ const Detail = ({ movie_id, onSelect: handleSelect }) => {
       : null,
     fetcher
   );
+
+  const [selectedBuyTicket, setSelectedBuyTicket] = useMovie();
+
+  const handleBuyTicket = () => {
+    if (data && data.title) {
+      setSelectedBuyTicket(data.title);
+      handleSelect();
+    }
+  };
 
   const useMovieCredits = (movie_id) => {
     const { data } = useSWR(
@@ -72,10 +82,10 @@ const Detail = ({ movie_id, onSelect: handleSelect }) => {
   return (
     <dialog id="my_modal_3" className="modal">
       <div className="modal-box text-white rounded-lg w-[1400px] max-w-none h-[700px] max-h-[650px] bg-slate-900 p-0 pb-3">
-        <form method="dialog">
+        <form method="dialog" className="sticky top-0 z-10">
           <button
             onClick={() => handleSelect()}
-            className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 text-2xl rounded-xl text-white z-10"
+            className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 text-2xl rounded-xl text-white"
           >
             X
           </button>
@@ -90,7 +100,7 @@ const Detail = ({ movie_id, onSelect: handleSelect }) => {
           ></div>
         </div>
         <div className="flex gap-x-10 mb-5">
-          <div className="w-full h-[400px] max-w-[300px] -mt-[200px] pl-8 relative z-10">
+          <div className="w-full h-[400px] max-w-[300px] -mt-[200px] pl-8 relative z-0">
             <img
               src={`http://image.tmdb.org/t/p/original/${poster_path}`}
               alt=""
@@ -134,17 +144,17 @@ const Detail = ({ movie_id, onSelect: handleSelect }) => {
               </div>
             )}
             {/* {cast.length > 0 && (
-              <div className="flex text-center text-sm gap-x-5">
-                {cast.map((item) => (
-                  <span
-                    key={item.id}
-                    className=" rounded-xl border border-solid p-2"
-                  >
-                    {item}
-                  </span>
-                ))}
-              </div>
-            )} */}
+                <div className="flex text-center text-sm gap-x-5">
+                  {cast.map((item) => (
+                    <span
+                      key={item.id}
+                      className=" rounded-xl border border-solid p-2"
+                    >
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              )} */}
           </div>
         </div>
         <p className="text-xl px-10 text-center">DESC: {overview}</p>
@@ -180,6 +190,14 @@ const Detail = ({ movie_id, onSelect: handleSelect }) => {
               </div>
             </div>
           ))}
+        </div>
+        <div className="mx-auto w-[700px] sticky bottom-0 z-50">
+          <button
+            className="btn btn-block bg-primary border-none uppercase text-xl text-white hover:bg-primary"
+            onClick={handleBuyTicket}
+          >
+            buy ticket
+          </button>
         </div>
       </div>
     </dialog>
