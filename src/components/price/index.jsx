@@ -1,7 +1,7 @@
 import { useMovie } from "../MovieContext";
 
 const Price = () => {
-  const [selectedBuyTicket, setSelectedBuyTicket] = useMovie();
+  const [selectedBuyTicket] = useMovie();
   return (
     <div className="w-[500px]">
       <div className="bg-slate-800 p-5 rounded-lg flex flex-col">

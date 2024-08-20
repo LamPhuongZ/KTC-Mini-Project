@@ -126,7 +126,7 @@ const MovieList = () => {
             ))}
         </Swiper>
         {selectedBuyTicket && (
-          <Detail movie_id={selectedBuyTicket} onSelect={() => setSelectedBuyTicket(null)} />
+          <Detail movie_id={selectedBuyTicket} onSelect={() => handleSelect(null)} />
         )}
       </div>
     </section>
