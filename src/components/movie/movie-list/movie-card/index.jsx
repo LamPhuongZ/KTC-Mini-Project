@@ -1,12 +1,12 @@
 const MovieCard = ({ item, onSelect: handleSelect }) => {
-  const { title, poster_path, vote_average } = item;
+  const { name, imageUrl, rating } = item;
 
   return (
     <div className="movie-card rounded-lg p-2 bg-slate-800 flex flex-col h-full select-none relative group">
       <div className="relative overflow-hidden rounded-lg mb-5">
         <img
-          src={`https://image.tmdb.org/t/p/original/${poster_path}`}
-          alt={title}
+          src={imageUrl}
+          alt={name}
           className="w-full h-[400px] object-cover"
         />
         <button
@@ -16,7 +16,7 @@ const MovieCard = ({ item, onSelect: handleSelect }) => {
           Detail
         </button>
       </div>
-      <h3 className="text-xl font-semibold text-center">{title}</h3>
+      <h3 className="text-xl font-semibold text-center">{name}</h3>
       <span className="absolute right-5 rounded-lg top-4 bg-gradient-to-t from-[rgba(71,71,71,0.5)] to-[rgba(0,0,0,0.5)] p-1">
         <div className="flex items-center gap-x-1">
           <svg
@@ -31,7 +31,7 @@ const MovieCard = ({ item, onSelect: handleSelect }) => {
               clipRule="evenodd"
             />
           </svg>
-          <span>{vote_average.toFixed(1)}</span>
+          <span>{rating.toFixed(1)}</span>
         </div>
       </span>
     </div>

@@ -1,4 +1,4 @@
-import instance from "../config";
+import instance from "../config/index";
 
 const userAll = async () => {
   try {

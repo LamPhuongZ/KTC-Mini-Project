@@ -17,7 +17,7 @@ const MovieList = () => {
       setMovies(response.data);
     }
     getMovieAll();
-  }, [movies]);
+  }, []);
 
   // const { data } = useSWR(
   //   "fetchMovie",
