@@ -24,7 +24,7 @@ const Header = () => {
         </div>
       </header>
 
-      <Modal isOpen={isShowModal} isClose={handleToggleModal} />
+      {/* <Modal isOpen={isShowModal} isClose={handleToggleModal} /> */}
     </>
   );
 };

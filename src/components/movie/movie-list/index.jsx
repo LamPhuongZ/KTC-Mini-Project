@@ -8,7 +8,7 @@ import Detail from "../../detail";
 import moviesIcon from "../../../assets/movies.svg";
 import searchIcon from "../../../assets/search.svg";
 import { useDebounce } from "@uidotdev/usehooks";
-import { useMovie } from "../../context/MovieContext";
+import { useMovie } from "../../context-movie/MovieContext";
 // import { movieALL } from "../../../services/movieAPI";
 
 const MovieList = () => {

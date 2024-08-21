@@ -1,4 +1,4 @@
-import { useMovie } from "../context/MovieContext";
+import { useMovie } from "../context-movie/MovieContext";
 
 const Showtime = () => {
   const [, , selectedShowtime, setSelectedShowtime] = useMovie();

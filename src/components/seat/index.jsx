@@ -1,5 +1,5 @@
-import { useMovie } from "../context/MovieContext";
-import screen from "../../assets/screen.png"
+import { useMovie } from "../context-movie/MovieContext";
+import screen from "../../assets/screen.png";
 
 const Seat = () => {
   const [, , , , selectedSeats, setSelectedSeats] = useMovie();

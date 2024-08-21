@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { fetcher } from "../../config";
 import useSWR from "swr";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { useMovie } from "../context/MovieContext";
+import { useMovie } from "../context-movie/MovieContext";
 
 const Detail = ({ movie_id, onSelect: handleSelect }) => {
   const { data } = useSWR(

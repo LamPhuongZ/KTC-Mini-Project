@@ -1,10 +1,10 @@
 import useSWR from "swr";
-import { useMovie } from "../context/MovieContext";
+import { useMovie } from "../context-movie/MovieContext";
 import { fetcher } from "../../config";
 import { useEffect, useState } from "react";
 
 const Price = () => {
-  const ticketPrice = 4.99 ;
+  const ticketPrice = 4.99;
   const [selectedBuyTicket, , selectedShowtime, , selectedSeats] = useMovie();
   const [movieTitle, setMovieTitle] = useState("Select a movie");
   const { data: movieData } = useSWR(
@@ -18,8 +18,8 @@ const Price = () => {
       setMovieTitle(movieData.title);
     }
   }, [movieData]);
-  
-  const total = selectedSeats.length * ticketPrice
+
+  const total = selectedSeats.length * ticketPrice;
 
   return (
     <div className="w-[500px]">

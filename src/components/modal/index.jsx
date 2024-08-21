@@ -20,7 +20,7 @@ export function Modal({ isOpen, isClose }) {
   return (
     <section className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
       <div className="w-8/12 h-5/6 bg-slate-300 flex flex-row justify-between relative items-center z-50">
-        <div className="flex justify-between w-full h-full">
+      <div className="flex justify-between w-full h-full">
           <Login toggleActive={toggleActive} />
           <Register toggleActive={toggleActive} />
         </div>

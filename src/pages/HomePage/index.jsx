@@ -8,7 +8,7 @@ import Price from "../../components/price";
 import Seat from "../../components/seat";
 import Showtime from "../../components/showtime";
 import ticketIcon from "../../assets/ticket.svg";
-import { MovieProvider } from "../../components/context/MovieContext";
+import { MovieProvider } from "../../components/context-movie/MovieContext";
 export function HomePage() {
   return (
     <MovieProvider>
