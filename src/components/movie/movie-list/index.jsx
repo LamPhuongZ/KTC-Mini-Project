@@ -72,7 +72,7 @@ const MovieList = () => {
   useEffect(() => {
     if (data && data.results) setMovies(data.results);
   }, [data]);
-  console.log("🚀 ~ MovieList ~ data:", movies);
+  // console.log("🚀 ~ MovieList ~ data:", movies);
 
   // const handleSelect = (movie) => {
   //   setMovieSelected(movie);

@@ -15,8 +15,8 @@ const Detail = ({ movie_id, onSelect: handleSelect }) => {
   const [, setSelectedBuyTicket] = useMovie();
 
   const handleBuyTicket = () => {
-    if (data && data.id) {
-      setSelectedBuyTicket(data.id);
+    if (data && data.title) {
+      setSelectedBuyTicket({ id: data.id, title: data.title });
       handleSelect();
     }
   };
@@ -33,7 +33,7 @@ const Detail = ({ movie_id, onSelect: handleSelect }) => {
     };
   };
   const { credits } = useMovieCredits(movie_id);
-  console.log("🚀 ~ Detail ~ credits:", credits);
+  // console.log("🚀 ~ Detail ~ credits:", credits);
 
   const useMovieTrailer = (movie_id) => {
     const { data } = useSWR(
@@ -47,7 +47,7 @@ const Detail = ({ movie_id, onSelect: handleSelect }) => {
     };
   };
   const { videos } = useMovieTrailer(movie_id);
-  console.log("🚀 ~ Detail ~ videos:", videos);
+  // console.log("🚀 ~ Detail ~ videos:", videos);
 
   useEffect(() => {
     if (data) document.getElementById("my_modal_3").showModal();
@@ -127,7 +127,7 @@ const Detail = ({ movie_id, onSelect: handleSelect }) => {
                       clipRule="evenodd"
                     />
                   </svg>
-                  <span>{vote_average.toFixed(1)}</span>
+                  <span className="text-lg">{vote_average.toFixed(1)}</span>
                 </div>
               </span>
             </div>
