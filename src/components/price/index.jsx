@@ -5,7 +5,16 @@ import { useEffect, useState } from "react";
 
 const Price = () => {
   const ticketPrice = 4.99;
-  const [selectedBuyTicket, , selectedShowtime, , selectedSeats] = useMovie();
+  const [
+    selectedBuyTicket,
+    ,
+    selectedShowtime,
+    setSelectedShowtime,
+    selectedSeats,
+    setSelectedSeats,
+    isTicketBought,
+    setIsTicketBought,
+  ] = useMovie();
   const [movieTitle, setMovieTitle] = useState("Select a movie");
   const { data: movieData } = useSWR(
     selectedBuyTicket
@@ -18,13 +27,22 @@ const Price = () => {
       setMovieTitle(movieData.title);
     }
   }, [movieData]);
-
+  
   const total = selectedSeats.length * ticketPrice;
+  
+  if (!isTicketBought) {
+    return <div><h1 className="text-xl font-semibold text-third underline">Please click detail and buy a ticket first to see the price, showtime, seats!</h1></div>;
+  }
+  const handleCancelBuyTicket = () => {
+    setIsTicketBought(false);
+    setSelectedShowtime(null);
+    setSelectedSeats([]);
+  };
 
   return (
     <div className="w-[500px]">
-      <div className="bg-slate-800 p-5 rounded-lg flex flex-col">
-        <h2 className="text-2xl font-medium">Price</h2>
+      <div className="bg-slate-800 p-3 rounded-lg flex flex-col">
+        <h2 className="font-medium text-xl">Price</h2>
         <div className="flex items-center justify-between mt-3">
           <div className="text-xl font-medium">Movie: </div>
           <div className="flex gap-x-5">
@@ -32,7 +50,7 @@ const Price = () => {
           </div>
         </div>
         <div className="flex items-center justify-between mt-3">
-          <div className="text-xl font-medium w-[100px]">2 Ticket</div>
+          <div className="text-xl font-medium w-[100px]">Ticket</div>
           <div className="flex gap-2 flex-wrap">
             {selectedSeats.length > 0 ? (
               selectedSeats.map((seat) => (
@@ -44,7 +62,7 @@ const Price = () => {
                 </span>
               ))
             ) : (
-              <span className="py-2 text-xl font-bold">Select seats</span>
+              <span className="py-1 text-xl font-bold">Select seats</span>
             )}
           </div>
         </div>
@@ -66,6 +84,13 @@ const Price = () => {
         "
         >
           Payment
+        </button>
+        <button
+          className="btn grow mt-5 text-white bg-primary border border-none hover:bg-primary text-xl font-medium
+        "
+          onClick={handleCancelBuyTicket}
+        >
+          Cancel
         </button>
       </div>
     </div>

@@ -1,8 +1,11 @@
 import { useMovie } from "../context-movie/MovieContext";
 
 const Showtime = () => {
-  const [, , selectedShowtime, setSelectedShowtime] = useMovie();
-
+  const [, , selectedShowtime, setSelectedShowtime, , , isTicketBought] =
+    useMovie();
+  if (!isTicketBought) {
+    return null;
+  }
   const handleSelectShowtime = (showtime) => {
     setSelectedShowtime((preShowtime) =>
       preShowtime === showtime ? "" : showtime
@@ -10,8 +13,8 @@ const Showtime = () => {
   };
 
   return (
-    <div className="bg-slate-800 p-5 rounded-lg min-h-[370px] w-[300px]">
-      <h2 className="text-lg font-medium">Select showtime</h2>
+    <div className="bg-slate-800 p-3 rounded-lg min-h-[370px] w-[300px]">
+      <h2 className="text-xl font-medium">Select showtime</h2>
       <div className="flex flex-col gap-y-5 mt-5">
         <span
           className={`inline-block w-full p-3 rounded-full text-lg cursor-pointer text-center hover:bg-third hover:border-none hover:font-bold ${

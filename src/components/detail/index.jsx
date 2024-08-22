@@ -12,14 +12,17 @@ const Detail = ({ movie_id, onSelect: handleSelect }) => {
     fetcher
   );
 
-  const [, setSelectedBuyTicket] = useMovie();
+  const [, setSelectedBuyTicket, , , , , ,setIsTicketBought] = useMovie();
+  // const { setSelectedBuyTicket, setIsTicketBought } = useMovie();
 
   const handleBuyTicket = () => {
-    if (data && data.title) {
-      setSelectedBuyTicket({ id: data.id, title: data.title });
+    if (data && data.id) {
+      setSelectedBuyTicket(data.id);
+      setIsTicketBought(true);
       handleSelect();
     }
   };
+  
 
   const useMovieCredits = (movie_id) => {
     const { data } = useSWR(
