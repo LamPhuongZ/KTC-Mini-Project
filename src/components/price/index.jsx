@@ -15,7 +15,7 @@ const Price = () => {
     isTicketBought,
     setIsTicketBought,
   ] = useMovie();
-  const [movieTitle, setMovieTitle] = useState("Select a movie");
+  const [movieTitle, setMovieTitle] = useState("");
   const { data: movieData } = useSWR(
     selectedBuyTicket
       ? `https://api.themoviedb.org/3/movie/${selectedBuyTicket}?api_key=1a3129220019c29dcf55164c1f5b41dc`
@@ -31,7 +31,7 @@ const Price = () => {
   const total = selectedSeats.length * ticketPrice;
   
   if (!isTicketBought) {
-    return <div><h1 className="text-xl font-semibold text-third underline">Please click detail and buy a ticket first to see the price, showtime, seats!</h1></div>;
+    return <div><h1 className="text-xl font-semibold text-third underline">Please click Detail and Buy a ticket first to see the showtime, seats!</h1></div>;
   }
   const handleCancelBuyTicket = () => {
     setIsTicketBought(false);
