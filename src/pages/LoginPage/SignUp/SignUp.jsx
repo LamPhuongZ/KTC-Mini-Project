@@ -28,8 +28,8 @@ const schema = yup.object({
     .min(8, "Password must be at least 8 characters")
     .required("Please enter your password"),
 });
-const SignUp = () => {
-  const navigate = useNavigate()
+const SignUp = ({ toggleActive }) => {
+  const navigate = useNavigate();
   const {
     control,
     handleSubmit,
@@ -61,12 +61,12 @@ const SignUp = () => {
     });
 
     toast.success("Create account successfully !!!");
-    navigate("/movies")
+    navigate("/movies");
   };
   useEffect(() => {
-    const arrErros1 = Object.values(errors);
-    if (arrErros1.length > 0) {
-      toast.error(arrErros1[0]?.message, {
+    const arrErros = Object.values(errors);
+    if (arrErros.length > 0) {
+      toast.error(arrErros[0]?.message, {
         pauseOnHover: false,
         delay: 100,
       });
@@ -121,6 +121,12 @@ const SignUp = () => {
             )}
           </Input>
         </Field>
+        <div className="have-account mb-10">
+          You already have an account? {" "}
+          <button type="button" onClick={toggleActive} className="text-third">
+            Sign In
+          </button>
+        </div>
         <Button
           type="submit"
           style={{

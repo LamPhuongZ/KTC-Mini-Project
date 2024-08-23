@@ -13,7 +13,7 @@ const Input = ({ name = "", type = "text", children, control, ...props }) => {
         type={type}
         {...field}
         {...props}
-        className={`input-field w-full p-4 bg-[#E7ECF3] rounded-[6px] focus:bg-white text-black text-lg ${
+        className={`input-field w-full p-4 bg-[#E7ECF3] rounded-[6px] focus:bg-white text-black text-lg h-[50px] ${
           children ? "px-5 pr-[60px] pl-[20px]" : "p-5"
         }`}
       />

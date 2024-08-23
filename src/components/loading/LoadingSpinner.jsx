@@ -9,7 +9,7 @@ const LoadingSpinner = ({ size = "40px", borderSize = "5px" }) => {
 
   return (
     <div
-      className="border-solid border-white border-t-transparent border-b-transparent rounded-full animate-spin"
+      className="border-solid border-primary border-t-transparent border-b-transparent rounded-full animate-spin"
       style={sizeStyle}
     ></div>
   );

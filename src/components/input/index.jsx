@@ -1,3 +1,3 @@
 import Input from "./Input"
-
-export {Input}
+import InputPassword from "./InputPassword"
+export {Input,InputPassword}

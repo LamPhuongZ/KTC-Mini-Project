@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useForm } from "react-hook-form";
 import { Input } from "../../../components/input";
 import { Label } from "../../../components/label";
@@ -8,7 +9,11 @@ import Button from "../../../components/button/Button";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "react-toastify";
-
+import { useAuth } from "../../../context/auth-context";
+import SignUp from "../SignUp/SignUp";
+import { useNavigate } from "react-router-dom";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../../firebase-app/firebase-config";
 
 const schema = yup.object({
   email: yup
@@ -21,7 +26,15 @@ const schema = yup.object({
     .required("Please enter your password"),
 });
 
-const SignIn = () => {
+const SignIn = ({ toggleActive }) => {
+  const userInfo = useAuth();
+  const navigate = useNavigate();
+  useEffect(() => {
+    document.title = "Login Page";
+    if (userInfo?.email) {
+      navigate("/movies");
+    }
+  }, [userInfo]);
   const {
     control,
     handleSubmit,
@@ -33,9 +46,10 @@ const SignIn = () => {
     resolver: yupResolver(schema),
   });
 
-  const handleSignIn = (e) => {
+  const handleSignIn = async (values) => {
     if (!isValid) return;
-    toast.success("Create user successfully !!!")
+    await signInWithEmailAndPassword(auth, values.email, values.password);
+    navigate("/movies");
   };
   useEffect(() => {
     const arrErros = Object.values(errors);
@@ -78,6 +92,12 @@ const SignIn = () => {
             )}
           </Input>
         </Field>
+        <div className="have-account mb-10">
+          You have not had an account? {" "}
+          <button type="button" onClick={toggleActive} className="text-third">
+            Sign Out
+          </button>
+        </div>
         <Button
           type="submit"
           style={{
