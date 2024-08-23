@@ -63,7 +63,7 @@ const SignIn = ({ toggleActive }) => {
   const [togglePassword, setTogglePassword] = useState(false);
 
   return (
-    <section className="w-1/2 flex flex-col justify-center self-stretch gap-8 relative text-white p-3">
+    <section className="w-1/2 flex flex-col justify-center self-stretch relative text-white">
       <h1 className="heading uppercase font-bold text-3xl flex justify-center text-primary">
         Sign In
       </h1>
