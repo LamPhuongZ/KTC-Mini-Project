@@ -1,6 +1,6 @@
-import { Input } from "postcss";
 import React, { useState } from "react";
 import { IconEyeClose, IconEyeOpen } from "../icon";
+import Input from "./Input";
 
 const InputPassword = ({ control }) => {
   const [togglePassword, setTogglePassword] = useState(false);

@@ -1,9 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useForm } from "react-hook-form";
-import { Input } from "../../../components/input";
+import { Input, InputPassword } from "../../../components/input";
 import { Label } from "../../../components/label";
 import Field from "../../../components/field/Field";
-import { IconEyeClose, IconEyeOpen } from "../../../components/icon";
 import { useEffect, useState } from "react";
 import Button from "../../../components/button/Button";
 import * as yup from "yup";
@@ -60,7 +59,6 @@ const SignIn = ({ toggleActive }) => {
       });
     }
   }, [errors]);
-  const [togglePassword, setTogglePassword] = useState(false);
 
   return (
     <section className="w-1/2 flex flex-col justify-center self-stretch relative text-white">
@@ -79,18 +77,7 @@ const SignIn = ({ toggleActive }) => {
         </Field>
         <Field>
           <Label htmlFor="password">Password</Label>
-          <Input
-            type={togglePassword ? "text" : "password"}
-            name="password"
-            placeholder="Enter your password"
-            control={control}
-          >
-            {!togglePassword ? (
-              <IconEyeClose onClick={() => setTogglePassword(true)} />
-            ) : (
-              <IconEyeOpen onClick={() => setTogglePassword(false)} />
-            )}
-          </Input>
+          <InputPassword control={control}></InputPassword>
         </Field>
         <div className="have-account mb-10">
           You have not had an account? {" "}

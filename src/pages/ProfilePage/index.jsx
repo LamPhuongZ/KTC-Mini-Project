@@ -1,135 +1,154 @@
-import { useEffect, useState } from "react";
-import * as Yup from "yup";
-import { useFormik } from "formik";
-import { regexPassword } from "../../utils";
-import eye from "../../assets/icons/eye.svg";
-import eyeClose from "../../assets/icons/eyeClose.svg";
-import { fetcher } from "../../config";
-import useSWR from "swr";
+import { useForm } from "react-hook-form";
+import Button from "../../components/button/Button";
+import Field from "../../components/field/Field";
+import { Input, InputPassword } from "../../components/input";
+import { Label } from "../../components/label";
+import { useNavigate } from "react-router-dom";
+import { signOut } from "firebase/auth";
 
 export function ProfilePage() {
-  const [showPassword, setShowPassword] = useState(false);
-  const [datas, setDatas] = useState([]);
+  // const [datas, setDatas] = useState([]);
 
-  const { data } = useSWR(
-    "https://absolute-pangolin-key.ngrok-free.app/api/user",
-    fetcher
-  );
+  // const { data } = useSWR(
+  //   "https://absolute-pangolin-key.ngrok-free.app/api/user",
+  //   fetcher
+  // );
 
-  useEffect(() => {
-    if (data && data.results) setDatas(data.results);
-  }, [data]);
-  console.log("🚀 ~ UserList ~ data:", data);
-
-
-  const formik = useFormik({
-    initialValues: {
-      fullName: "",
-      email: "",
-      password: "",
-      phone: "",
-    },
-    validationSchema: Yup.object({
-      fullName: Yup.string().required("Full name is required"),
-      email: Yup.string()
-        .email("Invalid email address")
-        .required("Email is required"),
-      password: Yup.string()
-        .min(8, "Password must be at least 8 characters")
-        .matches(
-          regexPassword,
-          "Password must contain one uppercase, one lowercase, one number, and one special character"
-        )
-        .required("Password is required"),
-      phone: Yup.number().max(10, "Incorrect phone number"),
-    }),
-    onSubmit: (values) => {
-      console.log("Form values:", values);
-    },
+  // useEffect(() => {
+  //   if (data && data.results) setDatas(data.results);
+  // }, [data]);
+  const {
+    control,
+    handleSubmit,
+    formState: { isValid, isSubmitting },
+  } = useForm({
+    mode: "onChange",
   });
 
-  return (
-    <section className="w-full h-screen flex flex-col justify-center items-center">
-      <h1 className="text-3xl font-bold">Personal Information</h1>
-      <form id="formLogin" className="w-80 flex flex-col gap-2">
-        <label htmlFor="fullName" className="text-left" disabled={true}>
-          Full Name
-        </label>
-        <input
-          type="text"
-          id="fullName"
-          {...formik.getFieldProps("email")}
-          className="border rounded p-2 mb-3"
-          placeholder="Enter your full name"
-          required
-        />
-        {formik.touched.fullName ? (
-          <p className="text-red-500 mb-4">Full name can not be blank</p>
-        ) : (
-          ""
-        )}
+  const navigate = useNavigate();
+  const handleSignOut = () => {
+    signOut(auth);
+  };
 
-        <label htmlFor="email" className="text-left">
-          Email
-        </label>
-        <input
-          type="text"
-          id="email"
-          {...formik.getFieldProps("email")}
-          className="border rounded p-2 mb-3"
-          placeholder="Enter your email"
-          disabled={true}
-        />
-        
-        <label htmlFor="password" className="text-left">
-          Password
-        </label>
-        <div className="relative">
-          <input
-            type={showPassword ? "text" : "password"}
-            id="password"
-            {...formik.getFieldProps("password")}
-            className="w-full border rounded p-2"
-            placeholder="Enter your password"
-            required
-          />
-          <button
-            className="absolute top-2.5 right-2"
-            onClick={(e) => {
-              e.preventDefault();
-              setShowPassword(!showPassword);
-            }}
-          >
-            <img src={showPassword ? eye : eyeClose} alt="icon-eye" />
-          </button>
-          {formik.touched.password && formik.errors.password ? (
-            <p className="text-red-500 mb-4">Password do not match</p>
-          ) : (
-            ""
-          )}
-        </div>
-        <label htmlFor="phone" className="text-left">
-          Phone
-        </label>
-        <input
-          type="text"
-          id="phone"
-          {...formik.getFieldProps("phone")}
-          className="border rounded p-2 mb-3"
-          placeholder="Enter your phone"
-          required
-        />
-        {formik.touched.phone && formik.errors.phone ? (
-          <p className="text-red-500 mb-4">Phone in correct format</p>
-        ) : (
-          ""
-        )}
-        <button
-          className="bg-pink-500 text-white rounded p-2"
-          disabled={!formik.isValid || !formik.dirty}
+  return (
+    <section className="min-h-screen flex flex-col justify-center text-white">
+      <div className="flex justify-between">
+        <h1 className="heading uppercase font-bold text-5xl flex justify-center text-primary">
+          My Profile
+        </h1>
+        <Button
+          type="button"
+          style={{
+            maxWidth: 100,
+            height: 66,
+          }}
+          onClick={handleSignOut}
+          to="/login"
         >
-          Update now
-        </button>
+          <span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"
+              />
+            </svg>
+          </span>
+        </Button>
+      </div>
+      <form onSubmit={handleSubmit()}>
+        <div className="form-layout pt-10">
+          <Field>
+            <Label htmlFor="fullname">Fullname</Label>
+            <Input
+              control={control}
+              name="fullname"
+              placeholder="Enter your fullname"
+            ></Input>
+          </Field>
+          <Field>
+            <Label htmlFor="phone">Mobile Number</Label>
+            <Input
+              control={control}
+              name="phone"
+              placeholder="Enter your phone number"
+            ></Input>
+          </Field>
+        </div>
+        <div className="form-layout">
+          <Field>
+            <Label htmlFor="birthday">Date of Birth</Label>
+            <Input
+              control={control}
+              name="birthday"
+              placeholder="dd/mm/yyyy"
+            ></Input>
+          </Field>
+          <Field>
+            <Label htmlFor="email">Email</Label>
+            <Input
+              control={control}
+              name="email"
+              type="email"
+              placeholder="Enter your email address"
+            ></Input>
+          </Field>
+        </div>
+        <div className="form-layout">
+          <Field>
+            <Label htmlFor="password">New Password</Label>
+            <InputPassword
+              name="password"
+              placeholder="Enter your password"
+              control={control}
+              type="password"
+            ></InputPassword>
+          </Field>
+          <Field>
+            <Label>Confirm Password</Label>
+            <InputPassword
+              name="password"
+              placeholder="Enter your password"
+              control={control}
+              type="password"
+            ></InputPassword>
+          </Field>
+        </div>
+        <div className="form-layout">
+          <Button
+            to={"/movies"}
+            type="button"
+            className="btn cursor-pointer p-[25px] py-0 leading-none border-none bg-third rounded-lg font-semibold text-xl w-full disabled:opacity-0 disabled:pointer-events-none flex justify-center items-center hover:bg-third hover:border-none text-white"
+            style={{
+              maxWidth: 350,
+              margin: "0 auto",
+              height: 66,
+            }}
+            isLoading={isSubmitting}
+            disabled={isSubmitting}
+          >
+            Back
+          </Button>
+          <Button
+            type="submit"
+            style={{
+              maxWidth: 350,
+              margin: "0 auto",
+              height: 66,
+            }}
+            isLoading={isSubmitting}
+            disabled={isSubmitting}
+          >
+            Update
+          </Button>
+        </div>
       </form>
     </section>
   );

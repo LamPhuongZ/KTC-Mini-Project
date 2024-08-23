@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Modal } from "../Modal";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase-app/firebase-config";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import Button from "../button/Button";
 import { useAuth } from "../../context/auth-context";
 
@@ -14,12 +14,7 @@ const Header = () => {
   // };
 
   const { userInfo } = useAuth();
-  // console.log("🚀 ~ Header ~ userInfo:", userInfo);
-
-  const navigate = useNavigate();
-  const handleSignOut = () => {
-    signOut(auth);
-  };
+  console.log("🚀 ~ Header ~ userInfo:", userInfo);
 
   function getLastName(name) {
     if (!name) return "";
@@ -37,20 +32,17 @@ const Header = () => {
           watch ..?
         </NavLink>
         <div className="flex gap-x-5">
-          <Button
-            type="button"
-            style={{ maxWidth: 200 }}
-            onClick={handleSignOut}
-            to="/login"
-          >
-            Log out
-          </Button>
           {!userInfo ? (
             <Button type="button" style={{ maxWidth: 200 }} to="/login">
               Sign In
             </Button>
           ) : (
-            <strong className="p-4 text-xl cursor-pointer">{userInfo?.displayName}</strong>
+            <Link
+              className="p-4 text-xl cursor-pointer"
+              to={`/profile/?id=${userInfo?.id}`}
+            >
+              {userInfo?.displayName}
+            </Link>
           )}
         </div>
       </header>
