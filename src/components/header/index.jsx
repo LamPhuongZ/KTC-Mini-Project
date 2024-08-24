@@ -1,28 +1,36 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Modal } from "../Modal";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase-app/firebase-config";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import Button from "../button/Button";
-import { useAuth } from "../../context/auth-context";
-import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../../redux/slices/useSlice";
+import { getMeAPI } from "../../redux/services/userAPI";
+import { useSelector } from "react-redux";
 
 const Header = () => {
+  const [user, setUser] = useState({});
+
   const { token } = useSelector((state) => state.userReducer);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
 
-  const handleSignin = () => {
-    // Chuyển sang trang /login
-    navigate("/");
+  console.log("Token header: ", token);
+
+  const getMe = async () => {
+    const response = await getMeAPI();
+    console.log(response);
+    setUser(response);
   };
 
-  const handleLogOut = () => {
-    dispatch(logout());
-    localStorage.removeItem("token");
-  };
+  useEffect(() => {
+    getMe();
+  }, []);
 
+  console.log("🚀 ~ Header ~ userInfo:", user);
+
+  function getLastName(name) {
+    if (!name) return "";
+    const length = name.split(" ").length;
+    return name.split(" ")[length - 1];
+  }
 
   return (
     <>
@@ -34,18 +42,18 @@ const Header = () => {
           watch ..?
         </NavLink>
         <div className="flex gap-x-5">
-          {/* {!token ? (
+          {!token ? (
             <Button type="button" style={{ maxWidth: 200 }} to="/">
               Sign In
             </Button>
           ) : (
             <Link
               className="p-4 text-xl cursor-pointer"
-              to={`/profile/?id=${userInfo?.id}`}
+              to={`/profile/?id=${user?.id}`}
             >
-              {userInfo?.displayName}
+              {user?.name}
             </Link>
-          )} */}
+          )}
         </div>
       </header>
     </>

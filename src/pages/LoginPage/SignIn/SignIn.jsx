@@ -7,7 +7,7 @@ import Button from "../../../components/button/Button";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "react-toastify";
-import { Navigate, useSearchParams } from "react-router-dom";
+import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../../redux/slices/useSlice";
 
@@ -27,12 +27,12 @@ const SignIn = ({ toggleActive }) => {
     control,
     handleSubmit,
     formState: { errors, isValid, isSubmitting },
-    watch,
-    reset,
   } = useForm({
     mode: "onChange",
     resolver: yupResolver(schema),
   });
+
+  const navigate = useNavigate();
 
   // useDispatch là một hook trong React-Redux, cho phép bạn truy cập vào dispatch function của Redux store từ bên trong các component React. dispatch được sử dụng để gửi một action tới Redux store nhằm thay đổi trạng thái (state) toàn cục của ứng dụng.
   const dispatch = useDispatch();
@@ -52,7 +52,7 @@ const SignIn = ({ toggleActive }) => {
 
   if (token) {
     const url = searchParams.get("redirectUrl") || "/";
-    return <Navigate to={url} />;
+    navigate('/movies');
   }
 
   useEffect(() => {
@@ -82,7 +82,7 @@ const SignIn = ({ toggleActive }) => {
         </Field>
         <Field>
           <Label htmlFor="password">Password</Label>
-          <InputPassword control={control}></InputPassword>
+          <InputPassword control={control} name="password"></InputPassword>
         </Field>
         <div className="have-account mb-10">
           You have not had an account?{" "}

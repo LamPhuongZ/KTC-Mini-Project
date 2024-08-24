@@ -1,4 +1,4 @@
-import instance from "../../config";
+import instance from "../../config/index";
 
 const userAll = async () => {
   try {
@@ -10,4 +10,14 @@ const userAll = async () => {
   }
 };
 
-export { userAll };
+const getMeAPI = async () => {
+  try {
+    const response = await instance.get(`/api/users/me`);
+    return response.data;
+  } catch (error) {
+    console.log("Error: ", error);
+    throw error;
+  }
+};
+
+export { userAll, getMeAPI };

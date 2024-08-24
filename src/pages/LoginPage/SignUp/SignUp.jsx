@@ -11,14 +11,14 @@ import { useNavigate } from "react-router-dom";
 import { registerUser } from "../../../redux/services/registerAPI";
 
 const schema = yup.object({
-  fullName: yup.string().required("Please enter your fullName"),
+  name: yup.string().required("Please enter your fullName"),
   email: yup
     .string()
     .email("Please enter valid email address")
     .required("Please enter your email address"),
-  phone: yup
+  phoneNumber: yup
     .string()
-    .max(10, "Phone number must have 10 digits")
+    .matches(/^\d{10}$/, "Phone number must be exactly 10 digits")
     .required("Phone number is required"),
   password: yup
     .string()
@@ -31,8 +31,6 @@ const SignUp = ({ toggleActive }) => {
     control,
     handleSubmit,
     formState: { errors, isValid, isSubmitting },
-    watch,
-    reset,
   } = useForm({
     mode: "onChange",
     resolver: yupResolver(schema),
@@ -46,6 +44,7 @@ const SignUp = ({ toggleActive }) => {
       password: values.password,
       phoneNumber: values.phoneNumber,
     });
+
     toast.success("Create account successfully !!!");
     navigate("/movies");
   };
@@ -55,7 +54,7 @@ const SignUp = ({ toggleActive }) => {
     if (arrErrors.length > 0) {
       toast.error(arrErrors[0]?.message, {
         pauseOnHover: false,
-        delay: 100,
+        delay: 50,
       });
     }
   }, [errors]);
@@ -67,19 +66,19 @@ const SignUp = ({ toggleActive }) => {
       </h1>
       <form onSubmit={handleSubmit(handleSignUp)}>
         <Field>
-          <Label htmlFor="fullName">Full name</Label>
+          <Label htmlFor="name">Full name</Label>
           <Input
-            type="name"
-            name="fullName"
+            type="text"
+            name="name"
             placeholder="Enter your fullName"
             control={control}
           />
         </Field>
         <Field>
-          <Label htmlFor="phone">Phone</Label>
+          <Label htmlFor="phoneNumber">Phone</Label>
           <Input
-            type="number"
-            name="phone"
+            type="text"
+            name="phoneNumber"
             placeholder="Enter your phone"
             control={control}
           />
@@ -95,7 +94,7 @@ const SignUp = ({ toggleActive }) => {
         </Field>
         <Field>
           <Label htmlFor="password">Password</Label>
-          <InputPassword control={control}></InputPassword>
+          <InputPassword control={control} name="password"></InputPassword>
         </Field>
         <div className="have-account mb-10">
           You already have an account?{" "}

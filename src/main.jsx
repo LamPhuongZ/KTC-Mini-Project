@@ -6,13 +6,19 @@ import { ToastContainer } from "react-toastify";
 import App from "./App.jsx";
 import ReactDOM from "react-dom/client";
 import store, { persistor } from "./redux/store.js";
+import { AuthProvider } from "./context/auth-context.jsx";
+import { BrowserRouter } from "react-router-dom";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <Provider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
-      <App />
-    </PersistGate>
-    <ToastContainer position="top-center" theme="light" />
-  </Provider>
+  <AuthProvider>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </PersistGate>
+      <ToastContainer position="top-center" theme="light" />
+    </Provider>
+  </AuthProvider>
 );
