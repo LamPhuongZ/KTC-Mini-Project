@@ -5,22 +5,24 @@ import { auth } from "../../firebase-app/firebase-config";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import Button from "../button/Button";
 import { useAuth } from "../../context/auth-context";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../redux/slices/useSlice";
 
 const Header = () => {
-  // const [isShowModal, setIsShowModal] = useState(false);
+  const { token } = useSelector((state) => state.userReducer);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  // const handleToggleModal = () => {
-  //   setIsShowModal(!isShowModal);
-  // };
+  const handleSignin = () => {
+    // Chuyển sang trang /login
+    navigate("/");
+  };
 
-  const { userInfo } = useAuth();
-  console.log("🚀 ~ Header ~ userInfo:", userInfo);
+  const handleLogOut = () => {
+    dispatch(logout());
+    localStorage.removeItem("token");
+  };
 
-  function getLastName(name) {
-    if (!name) return "";
-    const length = name.split(" ").length;
-    return name.split(" ")[length - 1];
-  }
 
   return (
     <>
@@ -32,7 +34,7 @@ const Header = () => {
           watch ..?
         </NavLink>
         <div className="flex gap-x-5">
-          {!userInfo ? (
+          {/* {!token ? (
             <Button type="button" style={{ maxWidth: 200 }} to="/">
               Sign In
             </Button>
@@ -43,11 +45,9 @@ const Header = () => {
             >
               {userInfo?.displayName}
             </Link>
-          )}
+          )} */}
         </div>
       </header>
-      {/* 
-      <Modal isOpen={isShowModal} isClose={handleToggleModal} /> */}
     </>
   );
 };

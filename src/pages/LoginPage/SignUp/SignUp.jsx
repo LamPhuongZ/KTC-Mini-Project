@@ -2,19 +2,16 @@ import { useForm } from "react-hook-form";
 import { Input, InputPassword } from "../../../components/input";
 import { Label } from "../../../components/label";
 import Field from "../../../components/field/Field";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Button from "../../../components/button/Button";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "react-toastify";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { auth, db } from "../../../firebase-app/firebase-config";
 import { useNavigate } from "react-router-dom";
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 import { registerUser } from "../../../redux/services/registerAPI";
 
 const schema = yup.object({
-  fullname: yup.string().required("Please enter your fullname"),
+  fullName: yup.string().required("Please enter your fullName"),
   email: yup
     .string()
     .email("Please enter valid email address")
@@ -43,44 +40,26 @@ const SignUp = ({ toggleActive }) => {
 
   const handleSignUp = async (values) => {
     if (!isValid) return;
-    const user = await registerUser(
-      auth,
-      values.email,
-      values.password
-    );
-    await updateProfile(auth.currentUser, {
-      displayName: values.fullname,
-    });
-
-    // const colRef = collection(db, "users");
-    await setDoc(doc(db,"users",auth.currentUser.uid),{
-      fullname: values.fullname,
-      phone: values.phone,
+    await registerUser({
+      name: values.name,
       email: values.email,
-      password: values.password, 
-    })
-
-    // await addDoc(colRef, {
-    //   fullname: values.fullname,
-    //   phone: values.phone,
-    //   email: values.email,
-    //   password: values.password,
-    // });
-
+      password: values.password,
+      phoneNumber: values.phoneNumber,
+    });
     toast.success("Create account successfully !!!");
     navigate("/movies");
   };
-  
+
   useEffect(() => {
-    const arrErros = Object.values(errors);
-    if (arrErros.length > 0) {
-      toast.error(arrErros[0]?.message, {
+    const arrErrors = Object.values(errors);
+    if (arrErrors.length > 0) {
+      toast.error(arrErrors[0]?.message, {
         pauseOnHover: false,
         delay: 100,
       });
     }
   }, [errors]);
-  
+
   return (
     <section className="w-1/2 flex flex-col justify-center self-stretch relative text-white">
       <h1 className="heading uppercase font-bold text-3xl flex justify-center text-primary">
@@ -88,11 +67,11 @@ const SignUp = ({ toggleActive }) => {
       </h1>
       <form onSubmit={handleSubmit(handleSignUp)}>
         <Field>
-          <Label htmlFor="fullname">Full name</Label>
+          <Label htmlFor="fullName">Full name</Label>
           <Input
             type="name"
-            name="fullname"
-            placeholder="Enter your fullname"
+            name="fullName"
+            placeholder="Enter your fullName"
             control={control}
           />
         </Field>
@@ -119,7 +98,7 @@ const SignUp = ({ toggleActive }) => {
           <InputPassword control={control}></InputPassword>
         </Field>
         <div className="have-account mb-10">
-          You already have an account? {" "}
+          You already have an account?{" "}
           <button type="button" onClick={toggleActive} className="text-third">
             Sign In
           </button>

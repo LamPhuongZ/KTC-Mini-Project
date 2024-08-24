@@ -10,7 +10,7 @@ const AuthenticationPage = () => {
     setIsLoginActive(!isLoginActive);
   };
   return (
-    <section className=" bg-slate-800 min-h-screen w-4/5 flex justify-between relative items-center mx-auto p-10">
+    <section className=" bg-slate-800 w-4/5 flex justify-between relative items-center my-7 mx-auto p-10">
       <div className="flex justify-between w-full h-full">
         <SignUp toggleActive={toggleActive} />
         <SignIn toggleActive={toggleActive} />

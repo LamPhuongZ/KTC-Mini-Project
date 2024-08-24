@@ -30,9 +30,9 @@ export function ProfilePage() {
     mode: "onChange",
   });
 
-  const handleSignOut = () => {
-    signOut(auth);
-  };
+  // const handleSignOut = () => {
+  //   signOut(auth);
+  // };
 
   return (
     <section className="min-h-screen flex flex-col justify-center text-white">
@@ -46,7 +46,7 @@ export function ProfilePage() {
             maxWidth: 100,
             height: 66,
           }}
-          onClick={handleSignOut}
+          // onClick={handleSignOut}
           to="/"
         >
           <span>
