@@ -3,6 +3,9 @@ import { fetcher } from "../../config";
 import useSWR from "swr";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useMovie } from "../context-movie/MovieContext";
+import { useAuth } from "../../context/auth-context";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const Detail = ({ movie_id, onSelect: handleSelect }) => {
   const { data } = useSWR(
@@ -13,13 +16,21 @@ const Detail = ({ movie_id, onSelect: handleSelect }) => {
   );
 
   const [, setSelectedBuyTicket, , , , , ,setIsTicketBought] = useMovie();
-  // const { setSelectedBuyTicket, setIsTicketBought } = useMovie();
+  const {userInfo} = useAuth()
+  const navigate = useNavigate();
 
+  console.log("🚀 ~ Detail ~ userInfo:", userInfo)
   const handleBuyTicket = () => {
-    if (data && data.id) {
+    if(!userInfo) {
+      toast.warning("Please login or create an account!")
+      navigate("/")
+    }
+    else{
+      if (data && data.id) {
       setSelectedBuyTicket(data.id);
       setIsTicketBought(true);
       handleSelect();
+    }
     }
   };
   

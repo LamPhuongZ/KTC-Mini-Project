@@ -1,5 +1,6 @@
 import { useMovie } from "../context-movie/MovieContext";
 import screen from "../../assets/screen.png";
+import Swal from "sweetalert2";
 
 const Seat = () => {
   const [, , , , selectedSeats, setSelectedSeats, isTicketBought] = useMovie();
@@ -14,7 +15,13 @@ const Seat = () => {
       if (selectedSeats.length < max) {
         setSelectedSeats([...selectedSeats, seatNumber]);
       } else {
-        alert("Maximum seats reached!");
+        Swal.fire({
+          background: "rgb(30 41 59)",
+          color: "#fff",
+          icon: "error",
+          title: "Oops...",
+          text: "You can only select up to 4 seats!",
+        });
       }
     }
   };

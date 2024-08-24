@@ -38,8 +38,6 @@ const SignIn = ({ toggleActive }) => {
     control,
     handleSubmit,
     formState: { errors, isValid, isSubmitting },
-    watch,
-    reset,
   } = useForm({
     mode: "onChange",
     resolver: yupResolver(schema),
@@ -79,7 +77,7 @@ const SignIn = ({ toggleActive }) => {
         </Field>
         <Field>
           <Label htmlFor="password">Password</Label>
-          <InputPassword control={control}></InputPassword>
+          <InputPassword control={control} name="password"></InputPassword>
         </Field>
         <div className="have-account mb-10">
           You have not had an account? {" "}

@@ -20,7 +20,7 @@ const schema = yup.object({
     .required("Please enter your email address"),
   phone: yup
     .string()
-    .max(10, "Phone number must have 10 digits")
+    .matches(/^\d{10}$/, "Phone number must be exactly 10 digits")
     .required("Phone number is required"),
   password: yup
     .string()
@@ -33,8 +33,6 @@ const SignUp = ({ toggleActive }) => {
     control,
     handleSubmit,
     formState: { errors, isValid, isSubmitting },
-    watch,
-    reset,
   } = useForm({
     mode: "onChange",
     resolver: yupResolver(schema),
@@ -52,12 +50,12 @@ const SignUp = ({ toggleActive }) => {
     });
 
     // const colRef = collection(db, "users");
-    await setDoc(doc(db,"users",auth.currentUser.uid),{
+    await setDoc(doc(db, "users", auth.currentUser.uid), {
       fullname: values.fullname,
       phone: values.phone,
       email: values.email,
-      password: values.password, 
-    })
+      password: values.password,
+    });
 
     // await addDoc(colRef, {
     //   fullname: values.fullname,
@@ -69,17 +67,17 @@ const SignUp = ({ toggleActive }) => {
     toast.success("Create account successfully !!!");
     navigate("/movies");
   };
-  
+
   useEffect(() => {
     const arrErros = Object.values(errors);
     if (arrErros.length > 0) {
       toast.error(arrErros[0]?.message, {
         pauseOnHover: false,
-        delay: 100,
+        delay: 50,
       });
     }
   }, [errors]);
-  
+
   return (
     <section className="w-1/2 flex flex-col justify-center self-stretch relative text-white">
       <h1 className="heading uppercase font-bold text-3xl flex justify-center text-primary">
@@ -115,10 +113,10 @@ const SignUp = ({ toggleActive }) => {
         </Field>
         <Field>
           <Label htmlFor="password">Password</Label>
-          <InputPassword control={control}></InputPassword>
+          <InputPassword control={control} name="password"></InputPassword>
         </Field>
         <div className="have-account mb-10">
-          You already have an account? {" "}
+          You already have an account?{" "}
           <button type="button" onClick={toggleActive} className="text-third">
             Sign In
           </button>

@@ -2,6 +2,7 @@ import useSWR from "swr";
 import { useMovie } from "../context-movie/MovieContext";
 import { fetcher } from "../../config";
 import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 
 const Price = () => {
   const ticketPrice = 4.99;
@@ -15,6 +16,7 @@ const Price = () => {
     isTicketBought,
     setIsTicketBought,
   ] = useMovie();
+
   const [movieTitle, setMovieTitle] = useState("");
   const { data: movieData } = useSWR(
     selectedBuyTicket
@@ -27,12 +29,44 @@ const Price = () => {
       setMovieTitle(movieData.title);
     }
   }, [movieData]);
-  
+
   const total = selectedSeats.length * ticketPrice;
-  
+
   if (!isTicketBought) {
-    return <div><h1 className="text-xl font-semibold text-third underline">Please click Detail and Buy a ticket first to see the showtime, seats!</h1></div>;
+    return (
+      <div>
+        <h1 className="text-xl font-semibold text-third underline">
+          Please click Detail and Buy a ticket first to see the showtime, seats!
+        </h1>
+      </div>
+    );
   }
+
+  const handlePayment = () => {
+    if (!selectedShowtime || selectedSeats.length === 0) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Please select a showtime and at least one seat before proceeding to payment!",
+        background: "rgb(30 41 59)",
+        color: "#fff",
+      });
+    } else {
+      Swal.fire({
+        background: "rgb(30 41 59)",
+        color: "#fff",
+        title: "Sucessfully!",
+        icon: "success",
+      }).then(() => {
+        // Đặt lại trạng thái về mặc định
+        setIsTicketBought(false);
+        setSelectedShowtime(null);
+        setSelectedSeats([]);
+        setMovieTitle("");
+        
+      });
+    }
+  };
   const handleCancelBuyTicket = () => {
     setIsTicketBought(false);
     setSelectedShowtime(null);
@@ -82,6 +116,7 @@ const Price = () => {
         <button
           className="btn grow mt-5 text-white bg-third border border-none hover:bg-third text-xl font-medium
         "
+          onClick={handlePayment}
         >
           Payment
         </button>

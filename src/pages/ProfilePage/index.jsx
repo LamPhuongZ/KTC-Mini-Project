@@ -4,10 +4,47 @@ import Field from "../../components/field/Field";
 import { Input, InputPassword } from "../../components/input";
 import { Label } from "../../components/label";
 import { signOut } from "firebase/auth";
-import { auth } from "../../firebase-app/firebase-config";
+import { auth, db } from "../../firebase-app/firebase-config";
 import { useEffect } from "react";
+import { useAuth } from "../../context/auth-context";
+import { useSearchParams } from "react-router-dom";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { toast } from "react-toastify";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+
+const schema = yup.object({
+  fullname: yup.string().required("Please enter your fullname"),
+  email: yup
+    .string()
+    .email("Please enter valid email address")
+    .required("Please enter your email address"),
+  phone: yup
+    .string()
+    .matches(/^\d{10}$/, "Phone number must be exactly 10 digits")
+    .required("Phone number is required"),
+  birthday: yup
+    .string()
+    .matches(
+      /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/(19|20)\d\d$/,
+      "Date of Birth must be in the format dd/mm/yyyy"
+    )
+    .required("Date of Birth is required"),
+  password: yup
+    .string()
+    .min(8, "Password must be at least 8 characters")
+    .required("Please enter your password"),
+  passwordConfirm: yup
+    .string()
+    .oneOf([yup.ref("password"), null], "Passwords must match")
+    .required("Please confirm your password"),
+});
 
 export function ProfilePage() {
+  useEffect(() => {
+    document.title = "My Profile";
+  }, []);
+
   // const [datas, setDatas] = useState([]);
 
   // const { data } = useSWR(
@@ -19,27 +56,68 @@ export function ProfilePage() {
   //   if (data && data.results) setDatas(data.results);
   // }, [data]);
 
-  useEffect(()=>{
-    document.title = "My Profile"
-  },[])  
+  // const { userInfo, setUserInfo } = useAuth();
+
   const {
     control,
     handleSubmit,
-    formState: { isValid, isSubmitting },
+    reset,
+    formState: { errors, isValid, isSubmitting },
   } = useForm({
     mode: "onChange",
+    resolver: yupResolver(schema),
   });
 
-  const handleSignOut = () => {
-    signOut(auth);
+  const [params] = useSearchParams();
+  const userId = params.get("id");
+  const handleUpdateUser = async (values) => {
+    if (!isValid) return null;
+    try {
+      const colRef = doc(db, "users", userId);
+      await updateDoc(colRef, {
+        ...values,
+      });
+      toast.success("Updated user information successfully!");
+    } catch (error) {
+      toast.error("Update user information failed!");
+    }
   };
 
+  // render ra thông tin của user đó đăng ký
+  useEffect(() => {
+    async function fetchData() {
+      if (!userId) return;
+      const colRef = doc(db, "users", userId);
+      const docData = await getDoc(colRef);
+      // có reset thì mới hiển thị dc data của user đó
+      reset(docData && docData.data());
+    }
+    fetchData();
+  }, [userId, reset]);
+
+  if (!userId) return null;
+
+  // const handleSignOut = () => {
+  //   signOut(auth);
+  // };
+
+  useEffect(() => {
+    const arrErros = Object.values(errors);
+    console.log("🚀 ~ useEffect ~ arrErros:", arrErros);
+    if (arrErros.length > 0) {
+      toast.error(arrErros[0]?.message, {
+        pauseOnHover: false,
+        delay: 100,
+      });
+    }
+  }, [errors]);
+
   return (
-    <section className="min-h-screen flex flex-col justify-center text-white">
-      <div className="flex justify-between">
-        <h1 className="heading uppercase font-bold text-5xl flex justify-center text-primary">
-          My Profile
-        </h1>
+    <section className="min-h-screen flex flex-col text-white">
+      <h1 className="heading uppercase font-bold text-5xl flex justify-center text-primary">
+        My Profile
+      </h1>
+      {/* <div className="flex justify-between">
         <Button
           type="button"
           style={{
@@ -66,11 +144,11 @@ export function ProfilePage() {
             </svg>
           </span>
         </Button>
-      </div>
-      <form onSubmit={handleSubmit()}>
+      </div> */}
+      <form onSubmit={handleSubmit(handleUpdateUser)}>
         <div className="form-layout pt-10">
           <Field>
-            <Label htmlFor="fullname">Fullname</Label>
+            <Label htmlFor="fullname">Full Name</Label>
             <Input
               control={control}
               name="fullname"
@@ -116,9 +194,9 @@ export function ProfilePage() {
             ></InputPassword>
           </Field>
           <Field>
-            <Label>Confirm Password</Label>
+            <Label htmlFor="passwordConfirm">Confirm Password</Label>
             <InputPassword
-              name="password"
+              name="passwordConfirm"
               placeholder="Enter your password"
               control={control}
               type="password"
@@ -150,7 +228,7 @@ export function ProfilePage() {
             isLoading={isSubmitting}
             disabled={isSubmitting}
           >
-            Update
+            Update infomation
           </Button>
         </div>
       </form>
