@@ -11,7 +11,7 @@ const Sidebar = () => {
     <NavLink
       to={`/profile?id=${userInfo?.id}`}
       className={({ isActive }) =>
-        `flex items-center gap-4 p-3 font-medium text-white mb-4 cursor-pointer hover:bg-primary rounded-xl ${
+        `flex items-center gap-4 p-3 font-medium text-white mb-4 cursor-pointer hover:bg-primary ${
           isActive ? "bg-primary text-primary" : ""
         }`
       }
@@ -33,11 +33,15 @@ const Sidebar = () => {
       <span>Profile</span>
     </NavLink>
   );
-  
+
   const HistoryLink = () => (
     <NavLink
-      className="flex items-center gap-4 p-3 font-medium text-white mb-4 cursor-pointer hover:bg-primary rounded-xl"
       to={`/history?id=${userInfo?.id}`}
+      className={({ isActive }) =>
+        `flex items-center gap-4 p-3 font-medium text-white mb-4 cursor-pointer hover:bg-primary ${
+          isActive ? "bg-primary text-primary" : ""
+        }`
+      }
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -59,7 +63,7 @@ const Sidebar = () => {
 
   const LogoutLink = () => (
     <NavLink
-      className="flex items-center gap-4 p-3 font-medium text-white mb-4 cursor-pointer hover:bg-primary rounded-xl"
+      className="flex items-center gap-4 p-3 font-medium text-whitecursor-pointer hover:bg-primary"
       to="/"
       onClick={() => signOut(auth)}
     >
@@ -82,7 +86,7 @@ const Sidebar = () => {
   );
 
   return (
-    <div className="w-[400px] bg-slate-700 shadow-lg rounded-lg p-4 hidden md:block">
+    <div className="w-[400px] hidden md:block p-4">
       <ProfileLink />
       <HistoryLink />
       <LogoutLink />

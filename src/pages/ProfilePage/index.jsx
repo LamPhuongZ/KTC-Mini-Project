@@ -114,7 +114,7 @@ export function ProfilePage() {
 
   return (
     <section className="min-h-screen flex flex-col text-white">
-      <h1 className="heading uppercase font-bold text-5xl flex justify-center text-primary">
+      <h1 className="heading uppercase font-semibold text-5xl flex justify-center text-primary">
         My Profile
       </h1>
       {/* <div className="flex justify-between">

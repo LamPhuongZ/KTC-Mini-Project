@@ -37,9 +37,10 @@ const Header = () => {
               Sign In
             </Button>
           ) : (
-            <div className="flex gap-x-3 items-center text-third">
+            <div className="flex gap-x-3 items-center text-third hover:underline">
               <Link
-                className=" leading-none rounded-lg font-semibold text-xl"
+                className=" leading-none rounded-lg font-semibold text-xl
+                "
                 to={`/profile?id=${userInfo?.id}`}
                 // to={`/dashboard/?id=${userInfo?.id}`}
               >

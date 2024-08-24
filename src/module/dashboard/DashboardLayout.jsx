@@ -7,7 +7,7 @@ const DashboardLayout = () => {
     <div className="bg-slate-900">
       <div className="dashboard-main ">
         <Sidebar></Sidebar>
-        <div className="dashboard-children">
+        <div className="dashboard-children p-4">
           <Outlet></Outlet>
         </div>
       </div>

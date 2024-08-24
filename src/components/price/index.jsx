@@ -35,7 +35,7 @@ const Price = () => {
   if (!isTicketBought) {
     return (
       <div>
-        <h1 className="text-xl font-semibold text-third underline">
+        <h1 className="text-xl font-semibold text-third">
           Please click Detail and Buy a ticket first to see the showtime, seats!
         </h1>
       </div>
@@ -63,7 +63,6 @@ const Price = () => {
         setSelectedShowtime(null);
         setSelectedSeats([]);
         setMovieTitle("");
-        
       });
     }
   };
@@ -79,9 +78,7 @@ const Price = () => {
         <h2 className="font-medium text-xl">Price</h2>
         <div className="flex items-center justify-between mt-3">
           <div className="text-xl font-medium">Movie: </div>
-          <div className="flex gap-x-5">
-            <span className="py-2 text-xl font-bold">{movieTitle}</span>
-          </div>
+          <span className=" py-2 text-xl font-bold">{movieTitle}</span>
         </div>
         <div className="flex items-center justify-between mt-3">
           <div className="text-xl font-medium w-[100px]">Ticket</div>
