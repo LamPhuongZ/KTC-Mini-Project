@@ -11,6 +11,7 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, db } from "../../../firebase-app/firebase-config";
 import { useNavigate } from "react-router-dom";
 import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import { registerUser } from "../../../redux/services/registerAPI";
 
 const schema = yup.object({
   fullname: yup.string().required("Please enter your fullname"),
@@ -42,7 +43,7 @@ const SignUp = ({ toggleActive }) => {
 
   const handleSignUp = async (values) => {
     if (!isValid) return;
-    const user = await createUserWithEmailAndPassword(
+    const user = await registerUser(
       auth,
       values.email,
       values.password

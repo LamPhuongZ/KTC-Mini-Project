@@ -1,8 +1,8 @@
-import instance from "../config/index";
+import instance from "../../config/index";
 
 const registerUser = async (payload) => {
   try {
-    const response = await instance.post(`/api/user`, payload);
+    const response = await instance.post(`/api/users`, payload);
     return response.data;
   } catch (error) {
     console.log("Error: ", error);
