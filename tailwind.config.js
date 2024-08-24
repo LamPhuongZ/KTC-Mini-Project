@@ -10,7 +10,7 @@ export default {
         primary: "#f62682",
         secondary: "#6f5cf1",
         third: "#ffb86c",
-        four: "#0f172a",
+        four:"#f285b5",
         "custom-primary": "#737373",
       },
       backgroundImage: {
@@ -23,7 +23,5 @@ export default {
       },
     },
   },
-  plugins: [
-    require('daisyui')
-  ],
+  plugins: [require("daisyui")],
 };

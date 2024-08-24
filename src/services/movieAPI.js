@@ -3,7 +3,7 @@ import instance from "../config/index";
 const movieALL = async () => {
   try {
     const response = await instance.get(`/api/movies/findAll`);
-    return response;
+    return response.data;
   } catch (error) {
     console.log("Error: ", error);
     throw error;
