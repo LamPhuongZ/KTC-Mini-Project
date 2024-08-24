@@ -124,7 +124,7 @@ export function ProfilePage() {
             maxWidth: 100,
             height: 66,
           }}
-          onClick={handleSignOut}
+          // onClick={handleSignOut}
           to="/"
         >
           <span>

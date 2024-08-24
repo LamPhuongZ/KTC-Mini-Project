@@ -1,7 +1,6 @@
-import { Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import { HomePage } from "./pages/HomePage";
-import { AuthProvider } from "./context/auth-context";
 import AuthenticationPage from "./pages/LoginPage/AuthenticationPage";
 import { ProfilePage } from "./pages/ProfilePage";
 import DashboardLayout from "./module/dashboard/DashboardLayout";
@@ -11,7 +10,6 @@ import { HistoryPage } from "./pages/HistoryPage";
 function App() {
   return (
     <>
-      <AuthProvider>
         <Routes>
           <Route
             path="/"
@@ -33,7 +31,6 @@ function App() {
             ></Route>
           </Route>
         </Routes>
-      </AuthProvider>
     </>
   );
 }

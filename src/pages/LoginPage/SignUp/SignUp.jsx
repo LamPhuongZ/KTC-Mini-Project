@@ -2,23 +2,21 @@ import { useForm } from "react-hook-form";
 import { Input, InputPassword } from "../../../components/input";
 import { Label } from "../../../components/label";
 import Field from "../../../components/field/Field";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Button from "../../../components/button/Button";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "react-toastify";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { auth, db } from "../../../firebase-app/firebase-config";
 import { useNavigate } from "react-router-dom";
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import { registerUser } from "../../../redux/services/registerAPI";
 
 const schema = yup.object({
-  fullname: yup.string().required("Please enter your fullname"),
+  name: yup.string().required("Please enter your fullName"),
   email: yup
     .string()
     .email("Please enter valid email address")
     .required("Please enter your email address"),
-  phone: yup
+  phoneNumber: yup
     .string()
     .matches(/^\d{10}$/, "Phone number must be exactly 10 digits")
     .required("Phone number is required"),
@@ -40,38 +38,21 @@ const SignUp = ({ toggleActive }) => {
 
   const handleSignUp = async (values) => {
     if (!isValid) return;
-    const user = await createUserWithEmailAndPassword(
-      auth,
-      values.email,
-      values.password
-    );
-    await updateProfile(auth.currentUser, {
-      displayName: values.fullname,
-    });
-
-    // const colRef = collection(db, "users");
-    await setDoc(doc(db, "users", auth.currentUser.uid), {
-      fullname: values.fullname,
-      phone: values.phone,
+    await registerUser({
+      name: values.name,
       email: values.email,
       password: values.password,
+      phoneNumber: values.phoneNumber,
     });
-
-    // await addDoc(colRef, {
-    //   fullname: values.fullname,
-    //   phone: values.phone,
-    //   email: values.email,
-    //   password: values.password,
-    // });
 
     toast.success("Create account successfully !!!");
     navigate("/movies");
   };
 
   useEffect(() => {
-    const arrErros = Object.values(errors);
-    if (arrErros.length > 0) {
-      toast.error(arrErros[0]?.message, {
+    const arrErrors = Object.values(errors);
+    if (arrErrors.length > 0) {
+      toast.error(arrErrors[0]?.message, {
         pauseOnHover: false,
         delay: 50,
       });
@@ -85,19 +66,19 @@ const SignUp = ({ toggleActive }) => {
       </h1>
       <form onSubmit={handleSubmit(handleSignUp)}>
         <Field>
-          <Label htmlFor="fullname">Full name</Label>
+          <Label htmlFor="name">Full name</Label>
           <Input
-            type="name"
-            name="fullname"
-            placeholder="Enter your fullname"
+            type="text"
+            name="name"
+            placeholder="Enter your fullName"
             control={control}
           />
         </Field>
         <Field>
-          <Label htmlFor="phone">Phone</Label>
+          <Label htmlFor="phoneNumber">Phone</Label>
           <Input
-            type="number"
-            name="phone"
+            type="text"
+            name="phoneNumber"
             placeholder="Enter your phone"
             control={control}
           />

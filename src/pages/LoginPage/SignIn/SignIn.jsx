@@ -1,18 +1,15 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useForm } from "react-hook-form";
 import { Input, InputPassword } from "../../../components/input";
 import { Label } from "../../../components/label";
 import Field from "../../../components/field/Field";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Button from "../../../components/button/Button";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "react-toastify";
-import { useAuth } from "../../../context/auth-context";
-import SignUp from "../SignUp/SignUp";
-import { useNavigate } from "react-router-dom";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../../firebase-app/firebase-config";
+import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../../redux/slices/useSlice";
 
 const schema = yup.object({
   email: yup
@@ -26,14 +23,6 @@ const schema = yup.object({
 });
 
 const SignIn = ({ toggleActive }) => {
-  const userInfo = useAuth();
-  const navigate = useNavigate();
-  useEffect(() => {
-    document.title = "Login Page";
-    if (userInfo?.email) {
-      navigate("/movies");
-    }
-  }, [userInfo]);
   const {
     control,
     handleSubmit,
@@ -43,17 +32,33 @@ const SignIn = ({ toggleActive }) => {
     resolver: yupResolver(schema),
   });
 
-  const handleSignIn = async (values) => {
+  const navigate = useNavigate();
+
+  // useDispatch là một hook trong React-Redux, cho phép bạn truy cập vào dispatch function của Redux store từ bên trong các component React. dispatch được sử dụng để gửi một action tới Redux store nhằm thay đổi trạng thái (state) toàn cục của ứng dụng.
+  const dispatch = useDispatch();
+
+  // useSelector là một hook trong thư viện React-Redux, được sử dụng để trích xuất dữ liệu từ Redux store trong một component React. Nó cho phép bạn truy cập vào trạng thái (state) được lưu trữ trong Redux mà không cần phải kết nối trực tiếp thông qua connect() như trước đây.
+  const { token } = useSelector((state) => {
+    return state.userReducer;
+  });
+
+  // useSearchParams là một hook trong React Router, cho phép bạn làm việc với các tham số truy vấn (query parameters) trong URL. Khi sử dụng useSearchParams, bạn có thể lấy hoặc cập nhật các tham số truy vấn một cách dễ dàng trong một component React.
+  const [searchParams, _] = useSearchParams();
+
+  const onSubmit = (values) => {
     if (!isValid) return;
-    //
-    await signInWithEmailAndPassword(auth, values.email, values.password);
-    navigate("/movies");
+    dispatch(login(values));
   };
 
+  if (token) {
+    const url = searchParams.get("redirectUrl") || "/";
+    navigate('/movies');
+  }
+
   useEffect(() => {
-    const arrErros = Object.values(errors);
-    if (arrErros.length > 0) {
-      toast.error(arrErros[0]?.message, {
+    const arrErrors = Object.values(errors);
+    if (arrErrors.length > 0) {
+      toast.error(arrErrors[0]?.message, {
         pauseOnHover: false,
         delay: 100,
       });
@@ -65,7 +70,7 @@ const SignIn = ({ toggleActive }) => {
       <h1 className="heading uppercase font-bold text-3xl flex justify-center text-primary">
         Sign In
       </h1>
-      <form onSubmit={handleSubmit(handleSignIn)}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <Field>
           <Label htmlFor="email">Email address</Label>
           <Input
@@ -80,7 +85,7 @@ const SignIn = ({ toggleActive }) => {
           <InputPassword control={control} name="password"></InputPassword>
         </Field>
         <div className="have-account mb-10">
-          You have not had an account? {" "}
+          You have not had an account?{" "}
           <button type="button" onClick={toggleActive} className="text-third">
             Sign Out
           </button>

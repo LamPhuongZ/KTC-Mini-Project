@@ -10,32 +10,35 @@ import Showtime from "../../components/showtime";
 import ticketIcon from "../../assets/ticket.svg";
 import { MovieProvider } from "../../components/context-movie/MovieContext";
 import { useEffect } from "react";
-export function HomePage() {
-  useEffect(()=>{
-    document.title = "KTC Cinema"
-  })
-  return (
-    <MovieProvider>
-      <Header />
-      <Banner />
-      <main>
-        {/* <Search /> */}
-        <MovieList />
-        {/* <ListDay /> */}
 
-        <div>
-          <div className="flex items-center gap-x-2 mb-3">
-            <img src={ticketIcon} alt="" className="w-9 h-9" />
-            <h2 className="capitalize text-2xl font-bold">Order:</h2>
+export function HomePage() {
+  useEffect(() => {
+    document.title = "KTC Cinema";
+  });
+  return (
+    <div className="bg-slate-900 font-body p-5 text-white">
+      <MovieProvider>
+        <Header />
+        <Banner />
+        <main>
+          {/* <Search /> */}
+          <MovieList />
+          {/* <ListDay /> */}
+
+          <div>
+            <div className="flex items-center gap-x-2 mb-3">
+              <img src={ticketIcon} alt="" className="w-9 h-9" />
+              <h2 className="capitalize text-2xl font-bold">Order:</h2>
+            </div>
+            <div className="flex gap-x-4 w-full mx-auto">
+              {/* <DetailDisplay /> */}
+              <Showtime />
+              <Seat />
+              <Price />
+            </div>
           </div>
-          <div className="flex gap-x-4 w-full mx-auto">
-            {/* <DetailDisplay /> */}
-            <Showtime />
-            <Seat />
-            <Price />
-          </div>
-        </div>
-      </main>
-    </MovieProvider>
+        </main>
+      </MovieProvider>
+    </div>
   );
 }
