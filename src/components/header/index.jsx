@@ -33,7 +33,7 @@ const Header = () => {
         </NavLink>
         <div className="flex gap-x-5">
           {!userInfo ? (
-            <Button type="button" style={{ maxWidth: 200 }} to="/login">
+            <Button type="button" style={{ maxWidth: 200 }} to="/">
               Sign In
             </Button>
           ) : (

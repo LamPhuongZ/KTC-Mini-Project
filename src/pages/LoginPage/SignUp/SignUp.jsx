@@ -51,7 +51,7 @@ const SignUp = ({ toggleActive }) => {
       displayName: values.fullname,
     });
 
-    const colRef = collection(db, "users");
+    // const colRef = collection(db, "users");
     await setDoc(doc(db,"users",auth.currentUser.uid),{
       fullname: values.fullname,
       phone: values.phone,
@@ -69,6 +69,7 @@ const SignUp = ({ toggleActive }) => {
     toast.success("Create account successfully !!!");
     navigate("/movies");
   };
+  
   useEffect(() => {
     const arrErros = Object.values(errors);
     if (arrErros.length > 0) {

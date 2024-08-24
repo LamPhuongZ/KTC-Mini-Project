@@ -11,7 +11,7 @@ function App() {
       <AuthProvider>
         <Routes>
           <Route
-            path="/login"
+            path="/"
             element={<AuthenticationPage></AuthenticationPage>}
           ></Route>
           <Route path="/movies" element={<HomePage></HomePage>}></Route>

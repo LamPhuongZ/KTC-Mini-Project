@@ -9,7 +9,11 @@ import Seat from "../../components/seat";
 import Showtime from "../../components/showtime";
 import ticketIcon from "../../assets/ticket.svg";
 import { MovieProvider } from "../../components/context-movie/MovieContext";
+import { useEffect } from "react";
 export function HomePage() {
+  useEffect(()=>{
+    document.title = "KTC Cinema"
+  })
   return (
     <MovieProvider>
       <Header />

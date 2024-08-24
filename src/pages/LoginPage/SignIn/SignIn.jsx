@@ -47,9 +47,11 @@ const SignIn = ({ toggleActive }) => {
 
   const handleSignIn = async (values) => {
     if (!isValid) return;
+    //
     await signInWithEmailAndPassword(auth, values.email, values.password);
     navigate("/movies");
   };
+
   useEffect(() => {
     const arrErros = Object.values(errors);
     if (arrErros.length > 0) {

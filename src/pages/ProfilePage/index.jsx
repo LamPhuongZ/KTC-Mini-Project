@@ -3,8 +3,9 @@ import Button from "../../components/button/Button";
 import Field from "../../components/field/Field";
 import { Input, InputPassword } from "../../components/input";
 import { Label } from "../../components/label";
-import { useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
+import { auth } from "../../firebase-app/firebase-config";
+import { useEffect } from "react";
 
 export function ProfilePage() {
   // const [datas, setDatas] = useState([]);
@@ -17,6 +18,10 @@ export function ProfilePage() {
   // useEffect(() => {
   //   if (data && data.results) setDatas(data.results);
   // }, [data]);
+
+  useEffect(()=>{
+    document.title = "My Profile"
+  },[])  
   const {
     control,
     handleSubmit,
@@ -25,7 +30,6 @@ export function ProfilePage() {
     mode: "onChange",
   });
 
-  const navigate = useNavigate();
   const handleSignOut = () => {
     signOut(auth);
   };
@@ -43,7 +47,7 @@ export function ProfilePage() {
             height: 66,
           }}
           onClick={handleSignOut}
-          to="/login"
+          to="/"
         >
           <span>
             <svg
