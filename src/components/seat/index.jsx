@@ -1,8 +1,16 @@
 import { useMovie } from "../context-movie/MovieContext";
 import screen from "../../assets/screen.png";
 import Swal from "sweetalert2";
+import useSWR from "swr";
+import { fetcher } from "../../config";
 
 const Seat = () => {
+
+  const {data} = useSWR(
+    "https://apparently-uncommon-gopher.ngrok-free.app/api/seats",fetcher
+  )
+  console.log("🚀 ~ Seat ~ data:", data)
+
   const [, , , , selectedSeats, setSelectedSeats, isTicketBought] = useMovie();
   if (!isTicketBought) {
     return null;

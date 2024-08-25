@@ -12,8 +12,6 @@ import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useDispatch } from "react-redux";
-import { logOut } from "../../redux/slices/useSlice";
 
 const schema = yup.object({
   fullname: yup.string().required("Please enter your fullname"),
@@ -99,10 +97,7 @@ export function ProfilePage() {
 
   if (!userId) return null;
 
-  const dispatch = useDispatch();
-  const handleSignOut = () => {
-    dispatch(logOut());
-  };
+  
 
   useEffect(() => {
     const arrErros = Object.values(errors);
@@ -120,7 +115,7 @@ export function ProfilePage() {
       <h1 className="heading uppercase font-semibold text-5xl flex justify-center text-primary">
         My Profile
       </h1>
-      <div className="flex justify-between">
+      {/* <div className="flex justify-between">
         <Button
           type="button"
           style={{
@@ -147,7 +142,7 @@ export function ProfilePage() {
             </svg>
           </span>
         </Button>
-      </div>
+      </div> */}
       <form onSubmit={handleSubmit(handleUpdateUser)}>
         <div className="form-layout pt-10">
           <Field>
