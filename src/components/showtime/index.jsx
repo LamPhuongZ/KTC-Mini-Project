@@ -13,7 +13,7 @@ const Showtime = () => {
   };
 
   return (
-    <div className="bg-slate-800 p-3 rounded-lg min-h-[370px] w-[300px]">
+    <div className="bg-slate-800 p-3 rounded-lg min-h-[370px] w-full lg:w-[300px]">
       <h2 className="text-xl font-medium">Select showtime</h2>
       <div className="flex flex-col gap-y-5 mt-5">
         <span

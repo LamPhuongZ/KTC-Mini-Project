@@ -66,7 +66,7 @@ const SignIn = ({ toggleActive }) => {
 
   return (
     <section className="w-1/2 flex flex-col justify-center self-stretch relative text-white">
-      <h1 className="heading uppercase font-bold text-3xl flex justify-center text-primary">
+      <h1 className="heading uppercase font-bold text-3xl flex justify-center text-primary md:text-2xl">
         Sign In
       </h1>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -85,7 +85,7 @@ const SignIn = ({ toggleActive }) => {
         </Field>
         <div className="have-account mb-10">
           You have not had an account?{" "}
-          <button type="button" onClick={toggleActive} className="text-third">
+          <button type="button" onClick={toggleActive} className="text-third md:text-xl sm:text-xl ">
             Sign Out
           </button>
         </div>

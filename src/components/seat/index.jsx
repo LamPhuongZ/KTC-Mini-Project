@@ -35,7 +35,7 @@ const Seat = () => {
   };
 
   return (
-    <div className="bg-slate-800 p-3 min-w-[700px] rounded-lg flex-grow">
+    <div className="bg-slate-800 p-3 rounded-lg flex-grow min-w-full lg:min-w-[700px]">
       <h2 className="font-medium text-xl ">Select seats</h2>
       <div className="flex justify-center">
         <img src={screen} alt="" className="mb-7 object-cover w-[500px]" />

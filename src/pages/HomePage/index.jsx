@@ -28,7 +28,7 @@ export function HomePage() {
               <img src={ticketIcon} alt="" className="w-9 h-9" />
               <h2 className="capitalize text-2xl font-bold">Order:</h2>
             </div>
-            <div className="flex gap-x-4 w-full mx-auto">
+            <div className="flex flex-col gap-x-4 w-full mx-auto lg:flex-row md:gap-y-4 sm:gap-y-3 ">
               <Showtime />
               <Seat />
               <Price />

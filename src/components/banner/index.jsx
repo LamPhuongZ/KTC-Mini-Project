@@ -16,7 +16,7 @@ const Banner = () => {
     if (data && data.data.movies) setMovies(data.data.movies);
   }, [data]);
   return (
-    <section className="banner h-[500px] mb-10 overflow-hidden rounded-lg">
+    <section className="banner lg:h-[500px] mb-10 overflow-hidden rounded-lg md:h-[450px] sm:h-[400px]">
       <Swiper
         grabCursor={"true"}
         slidesPerView={"auto"}

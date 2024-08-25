@@ -114,7 +114,7 @@ const Sidebar = () => {
   );
 
   return (
-    <div className="w-[400px] hidden md:block p-4">
+    <div className="w-full md:w-[300px] p-4">
       <Back />
       <ProfileLink />
       <HistoryLink />

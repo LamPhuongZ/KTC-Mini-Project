@@ -75,7 +75,25 @@ const MovieList = () => {
         {loading && (
           <div className="w-10 h-10 rounded-full border-4 border-primary border-t-transparent border-t-4 mx-auto animate-spin"></div>
         )}
-        <Swiper grabCursor={"true"} spaceBetween={20} slidesPerView={"auto"}>
+        <Swiper
+          grabCursor={"true"}
+          spaceBetween={20}
+          slidesPerView="auto"
+          breakpoints={{
+            640: {
+              slidesPerView: 2,
+              spaceBetween: 20,
+            },
+            768: {
+              slidesPerView: 3,
+              spaceBetween: 20,
+            },
+            1024: {
+              slidesPerView: "auto",
+              spaceBetween: 20,
+            },
+          }}
+        >
           {!loading &&
             movies.length > 0 &&
             movies.map((item) => (

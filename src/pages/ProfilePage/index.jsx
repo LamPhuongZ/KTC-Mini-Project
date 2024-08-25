@@ -115,34 +115,6 @@ export function ProfilePage() {
       <h1 className="heading uppercase font-semibold text-5xl flex justify-center text-primary">
         My Profile
       </h1>
-      {/* <div className="flex justify-between">
-        <Button
-          type="button"
-          style={{
-            maxWidth: 100,
-            height: 66,
-          }}
-          onClick={handleSignOut}
-          to="/"
-        >
-          <span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
-              className="w-6 h-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"
-              />
-            </svg>
-          </span>
-        </Button>
-      </div> */}
       <form onSubmit={handleSubmit(handleUpdateUser)}>
         <div className="form-layout pt-10">
           <Field>
