@@ -203,34 +203,19 @@ export function ProfilePage() {
             ></InputPassword>
           </Field>
         </div>
-        <div className="form-layout">
-          <Button
-            to={"/movies"}
-            type="button"
-            className="btn cursor-pointer p-[25px] py-0 leading-none border-none bg-third rounded-lg font-semibold text-xl w-full disabled:opacity-0 disabled:pointer-events-none flex justify-center items-center hover:bg-third hover:border-none text-white"
-            style={{
-              maxWidth: 350,
-              margin: "0 auto",
-              height: 66,
-            }}
-            isLoading={isSubmitting}
-            disabled={isSubmitting}
-          >
-            Back
-          </Button>
-          <Button
-            type="submit"
-            style={{
-              maxWidth: 350,
-              margin: "0 auto",
-              height: 66,
-            }}
-            isLoading={isSubmitting}
-            disabled={isSubmitting}
-          >
-            Update infomation
-          </Button>
-        </div>
+
+        <Button
+          type="submit"
+          style={{
+            maxWidth: 350,
+            margin: "0 auto",
+            height: 66,
+          }}
+          isLoading={isSubmitting}
+          disabled={isSubmitting}
+        >
+          Update infomation
+        </Button>
       </form>
     </section>
   );

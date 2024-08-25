@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "https://absolute-pangolin-key.ngrok-free.app",
+  baseURL: "https://apparently-uncommon-gopher.ngrok-free.app",
   headers: {
     "ngrok-skip-browser-warning": "69420",
   },
