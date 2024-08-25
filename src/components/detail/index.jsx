@@ -10,88 +10,36 @@ import { useNavigate } from "react-router-dom";
 const Detail = ({ movie_id, onSelect: handleSelect }) => {
   const { data } = useSWR(
     movie_id
-      ? `https://api.themoviedb.org/3/movie/${movie_id}?api_key=1a3129220019c29dcf55164c1f5b41dc`
+      ? `https://apparently-uncommon-gopher.ngrok-free.app/api/movies/id?id=${movie_id}`
       : null,
     fetcher
   );
 
-  const [, setSelectedBuyTicket, , , , , ,setIsTicketBought] = useMovie();
-  const {userInfo} = useAuth()
+  const [, setSelectedBuyTicket, , , , , , setIsTicketBought] = useMovie();
+  const { userInfo } = useAuth();
   const navigate = useNavigate();
 
-  console.log("🚀 ~ Detail ~ userInfo:", userInfo)
   const handleBuyTicket = () => {
-    if(!userInfo) {
-      toast.warning("Please login or create an account!")
-      navigate("/")
-    }
-    else{
-      if (data && data.id) {
-      setSelectedBuyTicket(data.id);
-      setIsTicketBought(true);
-      handleSelect();
-    }
+    if (!userInfo) {
+      toast.warning("Please login or create an account!");
+      navigate("/");
+    } else {
+      if (data && data.data.id) {
+        setSelectedBuyTicket(data.data.id);
+        setIsTicketBought(true);
+        handleSelect();
+      }
     }
   };
-  
-
-  const useMovieCredits = (movie_id) => {
-    const { data } = useSWR(
-      movie_id
-        ? `https://api.themoviedb.org/3/movie/${movie_id}/credits?api_key=1a3129220019c29dcf55164c1f5b41dc`
-        : null,
-      fetcher
-    );
-    return {
-      credits: data || {},
-    };
-  };
-  const { credits } = useMovieCredits(movie_id);
-  // console.log("🚀 ~ Detail ~ credits:", credits);
-
-  const useMovieTrailer = (movie_id) => {
-    const { data } = useSWR(
-      movie_id
-        ? `https://api.themoviedb.org/3/movie/${movie_id}/videos?api_key=1a3129220019c29dcf55164c1f5b41dc`
-        : null,
-      fetcher
-    );
-    return {
-      videos: data || {},
-    };
-  };
-  const { videos } = useMovieTrailer(movie_id);
-  // console.log("🚀 ~ Detail ~ videos:", videos);
 
   useEffect(() => {
-    if (data) document.getElementById("my_modal_3").showModal();
+    if (data && data.data) document.getElementById("my_modal_3").showModal();
   }, [data]);
 
   if (!data) return null;
-  const {
-    title,
-    backdrop_path,
-    poster_path,
-    release_date,
-    overview,
-    genres,
-    vote_average,
-  } = data;
-
-  // useEffect(() => {
-  //   if (movie_id) document.getElementById("my_modal_3").showModal();
-  // }, [movie_id]);
-
-  // if (!movie_id) return null;
-  // const {
-  //  name,
-  //  description,
-  //  releaseDate,
-  //  cast,
-  //  trailer,
-  //  imageUrl,
-  //  rating
-  // } = movie_id;
+  const { name, imageUrl, releaseDate, description, rating, trailer, cast } =
+    data.data;
+  const castArray = cast ? cast.split(", ") : [];
 
   return (
     <dialog id="my_modal_3" className="modal">
@@ -109,23 +57,23 @@ const Detail = ({ movie_id, onSelect: handleSelect }) => {
           <div
             className="w-full h-full bg-cover bg-center"
             style={{
-              backgroundImage: `url(https://image.tmdb.org/t/p/original/${backdrop_path})`,
+              backgroundImage: `url(${imageUrl})`,
             }}
           ></div>
         </div>
         <div className="flex gap-x-10 mb-5">
           <div className="w-full h-[400px] max-w-[300px] -mt-[200px] pl-8 relative z-0">
             <img
-              src={`http://image.tmdb.org/t/p/original/${poster_path}`}
+              src={`${imageUrl}`}
               alt=""
               className="w-full h-full object-cover rounded-md"
             />
           </div>
           <div className="flex flex-col mt-5">
-            <h1 className="text-4xl font-bold mb-5">{title}</h1>
+            <h1 className="text-4xl font-bold mb-5">{name}</h1>
             <div className="flex justify-between w-[300px]">
               <div className="text-2xl mb-5">
-                {new Date(release_date).toLocaleDateString("en-GB")}
+                {new Date(releaseDate).toLocaleDateString("en-GB")}
               </div>
               <span className=" rounded-lg p-1">
                 <div className="flex items-center gap-x-1">
@@ -141,38 +89,26 @@ const Detail = ({ movie_id, onSelect: handleSelect }) => {
                       clipRule="evenodd"
                     />
                   </svg>
-                  <span className="text-lg">{vote_average.toFixed(1)}</span>
+                  <span className="text-lg">{rating}</span>
                 </div>
               </span>
             </div>
-            {genres.length > 0 && (
+            {castArray.length > 0 && (
               <div className="flex text-center text-sm gap-x-5">
-                {genres.map((item) => (
+                {castArray.map((actor, index) => (
                   <span
-                    key={item.id}
-                    className=" rounded-xl border border-solid p-2"
+                    key={index}
+                    className="rounded-xl border border-solid p-2"
                   >
-                    {item.name}
+                    {actor}
                   </span>
                 ))}
               </div>
             )}
-            {/* {cast.length > 0 && (
-                <div className="flex text-center text-sm gap-x-5">
-                  {cast.map((item) => (
-                    <span
-                      key={item.id}
-                      className=" rounded-xl border border-solid p-2"
-                    >
-                      {item}
-                    </span>
-                  ))}
-                </div>
-              )} */}
           </div>
         </div>
-        <p className="text-xl px-10 text-center">DESC: {overview}</p>
-        <div className="px-10 py-5">
+        <p className="text-xl px-10 text-center">DESC: {description}</p>
+        {/* <div className="px-10 py-5">
           <h2 className="text-xl mb-5">Casts:</h2>
           <div className="px-4">
             <Swiper
@@ -188,22 +124,18 @@ const Detail = ({ movie_id, onSelect: handleSelect }) => {
                 ))}
             </Swiper>
           </div>
-        </div>
+        </div> */}
         <div className="px-10 py-5">
           <h3 className="mb-5 text-xl">Trailer:</h3>
-          {videos?.results?.slice(0, 1).map((item) => (
-            <div className="" key={item.id}>
-              <div className="w-full h-[700px] aspect-video">
-                <iframe
-                  width="1080"
-                  height="720"
-                  src={`https://www.youtube.com/embed/${item.key}`}
-                  allowFullScreen
-                  className="w-full h-full object-fill"
-                ></iframe>
-              </div>
-            </div>
-          ))}
+          <div className="w-full h-[700px] aspect-video">
+            <iframe
+              width="1080"
+              height="720"
+              src={trailer}
+              allowFullScreen
+              className="w-full h-full object-fill"
+            ></iframe>
+          </div>
         </div>
         <div className="mx-auto w-[700px] sticky bottom-0 z-50">
           <button
@@ -218,18 +150,18 @@ const Detail = ({ movie_id, onSelect: handleSelect }) => {
   );
 };
 
-function CastItem({ item }) {
-  const { name, profile_path } = item;
-  return (
-    <div className="cast-item select-none">
-      <img
-        src={`http://image.tmdb.org/t/p/original/${profile_path}`}
-        alt=""
-        className="w-full h-[350px] object-cover rounded"
-      />
-      <h3 className="text-xl font-medium text-center">{name}</h3>
-    </div>
-  );
-}
+// function CastItem({ item }) {
+//   const { name, profile_path } = item;
+//   return (
+//     <div className="cast-item select-none">
+//       <img
+//         src={`http://image.tmdb.org/t/p/original/${profile_path}`}
+//         alt=""
+//         className="w-full h-[350px] object-cover rounded"
+//       />
+//       <h3 className="text-xl font-medium text-center">{name}</h3>
+//     </div>
+//   );
+// }
 
 export default Detail;

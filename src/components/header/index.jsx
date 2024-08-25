@@ -19,11 +19,6 @@ const Header = () => {
     getMe();
   }, []);
 
-  function getLastName(name) {
-    if (!name) return "";
-    const length = name.split(" ").length;
-    return name.split(" ")[length - 1];
-  }
 
   return (
     <>

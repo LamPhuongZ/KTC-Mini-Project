@@ -18,17 +18,17 @@ const Price = () => {
   ] = useMovie();
 
   const [movieTitle, setMovieTitle] = useState("");
-  const { data: movieData } = useSWR(
+  const { data } = useSWR(
     selectedBuyTicket
-      ? `https://api.themoviedb.org/3/movie/${selectedBuyTicket}?api_key=1a3129220019c29dcf55164c1f5b41dc`
+      ? `https://apparently-uncommon-gopher.ngrok-free.app/api/movies/id?id=${selectedBuyTicket}`
       : null,
     fetcher
   );
   useEffect(() => {
-    if (movieData) {
-      setMovieTitle(movieData.title);
+    if (data) {
+      setMovieTitle(data.data.name);
     }
-  }, [movieData]);
+  }, [data]);
 
   const total = selectedSeats.length * ticketPrice;
 
