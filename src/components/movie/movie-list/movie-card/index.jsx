@@ -1,11 +1,11 @@
 const MovieCard = ({ item, onSelect: handleSelect }) => {
-  const { name, imageUrl, rating } = item;
+  const { name, posterImageUrl, rating } = item;
 
   return (
     <div className="movie-card rounded-lg p-2 bg-slate-800 flex flex-col h-full select-none relative group">
       <div className="relative overflow-hidden rounded-lg mb-5">
         <img
-          src={imageUrl}
+          src={posterImageUrl}
           alt={name}
           className="w-full h-[400px] object-cover"
         />

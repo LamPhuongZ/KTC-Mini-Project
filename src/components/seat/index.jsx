@@ -6,10 +6,10 @@ import { fetcher } from "../../config";
 
 const Seat = () => {
 
-  const {data} = useSWR(
-    "https://apparently-uncommon-gopher.ngrok-free.app/api/seats",fetcher
-  )
-  console.log("🚀 ~ Seat ~ data:", data)
+  // const {data} = useSWR(
+  //   "https://apparently-uncommon-gopher.ngrok-free.app/api/seats",fetcher
+  // )
+  // console.log("🚀 ~ Seat ~ data:", data)
 
   const [, , , , selectedSeats, setSelectedSeats, isTicketBought] = useMovie();
   if (!isTicketBought) {

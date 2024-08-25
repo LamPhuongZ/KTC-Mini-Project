@@ -23,7 +23,6 @@ const MovieList = () => {
   };
   const { data, error } = useSWR(url, fetcher);
   const loading = !data && !error;
-  
 
   useEffect(() => {
     if (searchDebounce) {
@@ -36,7 +35,13 @@ const MovieList = () => {
   }, [searchDebounce]);
 
   useEffect(() => {
-    if (data && data.data.movies) setMovies(data.data.movies);
+    if (data) {
+      if (Array.isArray(data.data)) {
+        setMovies(data.data);
+      } else if (data.data.movies) {
+        setMovies(data.data.movies);
+      }
+    }
   }, [data]);
 
   const handleSelect = (movie) => {

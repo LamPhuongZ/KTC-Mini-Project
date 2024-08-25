@@ -3,11 +3,11 @@
 @tailwind components;
 @tailwind utilities;
 
-// @layer base {
-//   body {
-//     @apply bg-slate-900 font-body p-5 text-white;
-//   }
-// }
+@layer base {
+  body {
+    @apply bg-slate-900 font-body text-white;
+  }
+}
 
 @layer components {
   .movie-list .swiper-slide {

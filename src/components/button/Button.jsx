@@ -9,7 +9,7 @@ const Button = ({
   to,
   ...props
 }) => {
-  const child = !!isLoading ? <LoadingSpinner></LoadingSpinner> : children;
+  const child = isLoading ? <LoadingSpinner></LoadingSpinner> : children;
   if (to !== "" && typeof to === "string") {
     return (
       <NavLink to={to}>

@@ -38,7 +38,7 @@ const Detail = ({ movie_id, onSelect: handleSelect }) => {
   }, [data]);
 
   if (!data) return null;
-  const { name, imageUrl, releaseDate, description, rating, trailer, cast } =
+  const { name, posterImageUrl, bannerImageUrl, releaseDate, description, rating, trailer, cast } =
     data.data;
   const castArray = cast ? cast.split(", ") : [];
 
@@ -58,14 +58,14 @@ const Detail = ({ movie_id, onSelect: handleSelect }) => {
           <div
             className="w-full h-full bg-cover bg-center"
             style={{
-              backgroundImage: `url(${imageUrl})`,
+              backgroundImage: `url(${bannerImageUrl})`,
             }}
           ></div>
         </div>
         <div className="flex gap-x-10 mb-5">
           <div className="w-full h-[400px] max-w-[300px] -mt-[200px] pl-8 relative z-0">
             <img
-              src={`${imageUrl}`}
+              src={`${posterImageUrl}`}
               alt=""
               className="w-full h-full object-cover rounded-md"
             />

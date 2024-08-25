@@ -16,14 +16,12 @@ export function HomePage() {
     document.title = "KTC Cinema";
   });
   return (
-    <div className="bg-slate-900 font-body p-5 text-white">
+    <div className="bg-slate-900 font-body p-4 text-white">
       <MovieProvider>
         <Header />
         <Banner />
         <main>
-          {/* <Search /> */}
           <MovieList />
-          {/* <ListDay /> */}
 
           <div>
             <div className="flex items-center gap-x-2 mb-3">
@@ -31,7 +29,6 @@ export function HomePage() {
               <h2 className="capitalize text-2xl font-bold">Order:</h2>
             </div>
             <div className="flex gap-x-4 w-full mx-auto">
-              {/* <DetailDisplay /> */}
               <Showtime />
               <Seat />
               <Price />

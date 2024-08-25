@@ -1,16 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SignIn from "./SignIn/SignIn";
 import SignUp from "./SignUp/SignUp";
 import { NavLink } from "react-router-dom";
 
 const AuthenticationPage = () => {
+  useEffect(()=>{
+    document.title = "Login"
+  },[])
   const [isLoginActive, setIsLoginActive] = useState(true);
 
   const toggleActive = () => {
     setIsLoginActive(!isLoginActive);
   };
   return (
-    <section className=" bg-slate-800 w-4/5 flex justify-between relative items-center my-7 mx-auto p-10">
+    <section className=" bg-slate-800 w-4/5 flex flex-col justify-between relative items-center my-28 mx-auto p-10 ">
       <div className="flex justify-between w-full h-full">
         <SignUp toggleActive={toggleActive} />
         <SignIn toggleActive={toggleActive} />
@@ -21,10 +24,11 @@ const AuthenticationPage = () => {
           isLoginActive ? "left-0" : "left-1/2"
         }`}
       >
-        <NavLink className="text-center" to="/movies">
-          <h2 className="capitalize font-extrabold text-7xl text-transparent bg-clip-text bg-primary-gradient">
-            watch ..?
-          </h2>
+        <NavLink
+          className="text-center capitalize font-extrabold text-7xl text-transparent bg-clip-text bg-primary-gradient cursor-pointer"
+          to="/movies"
+        >
+          watch ..?
         </NavLink>
       </div>
     </section>
