@@ -9,9 +9,6 @@ import moviesIcon from "../../../assets/movies.svg";
 import searchIcon from "../../../assets/search.svg";
 import { useDebounce } from "@uidotdev/usehooks";
 import { useMovie } from "../../context-movie/MovieContext";
-import { movieALL } from "../../../services/movieAPI";
-import axios from "axios";
-// import { movieALL } from "../../../services/movieAPI";
 
 const MovieList = () => {
   const [movies, setMovies] = useState([]);
