@@ -14,7 +14,7 @@ const Header = () => {
   // };
 
   const { userInfo } = useAuth();
-  console.log("🚀 ~ Header ~ userInfo:", userInfo);
+  // console.log("🚀 ~ Header ~ userInfo:", userInfo);
 
   // function getLastName(name) {
   //   if (!name) return "";

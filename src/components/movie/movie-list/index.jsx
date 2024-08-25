@@ -10,6 +10,7 @@ import searchIcon from "../../../assets/search.svg";
 import { useDebounce } from "@uidotdev/usehooks";
 import { useMovie } from "../../context-movie/MovieContext";
 import { movieALL } from "../../../services/movieAPI";
+import axios from "axios";
 // import { movieALL } from "../../../services/movieAPI";
 
 const MovieList = () => {
@@ -18,81 +19,28 @@ const MovieList = () => {
   const [search, setSearch] = useState("");
   const searchDebounce = useDebounce(search, 2000);
   const [url, setUrl] = useState(
-    "https://api.themoviedb.org/3/movie/popular?api_key=1a3129220019c29dcf55164c1f5b41dc"
+    "https://apparently-uncommon-gopher.ngrok-free.app/api/movies"
   );
   const handleSearch = (e) => {
     setSearch(e.target.value);
   };
+  const { data, error } = useSWR(url, fetcher);
   const loading = !data && !error;
-
-  const { data, error } = useSWR("/api/movies/all", movieALL);
+  
 
   useEffect(() => {
-    if (data) {
-      console.log("Data fetched:", data);
-      setMovies(data);
+    if (searchDebounce) {
+      setUrl(
+        `https://apparently-uncommon-gopher.ngrok-free.app/api/movies/title?title=${searchDebounce}`
+      );
+    } else {
+      setUrl("https://apparently-uncommon-gopher.ngrok-free.app/api/movies");
     }
+  }, [searchDebounce]);
+
+  useEffect(() => {
+    if (data && data.data.movies) setMovies(data.data.movies);
   }, [data]);
-  
-  if (error) {
-    console.error("Error fetching data:", error);
-  }
-  
-  // const { data, error } = useSWR(url, fetcher);
-
-  // useEffect(() => {
-  //   if (searchDebounce) {
-  //     setUrl(
-  //       `https://api.themoviedb.org/3/search/movie?api_key=1a3129220019c29dcf55164c1f5b41dc&query=${searchDebounce}`
-  //     );
-  //   } else {
-  //     setUrl(
-  //       "https://api.themoviedb.org/3/movie/popular?api_key=1a3129220019c29dcf55164c1f5b41dc"
-  //     );
-  //   }
-  // }, [searchDebounce]);
-
-  // useEffect(() => {
-  //   async function getMovieAll() {
-  //     const response = await movieALL();
-  //     console.log("🚀 ~ getMovieAll ~ response:", response)
-  //     setMovies(response);
-  //   }
-  //   getMovieAll();
-  // }, []);
-
-  // const { data } = useSWR(
-  //   "fetchMovie",
-  //   fetcher("https://apparently-uncommon-gopher.ngrok-free.app/api/movies/all", {
-  //     headers: {
-  //       "ngrok-skip-browser-warning": "69420",
-  //     },
-  //   })
-  // );
-
-  // useEffect(() => {
-  //   (async () => {
-  //     const res = await fetch(
-  //       "https://absolute-pangolin-key.ngrok-free.app/api/movies/findAll",
-  //       {
-  //         headers: {
-  //           "ngrok-skip-browser-warning": "69420",
-  //         },
-  //       }
-  //     );
-
-  //     console.log(res);
-  //   })();
-  // }, []);
-
-  // useEffect(() => {
-  //   if (data && data.results) setMovies(data.results);
-  // }, [data]);
-  // console.log("🚀 ~ MovieList ~ data:", movies);
-
-  // const handleSelect = (movie) => {
-  //   setMovieSelected(movie);
-  // };
 
   const handleSelect = (movie) => {
     setSelectedBuyTicket(movie.id);

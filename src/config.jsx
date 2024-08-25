@@ -9,9 +9,14 @@
 // import axios from "axios";
 // export const fetcher = (url) => axios.get(url).then((res) => res.data);
 
+import axios from 'axios';
 
-import instance from "./config/index";
-
-const fetcher = (url) => instance.get(url).then((res) => res.data);
+const fetcher = (url) => {
+  return axios.get(url, {
+    headers: {
+      "ngrok-skip-browser-warning": "69420",
+    }
+  }).then(response => response.data);
+};
 
 export { fetcher };
