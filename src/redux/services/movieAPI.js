@@ -1,8 +1,8 @@
 import instance from "../config/index";
 
-const seatsAPI = async () => {
+const movieALL = async () => {
   try {
-    const response = await instance.get(`/api/seats/findAll`);
+    const response = await instance.get(`/api/movies/all`);
     return response.data;
   } catch (error) {
     console.log("Error: ", error);
@@ -10,4 +10,4 @@ const seatsAPI = async () => {
   }
 };
 
-export { seatsAPI };
+export { movieALL };

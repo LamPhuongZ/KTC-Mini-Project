@@ -11,7 +11,7 @@ const MovieCard = ({ item, onSelect: handleSelect }) => {
         />
         <button
           className="btn absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-full bg-[rgba(20,15,15,0.68)] text-white py-2 px-4 rounded-md opacity-0 transition-all duration-300 ease-in-out group-hover:translate-y-0 group-hover:opacity-100 hover:bg-[rgba(20,15,15,0.68)] border border-none w-[250px] mb-2 mx-auto text-xl"
-          onClick={()=> handleSelect(item)}
+          onClick={() => handleSelect(item)}
         >
           Detail
         </button>
@@ -31,7 +31,7 @@ const MovieCard = ({ item, onSelect: handleSelect }) => {
               clipRule="evenodd"
             />
           </svg>
-          <span>{rating.toFixed(1)}</span>
+          <span>{rating}</span>
         </div>
       </span>
     </div>

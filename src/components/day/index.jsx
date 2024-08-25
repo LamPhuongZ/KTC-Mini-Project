@@ -9,7 +9,7 @@ const ListDay = () => {
     setIsActive(day);
   };
 
-  console.log(isActive);
+  // console.log(isActive);
   
 
   const daysOfWeek = [

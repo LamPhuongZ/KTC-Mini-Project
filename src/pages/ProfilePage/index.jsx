@@ -1,135 +1,193 @@
+import { useForm } from "react-hook-form";
+import Button from "../../components/button/Button";
+import Field from "../../components/field/Field";
+import { Input, InputPassword } from "../../components/input";
+import { Label } from "../../components/label";
 import { useEffect, useState } from "react";
-import * as Yup from "yup";
-import { useFormik } from "formik";
-import { regexPassword } from "../../utils";
-import eye from "../../assets/icons/eye.svg";
-import eyeClose from "../../assets/icons/eyeClose.svg";
-import { fetcher } from "../../config";
-import useSWR from "swr";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { changePassword, getUserByIdAPI } from "../../redux/services/userAPI";
+import { useDispatch } from "react-redux";
+import { logOut } from "../../redux/slices/useSlice";
+
+const schema = yup.object({
+  name: yup.string().required("Please enter your fullName"),
+  email: yup
+    .string()
+    .email("Please enter valid email address")
+    .required("Please enter your email address"),
+  phoneNumber: yup
+    .string()
+    .matches(/^\d{10}$/, "Phone number must be exactly 10 digits")
+    .required("Phone number is required"),
+  currentPassword: yup
+    .string()
+    .min(8, "Password must be at least 8 characters")
+    .required("Please enter your password"),
+  newPassword: yup
+    .string()
+    .min(8, "Password must be at least 8 characters")
+    .required("Please enter your password"),
+});
 
 export function ProfilePage() {
-  const [showPassword, setShowPassword] = useState(false);
-  const [datas, setDatas] = useState([]);
+  const [params] = useSearchParams();
+  const userId = params.get("id");
 
-  const { data } = useSWR(
-    "https://absolute-pangolin-key.ngrok-free.app/api/user",
-    fetcher
-  );
+  const dispatch = useDispatch();
+  const navigator = useNavigate();
+  const handleSignOut = () => {
+    dispatch(logOut());
+    navigator("/movies");
+  };
 
   useEffect(() => {
-    if (data && data.results) setDatas(data.results);
-  }, [data]);
-  console.log("🚀 ~ UserList ~ data:", data);
+    document.title = "My Profile";
+  }, []);
 
-
-  const formik = useFormik({
-    initialValues: {
-      fullName: "",
+  const {
+    control,
+    handleSubmit,
+    reset,
+    setValue,
+    formState: { errors, isValid, isSubmitting },
+  } = useForm({
+    resolver: yupResolver(schema),
+    defaultValues: {
+      name: "",
       email: "",
-      password: "",
-      phone: "",
-    },
-    validationSchema: Yup.object({
-      fullName: Yup.string().required("Full name is required"),
-      email: Yup.string()
-        .email("Invalid email address")
-        .required("Email is required"),
-      password: Yup.string()
-        .min(8, "Password must be at least 8 characters")
-        .matches(
-          regexPassword,
-          "Password must contain one uppercase, one lowercase, one number, and one special character"
-        )
-        .required("Password is required"),
-      phone: Yup.number().max(10, "Incorrect phone number"),
-    }),
-    onSubmit: (values) => {
-      console.log("Form values:", values);
+      phoneNumber: "",
+      currentPassword: "",
+      newPassword: "",
     },
   });
 
-  return (
-    <section className="w-full h-screen flex flex-col justify-center items-center">
-      <h1 className="text-3xl font-bold">Personal Information</h1>
-      <form id="formLogin" className="w-80 flex flex-col gap-2">
-        <label htmlFor="fullName" className="text-left" disabled={true}>
-          Full Name
-        </label>
-        <input
-          type="text"
-          id="fullName"
-          {...formik.getFieldProps("email")}
-          className="border rounded p-2 mb-3"
-          placeholder="Enter your full name"
-          required
-        />
-        {formik.touched.fullName ? (
-          <p className="text-red-500 mb-4">Full name can not be blank</p>
-        ) : (
-          ""
-        )}
+  const fetchUserById = async (userId) => {
+    try {
+      const response = await getUserByIdAPI(userId);
+      setValue("name", response.name);
+      setValue("email", response.email);
+      setValue("phoneNumber", response.phoneNumber);
 
-        <label htmlFor="email" className="text-left">
-          Email
-        </label>
-        <input
-          type="text"
-          id="email"
-          {...formik.getFieldProps("email")}
-          className="border rounded p-2 mb-3"
-          placeholder="Enter your email"
-          disabled={true}
-        />
-        
-        <label htmlFor="password" className="text-left">
-          Password
-        </label>
-        <div className="relative">
-          <input
-            type={showPassword ? "text" : "password"}
-            id="password"
-            {...formik.getFieldProps("password")}
-            className="w-full border rounded p-2"
-            placeholder="Enter your password"
-            required
-          />
-          <button
-            className="absolute top-2.5 right-2"
-            onClick={(e) => {
-              e.preventDefault();
-              setShowPassword(!showPassword);
-            }}
-          >
-            <img src={showPassword ? eye : eyeClose} alt="icon-eye" />
-          </button>
-          {formik.touched.password && formik.errors.password ? (
-            <p className="text-red-500 mb-4">Password do not match</p>
-          ) : (
-            ""
-          )}
+      toast.success("Information is being updated");
+    } catch (error) {
+      toast.error("Get user information failed!");
+      throw error;
+    }
+  };
+
+  useEffect(() => {
+    if (userId) {
+      fetchUserById(userId);
+    }
+  }, [userId]);
+
+  const handleUpdateUser = async (values) => {
+    if (!isValid) return null;
+
+    const payload = {
+      ...values,
+      currentPassword: values.currentPassword,
+      newPassword: values.newPassword,
+    };
+
+    try {
+      const response = await changePassword(payload);
+
+      toast.success("Update Password Successfully ...!");
+      handleSignOut();
+    } catch (error) {
+      toast.error("Update user information failed!");
+      throw error;
+    }
+  };
+
+  if (!userId) return null;
+
+  useEffect(() => {
+    const arrErrors = Object.values(errors);
+    console.log("🚀 ~ useEffect ~ arrErros:", arrErrors);
+    if (arrErrors.length > 0) {
+      toast.error(arrErrors[0]?.message, {
+        pauseOnHover: false,
+        delay: 100,
+      });
+    }
+  }, [errors]);
+
+  return (
+    <section className="min-h-screen flex flex-col text-white">
+      <h1 className="heading uppercase font-semibold text-5xl flex justify-center text-primary">
+        My Profile
+      </h1>
+      <form onSubmit={handleSubmit(handleUpdateUser)}>
+        <div className="form-layout pt-10">
+          <Field>
+            <Label htmlFor="name">Full Name</Label>
+            <Input
+              control={control}
+              name="name"
+              placeholder="Enter your fullName"
+              disabled
+            ></Input>
+          </Field>
+          <Field>
+            <Label htmlFor="phoneNumber">Mobile Number</Label>
+            <Input
+              control={control}
+              name="phoneNumber"
+              placeholder="Enter your phone number"
+              disabled
+            ></Input>
+          </Field>
         </div>
-        <label htmlFor="phone" className="text-left">
-          Phone
-        </label>
-        <input
-          type="text"
-          id="phone"
-          {...formik.getFieldProps("phone")}
-          className="border rounded p-2 mb-3"
-          placeholder="Enter your phone"
-          required
-        />
-        {formik.touched.phone && formik.errors.phone ? (
-          <p className="text-red-500 mb-4">Phone in correct format</p>
-        ) : (
-          ""
-        )}
-        <button
-          className="bg-pink-500 text-white rounded p-2"
-          disabled={!formik.isValid || !formik.dirty}
+        <div className="form-layout">
+          <Field>
+            <Label htmlFor="email">Email</Label>
+            <Input
+              control={control}
+              name="email"
+              type="email"
+              placeholder="Enter your email address"
+              disabled
+            ></Input>
+          </Field>
+        </div>
+        <div className="form-layout">
+          <Field>
+            <Label htmlFor="currentPassword">New Password</Label>
+            <InputPassword
+              name="currentPassword"
+              placeholder="Enter your password"
+              control={control}
+              type="password"
+            ></InputPassword>
+          </Field>
+          <Field>
+            <Label htmlFor="newPassword">Confirm Password</Label>
+            <InputPassword
+              name="newPassword"
+              placeholder="Enter your password"
+              control={control}
+              type="password"
+            ></InputPassword>
+          </Field>
+        </div>
+
+        <Button
+          type="submit"
+          style={{
+            maxWidth: 350,
+            margin: "0 auto",
+            height: 66,
+          }}
+          isLoading={isSubmitting}
+          disabled={isSubmitting}
         >
-          Update now
-        </button>
+          Update information
+        </Button>
       </form>
     </section>
   );
