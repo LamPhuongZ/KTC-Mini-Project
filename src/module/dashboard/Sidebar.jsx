@@ -1,16 +1,21 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
-import { auth } from "../../firebase-app/firebase-config";
-import { useAuth } from "../../context/auth-context";
-import { signOut } from "firebase/auth";
+import { NavLink, useSearchParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logOut } from "../../redux/slices/useSlice";
 
 const Sidebar = () => {
-  const { userInfo } = useAuth();
+  const [params] = useSearchParams();
+  const userId = params.get("id");
+
+  const dispatch = useDispatch();
+  const handleSignOut = () => {
+    dispatch(logOut());
+  };
 
   const Back = () => (
     <NavLink
       to={"/movies"}
-      className="flex items-center gap-4 p-3 font-medium text-whitecursor-pointer mb-4 hover:bg-primary"
+      className="flex items-center gap-4 p-3 font-medium text-white cursor-pointer mb-4 hover:bg-primary"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -32,7 +37,7 @@ const Sidebar = () => {
   );
   const ProfileLink = () => (
     <NavLink
-      to={`/profile?id=${userInfo?.id}`}
+      to={`/profile?id=${userId}`}
       className={({ isActive }) =>
         `flex items-center gap-4 p-3 font-medium text-white mb-4 cursor-pointer hover:bg-primary ${
           isActive ? "bg-primary text-primary" : ""
@@ -59,7 +64,7 @@ const Sidebar = () => {
 
   const HistoryLink = () => (
     <NavLink
-      to={`/history?id=${userInfo?.id}`}
+      to={`/history?id=${userId}`}
       className={({ isActive }) =>
         `flex items-center gap-4 p-3 font-medium text-white mb-4 cursor-pointer hover:bg-primary ${
           isActive ? "bg-primary text-primary" : ""
@@ -86,9 +91,9 @@ const Sidebar = () => {
 
   const LogoutLink = () => (
     <NavLink
-      className="flex items-center gap-4 p-3 font-medium text-whitecursor-pointer hover:bg-primary"
+      className="flex items-center gap-4 p-3 font-medium text-white cursor-pointer hover:bg-primary"
       to="/"
-      onClick={() => signOut(auth)}
+      onClick={handleSignOut}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -109,7 +114,7 @@ const Sidebar = () => {
   );
 
   return (
-    <div className="w-[400px] hidden md:block p-4">
+    <div className="w-full md:w-[300px] p-4">
       <Back />
       <ProfileLink />
       <HistoryLink />

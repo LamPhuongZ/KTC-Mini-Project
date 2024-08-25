@@ -7,14 +7,15 @@ const Button = ({
   children,
   isLoading,
   to,
+  className,
   ...props
 }) => {
-  const child = !!isLoading ? <LoadingSpinner></LoadingSpinner> : children;
+  const child = isLoading ? <LoadingSpinner></LoadingSpinner> : children;
   if (to !== "" && typeof to === "string") {
     return (
       <NavLink to={to}>
         <button
-          className="btn cursor-pointer p-[25px] py-0 leading-none border-none bg-primary rounded-lg font-semibold text-xl w-full disabled:opacity-0 disabled:pointer-events-none flex justify-center items-center hover:bg-primary hover:border-none text-white"
+          className="btn cursor-pointer p-[25px] py-0 leading-none border-none bg-primary rounded-lg font-semibold text-xl w-full disabled:opacity-0 disabled:pointer-events-none flex justify-center items-center hover:bg-primary hover:border-none text-white md:text-lg sm:text-lg"
           type={type}
           onClick={onClick}
           {...props}
@@ -26,7 +27,7 @@ const Button = ({
   }
   return (
     <button
-      className="btn cursor-pointer p-[25px] py-0 leading-none border-none bg-primary rounded-lg font-semibold text-xl w-full disabled:opacity-[0.5] disabled:pointer-events-none flex justify-center items-center hover:bg-primary hover:border-none text-white"
+      className="btn cursor-pointer p-[25px] py-0 leading-none border-none bg-primary rounded-lg font-semibold text-xl w-full disabled:opacity-[0.5] disabled:pointer-events-none flex justify-center items-center hover:bg-primary hover:border-none text-white md:text-lg sm:text-lg"
       type={type}
       {...props}
     >

@@ -16,7 +16,7 @@ const Banner = () => {
     if (data && data.data.movies) setMovies(data.data.movies);
   }, [data]);
   return (
-    <section className="banner h-[500px] mb-10 overflow-hidden rounded-lg">
+    <section className="banner lg:h-[500px] mb-10 overflow-hidden rounded-lg md:h-[450px] sm:h-[400px]">
       <Swiper
         grabCursor={"true"}
         slidesPerView={"auto"}
@@ -41,11 +41,10 @@ const Banner = () => {
 };
 
 function BannerItem({ item }) {
-  const { name, description, imageUrl } = item;
+  const { name, description, bannerImageUrl } = item;
   return (
     <div className="w-full h-full relative ">
-      <div className="overplay absolute inset-0 bg-gradient-to-t from-[rgba(105,104,104,0.5)] to-[rgba(0,0,0,0.5)]"></div>
-      <img src={`${imageUrl}`} alt="" className="w-full h-full object-cover" />
+      <img src={`${bannerImageUrl}`} alt="" className="w-full h-full object-cover" />
       <div className="absolute left-5 bottom-0">
         <h2 className="capitalize font-bold text-3xl mb-5">{name}</h2>
         <div className="flex gap-x-3 max-w-[500px] mb-5 leading-7">

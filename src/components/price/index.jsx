@@ -73,7 +73,7 @@ const Price = () => {
   };
 
   return (
-    <div className="w-[500px]">
+    <div className="w-full lg:w-[500px] mt-4 lg:mt-0 lg:ml-4">
       <div className="bg-slate-800 p-3 rounded-lg flex flex-col">
         <h2 className="font-medium text-xl">Price</h2>
         <div className="flex items-center justify-between mt-3">

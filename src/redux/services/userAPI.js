@@ -10,6 +10,26 @@ const userAll = async () => {
   }
 };
 
+const getUserByIdAPI = async (userId) => {
+  try {
+    const response = await instance.get(`/api/users/${userId}`);
+    return response.data;
+  } catch (error) {
+    console.log("Error: ", error);
+    throw error;
+  }
+};
+
+const changePassword = async (payload) => {
+  try {
+    const response = await instance.put(`/api/users/updatePassword`, payload);
+    return response;
+  } catch (error) {
+    console.log("Error: ", error);
+    throw error;
+  }
+};
+
 const getMeAPI = async () => {
   try {
     const response = await instance.get(`/api/users/me`);
@@ -20,4 +40,4 @@ const getMeAPI = async () => {
   }
 };
 
-export { userAll, getMeAPI };
+export { userAll, getMeAPI, getUserByIdAPI, changePassword };

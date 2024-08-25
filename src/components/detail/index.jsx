@@ -17,9 +17,8 @@ const Detail = ({ movie_id, onSelect: handleSelect }) => {
   );
 
   const [, setSelectedBuyTicket, , , , , , setIsTicketBought] = useMovie();
+  const { token } = useSelector((state) => state.userReducer);
   const navigate = useNavigate();
-
-  const {token} = useSelector((state) => state.userReducer)
 
   const handleBuyTicket = () => {
     if (!token) {
@@ -39,13 +38,21 @@ const Detail = ({ movie_id, onSelect: handleSelect }) => {
   }, [data]);
 
   if (!data) return null;
-  const { name, imageUrl, releaseDate, description, rating, trailer, cast } =
-    data.data;
+  const {
+    name,
+    posterImageUrl,
+    bannerImageUrl,
+    releaseDate,
+    description,
+    rating,
+    trailer,
+    cast,
+  } = data.data;
   const castArray = cast ? cast.split(", ") : [];
 
   return (
     <dialog id="my_modal_3" className="modal">
-      <div className="modal-box text-white rounded-lg w-[1400px] max-w-none h-[700px] max-h-[650px] bg-slate-900 p-0 pb-3">
+      <div className="modal-box text-white rounded-lg w-[100%] max-w-[1400px] h-[700px] max-h-[650px] bg-slate-900 p-0 pb-3">
         <form method="dialog" className="sticky top-0 z-10">
           <button
             onClick={() => handleSelect()}
@@ -54,26 +61,26 @@ const Detail = ({ movie_id, onSelect: handleSelect }) => {
             X
           </button>
         </form>
-        <div className="w-full h-[500px] relative">
+        <div className="w-full h-[300px] sm:h-[500px] relative">
           <div className="absolute bg-black bg-opacity-50 inset-0"></div>
           <div
             className="w-full h-full bg-cover bg-center"
             style={{
-              backgroundImage: `url(${imageUrl})`,
+              backgroundImage: `url(${bannerImageUrl})`,
             }}
           ></div>
         </div>
-        <div className="flex gap-x-10 mb-5">
-          <div className="w-full h-[400px] max-w-[300px] -mt-[200px] pl-8 relative z-0">
+        <div className="flex flex-col sm:flex-row gap-x-0 sm:gap-x-10 mb-5">
+          <div className="w-full sm:w-[50%] h-[200px] sm:h-[400px] max-w-[300px] -mt-0 sm:-mt-[200px] pl-8 relative z-0">
             <img
-              src={`${imageUrl}`}
+              src={`${posterImageUrl}`}
               alt=""
               className="w-full h-full object-cover rounded-md"
             />
           </div>
-          <div className="flex flex-col mt-5">
+          <div className="flex flex-col mt-5 sm:mt-0">
             <h1 className="text-4xl font-bold mb-5">{name}</h1>
-            <div className="flex justify-between w-[300px]">
+            <div className="flex justify-between">
               <div className="text-2xl mb-5">
                 {new Date(releaseDate).toLocaleDateString("en-GB")}
               </div>
@@ -110,36 +117,20 @@ const Detail = ({ movie_id, onSelect: handleSelect }) => {
           </div>
         </div>
         <p className="text-xl px-10 text-center">DESC: {description}</p>
-        {/* <div className="px-10 py-5">
-          <h2 className="text-xl mb-5">Casts:</h2>
-          <div className="px-4">
-            <Swiper
-              grabCursor={"true"}
-              spaceBetween={10}
-              slidesPerView={"auto"}
-            >
-              {credits?.cast?.length > 0 &&
-                credits.cast.slice(0, 10).map((item) => (
-                  <SwiperSlide key={item.id}>
-                    <CastItem item={item}></CastItem>
-                  </SwiperSlide>
-                ))}
-            </Swiper>
-          </div>
-        </div> */}
+
         <div className="px-10 py-5">
           <h3 className="mb-5 text-xl">Trailer:</h3>
-          <div className="w-full h-[700px] aspect-video">
+          <div className="w-full h-[300px] sm:h-[700px] aspect-video">
             <iframe
-              width="1080"
-              height="720"
+              width="100%"
+              height="100%"
               src={trailer}
               allowFullScreen
               className="w-full h-full object-fill"
             ></iframe>
           </div>
         </div>
-        <div className="mx-auto w-[700px] sticky bottom-0 z-50">
+        <div className="mx-auto md:w-[700px] sticky bottom-0 z-50 sm:w-[500px]">
           <button
             className="btn btn-block bg-primary border-none uppercase text-xl text-white hover:bg-primary"
             onClick={handleBuyTicket}
@@ -151,19 +142,5 @@ const Detail = ({ movie_id, onSelect: handleSelect }) => {
     </dialog>
   );
 };
-
-// function CastItem({ item }) {
-//   const { name, profile_path } = item;
-//   return (
-//     <div className="cast-item select-none">
-//       <img
-//         src={`http://image.tmdb.org/t/p/original/${profile_path}`}
-//         alt=""
-//         className="w-full h-[350px] object-cover rounded"
-//       />
-//       <h3 className="text-xl font-medium text-center">{name}</h3>
-//     </div>
-//   );
-// }
 
 export default Detail;

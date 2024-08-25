@@ -1,14 +1,11 @@
 import instance from "../../config/index";
 
-export const seatAll = async () => {
+const seatsAPI = async () => {
   try {
-    const response = await instance.get(`/api/seats`, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await instance.get(`/api/seats`);
 
-    console.log("seats API", response);
+    console.log("seats API: ", response.data);
+    
 
     return response.data;
   } catch (error) {
@@ -16,3 +13,5 @@ export const seatAll = async () => {
     throw error;
   }
 };
+
+export { seatsAPI };
