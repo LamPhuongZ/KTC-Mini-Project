@@ -1,11 +1,11 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
-import { useAuth } from "../../context/auth-context";
+import { NavLink, useSearchParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logOut } from "../../redux/slices/useSlice";
 
 const Sidebar = () => {
-  const { userInfo } = useAuth();
+  const [params] = useSearchParams();
+  const userId = params.get("id");
 
   const dispatch = useDispatch();
   const handleSignOut = () => {
@@ -37,7 +37,7 @@ const Sidebar = () => {
   );
   const ProfileLink = () => (
     <NavLink
-      to={`/profile?id=${userInfo?.id}`}
+      to={`/profile?id=${userId}`}
       className={({ isActive }) =>
         `flex items-center gap-4 p-3 font-medium text-white mb-4 cursor-pointer hover:bg-primary ${
           isActive ? "bg-primary text-primary" : ""
@@ -64,7 +64,7 @@ const Sidebar = () => {
 
   const HistoryLink = () => (
     <NavLink
-      to={`/history?id=${userInfo?.id}`}
+      to={`/history?id=${userId}`}
       className={({ isActive }) =>
         `flex items-center gap-4 p-3 font-medium text-white mb-4 cursor-pointer hover:bg-primary ${
           isActive ? "bg-primary text-primary" : ""

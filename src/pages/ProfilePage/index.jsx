@@ -3,107 +3,114 @@ import Button from "../../components/button/Button";
 import Field from "../../components/field/Field";
 import { Input, InputPassword } from "../../components/input";
 import { Label } from "../../components/label";
-import { signOut } from "firebase/auth";
-import { auth, db } from "../../firebase-app/firebase-config";
-import { useEffect } from "react";
-import { useAuth } from "../../context/auth-context";
-import { useSearchParams } from "react-router-dom";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { changePassword, getUserByIdAPI } from "../../redux/services/userAPI";
+import { useDispatch } from "react-redux";
+import { logOut } from "../../redux/slices/useSlice";
 
 const schema = yup.object({
-  fullname: yup.string().required("Please enter your fullname"),
+  name: yup.string().required("Please enter your fullName"),
   email: yup
     .string()
     .email("Please enter valid email address")
     .required("Please enter your email address"),
-  phone: yup
+  phoneNumber: yup
     .string()
     .matches(/^\d{10}$/, "Phone number must be exactly 10 digits")
     .required("Phone number is required"),
-  birthday: yup
-    .string()
-    .matches(
-      /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/(19|20)\d\d$/,
-      "Date of Birth must be in the format dd/mm/yyyy"
-    )
-    .required("Date of Birth is required"),
-  password: yup
+  currentPassword: yup
     .string()
     .min(8, "Password must be at least 8 characters")
     .required("Please enter your password"),
-  passwordConfirm: yup
+  newPassword: yup
     .string()
-    .oneOf([yup.ref("password"), null], "Passwords must match")
-    .required("Please confirm your password"),
+    .min(8, "Password must be at least 8 characters")
+    .required("Please enter your password"),
 });
 
 export function ProfilePage() {
+  const [params] = useSearchParams();
+  const userId = params.get("id");
+
+  const dispatch = useDispatch();
+  const navigator = useNavigate();
+  const handleSignOut = () => {
+    dispatch(logOut());
+    navigator("/movies");
+  };
+
   useEffect(() => {
     document.title = "My Profile";
   }, []);
-
-  // const [datas, setDatas] = useState([]);
-
-  // const { data } = useSWR(
-  //   "https://absolute-pangolin-key.ngrok-free.app/api/user",
-  //   fetcher
-  // );
-
-  // useEffect(() => {
-  //   if (data && data.results) setDatas(data.results);
-  // }, [data]);
-
-  // const { userInfo, setUserInfo } = useAuth();
 
   const {
     control,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors, isValid, isSubmitting },
   } = useForm({
-    mode: "onChange",
     resolver: yupResolver(schema),
+    defaultValues: {
+      name: "",
+      email: "",
+      phoneNumber: "",
+      currentPassword: "",
+      newPassword: "",
+    },
   });
 
-  const [params] = useSearchParams();
-  const userId = params.get("id");
-  const handleUpdateUser = async (values) => {
-    if (!isValid) return null;
+  const fetchUserById = async (userId) => {
     try {
-      const colRef = doc(db, "users", userId);
-      await updateDoc(colRef, {
-        ...values,
-      });
-      toast.success("Updated user information successfully!");
+      const response = await getUserByIdAPI(userId);
+      setValue("name", response.name);
+      setValue("email", response.email);
+      setValue("phoneNumber", response.phoneNumber);
+
+      toast.success("Information is being updated");
     } catch (error) {
-      toast.error("Update user information failed!");
+      toast.error("Get user information failed!");
+      throw error;
     }
   };
 
-  // render ra thông tin của user đó đăng ký
   useEffect(() => {
-    async function fetchData() {
-      if (!userId) return;
-      const colRef = doc(db, "users", userId);
-      const docData = await getDoc(colRef);
-      // có reset thì mới hiển thị dc data của user đó
-      reset(docData && docData.data());
+    if (userId) {
+      fetchUserById(userId);
     }
-    fetchData();
-  }, [userId, reset]);
+  }, [userId]);
+
+  const handleUpdateUser = async (values) => {
+    if (!isValid) return null;
+
+    const payload = {
+      ...values,
+      currentPassword: values.currentPassword,
+      newPassword: values.newPassword,
+    };
+
+    try {
+      const response = await changePassword(payload);
+
+      toast.success("Update Password Successfully ...!");
+      handleSignOut();
+    } catch (error) {
+      toast.error("Update user information failed!");
+      throw error;
+    }
+  };
 
   if (!userId) return null;
 
-  
-
   useEffect(() => {
-    const arrErros = Object.values(errors);
-    console.log("🚀 ~ useEffect ~ arrErros:", arrErros);
-    if (arrErros.length > 0) {
-      toast.error(arrErros[0]?.message, {
+    const arrErrors = Object.values(errors);
+    console.log("🚀 ~ useEffect ~ arrErros:", arrErrors);
+    if (arrErrors.length > 0) {
+      toast.error(arrErrors[0]?.message, {
         pauseOnHover: false,
         delay: 100,
       });
@@ -118,31 +125,25 @@ export function ProfilePage() {
       <form onSubmit={handleSubmit(handleUpdateUser)}>
         <div className="form-layout pt-10">
           <Field>
-            <Label htmlFor="fullname">Full Name</Label>
+            <Label htmlFor="name">Full Name</Label>
             <Input
               control={control}
-              name="fullname"
-              placeholder="Enter your fullname"
+              name="name"
+              placeholder="Enter your fullName"
+              disabled
             ></Input>
           </Field>
           <Field>
-            <Label htmlFor="phone">Mobile Number</Label>
+            <Label htmlFor="phoneNumber">Mobile Number</Label>
             <Input
               control={control}
-              name="phone"
+              name="phoneNumber"
               placeholder="Enter your phone number"
+              disabled
             ></Input>
           </Field>
         </div>
         <div className="form-layout">
-          <Field>
-            <Label htmlFor="birthday">Date of Birth</Label>
-            <Input
-              control={control}
-              name="birthday"
-              placeholder="dd/mm/yyyy"
-            ></Input>
-          </Field>
           <Field>
             <Label htmlFor="email">Email</Label>
             <Input
@@ -150,23 +151,24 @@ export function ProfilePage() {
               name="email"
               type="email"
               placeholder="Enter your email address"
+              disabled
             ></Input>
           </Field>
         </div>
         <div className="form-layout">
           <Field>
-            <Label htmlFor="password">New Password</Label>
+            <Label htmlFor="currentPassword">New Password</Label>
             <InputPassword
-              name="password"
+              name="currentPassword"
               placeholder="Enter your password"
               control={control}
               type="password"
             ></InputPassword>
           </Field>
           <Field>
-            <Label htmlFor="passwordConfirm">Confirm Password</Label>
+            <Label htmlFor="newPassword">Confirm Password</Label>
             <InputPassword
-              name="passwordConfirm"
+              name="newPassword"
               placeholder="Enter your password"
               control={control}
               type="password"
@@ -184,7 +186,7 @@ export function ProfilePage() {
           isLoading={isSubmitting}
           disabled={isSubmitting}
         >
-          Update infomation
+          Update information
         </Button>
       </form>
     </section>

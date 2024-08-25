@@ -1,8 +1,8 @@
 import { useMovie } from "../context-movie/MovieContext";
 import screen from "../../assets/screen.png";
 import Swal from "sweetalert2";
-import useSWR from "swr";
-import { fetcher } from "../../config";
+import { useEffect, useState } from "react";
+import { seatsAPI } from "../../redux/services/seatAPI";
 
 const Seat = () => {
 
@@ -16,12 +16,12 @@ const Seat = () => {
     return null;
   }
   const max = 4;
-  const handleSelectSeat = (seatNumber) => {
-    if (selectedSeats.includes(seatNumber)) {
-      setSelectedSeats(selectedSeats.filter((seat) => seat !== seatNumber));
+  const handleSelectSeat = (seatId) => {
+    if (selectedSeats.includes(seatId)) {
+      setSelectedSeats(selectedSeats.filter((seat) => seat !== seatId));
     } else {
       if (selectedSeats.length < max) {
-        setSelectedSeats([...selectedSeats, seatNumber]);
+        setSelectedSeats([...selectedSeats, seatId]);
       } else {
         Swal.fire({
           background: "rgb(30 41 59)",
@@ -34,6 +34,16 @@ const Seat = () => {
     }
   };
 
+  const [seats, setSeats] = useState([]);
+  const fetchSeats = async () => {
+    const response = await seatsAPI();
+    setSeats(response.data);
+  };
+
+  useEffect(() => {
+    fetchSeats();
+  }, []);
+
   return (
     <div className="bg-slate-800 p-3 rounded-lg flex-grow min-w-full lg:min-w-[700px]">
       <h2 className="font-medium text-xl ">Select seats</h2>
@@ -42,17 +52,17 @@ const Seat = () => {
       </div>
       <div className="flex justify-center">
         <div className="grid grid-cols-5 gap-y-5 gap-x-10">
-          {Array.from({ length: 30 }).map((_, index) => (
+          {seats.map((seat, index) => (
             <div
-              key={index}
+              key={`${seat.id}_${index}`}
               className={`w-16 h-8 rounded-md flex items-center justify-center text-white cursor-pointer hover:bg-third hover:border-none hover:font-bold ${
-                selectedSeats.includes(index + 1)
+                selectedSeats.includes(seat.id)
                   ? "bg-primary font-semibold"
                   : "bg-slate-500"
               }`}
-              onClick={() => handleSelectSeat(index + 1)}
+              onClick={() => handleSelectSeat(seat.id)}
             >
-              {index + 1}
+              {seat.seatNumber}
             </div>
           ))}
         </div>
