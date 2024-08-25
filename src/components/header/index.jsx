@@ -9,22 +9,15 @@ import { useSelector } from "react-redux";
 
 const Header = () => {
   const [user, setUser] = useState({});
-
   const { token } = useSelector((state) => state.userReducer);
-
-  console.log("Token header: ", token);
-
   const getMe = async () => {
     const response = await getMeAPI();
-    console.log(response);
     setUser(response);
   };
 
   useEffect(() => {
     getMe();
   }, []);
-
-  console.log("🚀 ~ Header ~ userInfo:", user);
 
   function getLastName(name) {
     if (!name) return "";
