@@ -6,6 +6,7 @@ import { useMovie } from "../context-movie/MovieContext";
 import { useAuth } from "../../context/auth-context";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Detail = ({ movie_id, onSelect: handleSelect }) => {
   const { data } = useSWR(
@@ -16,11 +17,11 @@ const Detail = ({ movie_id, onSelect: handleSelect }) => {
   );
 
   const [, setSelectedBuyTicket, , , , , , setIsTicketBought] = useMovie();
-  const { userInfo } = useAuth();
+  const { token } = useSelector((state) => state.userReducer);
   const navigate = useNavigate();
 
   const handleBuyTicket = () => {
-    if (!userInfo) {
+    if (!token) {
       toast.warning("Please login or create an account!");
       navigate("/");
     } else {
