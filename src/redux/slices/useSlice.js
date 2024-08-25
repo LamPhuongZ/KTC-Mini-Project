@@ -32,8 +32,9 @@ const userSlice = createSlice({
   name: "USER",
   initialState,
   reducers: {
-    logout: (state, action) => {
+    logOut: (state, action) => {
       state.token = null;
+      localStorage.removeItem("token")
     },
   },
   // extraReducers: Được dùng để xử lý các action bất đồng bộ (như login). Nó có 3 trường hợp chính:
@@ -55,4 +56,4 @@ const userSlice = createSlice({
 // userSlice.reducer: Đây là reducer của slice, dùng để cập nhật trạng thái user.
 // logout: Đây là một action để đăng xuất người dùng bằng cách xóa token trong trạng thái.
 export default userSlice.reducer;
-export const { logout } = userSlice.actions;
+export const { logOut } = userSlice.actions;

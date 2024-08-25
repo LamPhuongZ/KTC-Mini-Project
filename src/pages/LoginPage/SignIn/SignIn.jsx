@@ -43,7 +43,7 @@ const SignIn = ({ toggleActive }) => {
   });
 
   // useSearchParams là một hook trong React Router, cho phép bạn làm việc với các tham số truy vấn (query parameters) trong URL. Khi sử dụng useSearchParams, bạn có thể lấy hoặc cập nhật các tham số truy vấn một cách dễ dàng trong một component React.
-  const [searchParams, _] = useSearchParams();
+  // const [searchParams, _] = useSearchParams();
 
   const onSubmit = (values) => {
     if (!isValid) return;
@@ -51,7 +51,6 @@ const SignIn = ({ toggleActive }) => {
   };
 
   if (token) {
-    const url = searchParams.get("redirectUrl") || "/";
     navigate('/movies');
   }
 
