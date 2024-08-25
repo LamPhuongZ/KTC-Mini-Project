@@ -5,17 +5,23 @@ import { useEffect, useState } from "react";
 import { seatsAPI } from "../../redux/services/seatAPI";
 
 const Seat = () => {
+
+  // const {data} = useSWR(
+  //   "https://apparently-uncommon-gopher.ngrok-free.app/api/seats",fetcher
+  // )
+  // console.log("🚀 ~ Seat ~ data:", data)
+
   const [, , , , selectedSeats, setSelectedSeats, isTicketBought] = useMovie();
   if (!isTicketBought) {
     return null;
   }
   const max = 4;
-  const handleSelectSeat = (seatNumber) => {
-    if (selectedSeats.includes(seatNumber)) {
-      setSelectedSeats(selectedSeats.filter((seat) => seat !== seatNumber));
+  const handleSelectSeat = (seatId) => {
+    if (selectedSeats.includes(seatId)) {
+      setSelectedSeats(selectedSeats.filter((seat) => seat !== seatId));
     } else {
       if (selectedSeats.length < max) {
-        setSelectedSeats([...selectedSeats, seatNumber]);
+        setSelectedSeats([...selectedSeats, seatId]);
       } else {
         Swal.fire({
           background: "rgb(30 41 59)",
@@ -38,39 +44,23 @@ const Seat = () => {
     fetchSeats();
   }, []);
 
-  console.log(seats);
-
   return (
-    <div className="bg-slate-800 p-3 min-w-[700px] rounded-lg flex-grow">
+    <div className="bg-slate-800 p-3 rounded-lg flex-grow min-w-full lg:min-w-[700px]">
       <h2 className="font-medium text-xl ">Select seats</h2>
       <div className="flex justify-center">
         <img src={screen} alt="" className="mb-7 object-cover w-[500px]" />
       </div>
       <div className="flex justify-center">
         <div className="grid grid-cols-5 gap-y-5 gap-x-10">
-          {/* {Array.from({ length: 30 }).map((_, index) => (
-            <div
-              key={index}
-              className={`w-16 h-8 rounded-md flex items-center justify-center text-white cursor-pointer hover:bg-third hover:border-none hover:font-bold ${
-                selectedSeats.includes(index + 1)
-                  ? "bg-primary font-semibold"
-                  : "bg-slate-500"
-              }`}
-              onClick={() => handleSelectSeat(index + 1)}
-            >
-              {index + 1}
-            </div>
-          ))}  */}
-
           {seats.map((seat, index) => (
             <div
-              key={index}
+              key={`${seat.id}_${index}`}
               className={`w-16 h-8 rounded-md flex items-center justify-center text-white cursor-pointer hover:bg-third hover:border-none hover:font-bold ${
-                selectedSeats.includes(seat)
+                selectedSeats.includes(seat.id)
                   ? "bg-primary font-semibold"
                   : "bg-slate-500"
               }`}
-              onClick={() => handleSelectSeat(seat)}
+              onClick={() => handleSelectSeat(seat.id)}
             >
               {seat.seatNumber}
             </div>
