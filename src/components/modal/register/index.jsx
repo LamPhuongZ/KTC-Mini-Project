@@ -5,7 +5,7 @@ import eyeClose from "../../../assets/icons/eyeClose.svg";
 import PropTypes from "prop-types";
 import { useFormik } from "formik";
 import { regexPassword } from "../../../utils";
-import { registerUser } from "../../../services/registerAPI";
+import { registerUser } from "../../../redux/services/registerAPI";
 import { toast } from "react-toastify";
 
 Register.propTypes = {
