@@ -1,7 +1,4 @@
 import { useEffect, useState } from "react";
-import { Modal } from "../Modal";
-import { signOut } from "firebase/auth";
-import { auth } from "../../firebase-app/firebase-config";
 import { Link, NavLink } from "react-router-dom";
 import Button from "../button/Button";
 import { getMeAPI } from "../../redux/services/userAPI";

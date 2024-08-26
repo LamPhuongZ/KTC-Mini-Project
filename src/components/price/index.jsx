@@ -17,10 +17,6 @@ const Price = () => {
     setIsTicketBought,
   ] = useMovie();
 
-
-  console.log(selectedSeats);
-  
-
   const [movieTitle, setMovieTitle] = useState("");
   const { data } = useSWR(
     selectedBuyTicket

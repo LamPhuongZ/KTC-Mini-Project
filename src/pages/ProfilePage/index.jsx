@@ -70,8 +70,6 @@ export function ProfilePage() {
       setValue("name", response.name);
       setValue("email", response.email);
       setValue("phoneNumber", response.phoneNumber);
-
-      toast.success("Information is being updated");
     } catch (error) {
       toast.error("Get user information failed!");
       throw error;
