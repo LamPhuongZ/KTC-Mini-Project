@@ -17,6 +17,10 @@ const Price = () => {
     setIsTicketBought,
   ] = useMovie();
 
+
+  console.log(selectedSeats);
+  
+
   const [movieTitle, setMovieTitle] = useState("");
   const { data } = useSWR(
     selectedBuyTicket
@@ -84,10 +88,10 @@ const Price = () => {
           <div className="text-xl font-medium w-[100px]">Ticket</div>
           <div className="flex gap-2 flex-wrap">
             {selectedSeats.length > 0 ? (
-              selectedSeats.map((seat) => (
+              selectedSeats.map((seat, index) => (
                 <span
                   className="text-lg font-medium bg-slate-600 rounded-lg py-1 px-4"
-                  key={seat.id}
+                  key={`${seat.id}_${index}`}
                 >
                   {seat}
                 </span>

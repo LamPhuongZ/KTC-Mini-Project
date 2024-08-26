@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { seatsAPI } from "../../redux/services/seatAPI";
 
 const Seat = () => {
-
   // const {data} = useSWR(
   //   "https://apparently-uncommon-gopher.ngrok-free.app/api/seats",fetcher
   // )
@@ -16,12 +15,14 @@ const Seat = () => {
     return null;
   }
   const max = 4;
-  const handleSelectSeat = (seatId) => {
-    if (selectedSeats.includes(seatId)) {
-      setSelectedSeats(selectedSeats.filter((seat) => seat !== seatId));
+  const handleSelectSeat = (seatNumber) => {
+    if (selectedSeats.includes(seatNumber)) {
+      setSelectedSeats(
+        selectedSeats.filter((seat) => seat.seatNumber !== seatNumber)
+      );
     } else {
       if (selectedSeats.length < max) {
-        setSelectedSeats([...selectedSeats, seatId]);
+        setSelectedSeats([...selectedSeats, seatNumber]);
       } else {
         Swal.fire({
           background: "rgb(30 41 59)",
@@ -56,11 +57,11 @@ const Seat = () => {
             <div
               key={`${seat.id}_${index}`}
               className={`w-16 h-8 rounded-md flex items-center justify-center text-white cursor-pointer hover:bg-third hover:border-none hover:font-bold ${
-                selectedSeats.includes(seat.id)
+                selectedSeats.includes(seat.seatNumber)
                   ? "bg-primary font-semibold"
                   : "bg-slate-500"
               }`}
-              onClick={() => handleSelectSeat(seat.id)}
+              onClick={() => handleSelectSeat(seat.seatNumber)}
             >
               {seat.seatNumber}
             </div>
