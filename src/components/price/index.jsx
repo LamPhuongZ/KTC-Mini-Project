@@ -17,6 +17,9 @@ const Price = () => {
     setIsTicketBought,
   ] = useMovie();
 
+  console.log(selectedSeats);
+  
+
   const [movieTitle, setMovieTitle] = useState("");
   const { data } = useSWR(
     selectedBuyTicket
@@ -87,7 +90,7 @@ const Price = () => {
               selectedSeats.map((seat, index) => (
                 <span
                   className="text-lg font-medium bg-slate-600 rounded-lg py-1 px-4"
-                  key={`${seat.id}_${index}`}
+                  key={index}
                 >
                   {seat}
                 </span>

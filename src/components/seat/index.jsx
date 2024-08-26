@@ -17,9 +17,7 @@ const Seat = () => {
   const max = 4;
   const handleSelectSeat = (seatNumber) => {
     if (selectedSeats.includes(seatNumber)) {
-      setSelectedSeats(
-        selectedSeats.filter((seat) => seat.seatNumber !== seatNumber)
-      );
+      setSelectedSeats(selectedSeats.filter((seat) => seat !== seatNumber));
     } else {
       if (selectedSeats.length < max) {
         setSelectedSeats([...selectedSeats, seatNumber]);
